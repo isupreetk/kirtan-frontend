@@ -1,0 +1,10 @@
+.kirtan-list {
+    display: flex;
+    flex-direction: column;
+
+    &__items {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
