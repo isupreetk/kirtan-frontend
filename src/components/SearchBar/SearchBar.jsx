@@ -3,15 +3,6 @@ import "./SearchBar.scss";
 
 function SearchBar({formRef, handleSearch}) {
 
-    // const formRef = useRef();
-
-    // const handleSearch = (event) => {
-    //     event.preventDefault();
-    //     let searchTerm = event.target.searchInput.value;
-    //     // console.log(searchTerm);
-    //     formRef.current.reset();
-    // }
-
     return (
         <>
             <form ref={formRef} onSubmit={handleSearch}>

@@ -1,8 +1,9 @@
 import "./KirtanList.scss";
-import kirtans from "../../assets/data/kirtans.json";
+// import kirtans from "../../assets/data/kirtans.json";
 
-function KirtanList({searchTerm}) {
-
+function KirtanList({searchTerm, kirtans}) {
+console.log(searchTerm);
+console.log(kirtans);
     return (
         <>
             <ul className="kirtan-list">
@@ -15,7 +16,8 @@ function KirtanList({searchTerm}) {
                     <p>Play</p>
                     <p>Download</p>
                 </li>
-                {kirtans.map((kirtan) => {
+                {searchTerm ? kirtans.filter((kirtan) => kirtan.name === searchTerm)
+                .map((kirtan) => {
                     return (<li className="kirtan-list__items" key={kirtan.id}>
                         <p>{kirtan.name}</p>
                         <p>{kirtan.artist}</p>
@@ -25,7 +27,18 @@ function KirtanList({searchTerm}) {
                         <button>Play</button>
                         <button>Download</button>
                     </li>)
-                })}
+                })
+            : kirtans.map((kirtan) => {
+                return (<li className="kirtan-list__items" key={kirtan.id}>
+                    <p>{kirtan.name}</p>
+                    <p>{kirtan.artist}</p>
+                    <p>{kirtan.duration}</p>
+                    <p>{kirtan.date}</p>
+                    <p>{kirtan.album}</p>
+                    <button>Play</button>
+                    <button>Download</button>
+                </li>)
+            })}
             </ul>
         </>
 
