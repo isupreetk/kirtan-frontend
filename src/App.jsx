@@ -11,7 +11,6 @@ function App() {
   let [searchTerm, setSearchTerm] = useState("");
   let [kirtans, setKirtans] = useState([]);
 
-
 useEffect(() => {
    setKirtans(kirtansData);
 },[searchTerm])

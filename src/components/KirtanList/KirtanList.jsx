@@ -15,7 +15,7 @@ function KirtanList({searchTerm, kirtans}) {
                     <p>Play</p>
                     <p>Download</p>
                 </li>
-                {searchTerm ? kirtans.filter((kirtan) => kirtan.name === searchTerm)
+                {searchTerm ? kirtans.filter((kirtan) => kirtan.name.includes(searchTerm) || kirtan.artist.includes(searchTerm) || kirtan.album.includes(searchTerm))
                 .map((kirtan) => {
                     return (<li className="kirtan-list__items" key={kirtan.id}>
                         <p>{kirtan.name}</p>
