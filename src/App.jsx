@@ -7,7 +7,7 @@ import kirtansData from "./assets/data/kirtans.json";
 
 function App() {
 
-  const formRef = useRef();
+  let inputRef = useRef(); 
   let [searchTerm, setSearchTerm] = useState("");
   let [kirtans, setKirtans] = useState([]);
 
@@ -15,18 +15,16 @@ function App() {
 useEffect(() => {
    setKirtans(kirtansData);
 },[searchTerm])
-  
-  const handleSearch = (event) => {
-    event.preventDefault();
-    setSearchTerm(event.target.searchInput.value);
-    formRef.current.reset();
+
+const handleSearch = () => {
+  setSearchTerm(inputRef.current.value);
 }
 
   return (
     <div className="App">
       
       <Header />
-      <SearchBar formRef={formRef} handleSearch={handleSearch}/>
+      <SearchBar inputRef={inputRef} handleSearch={handleSearch}/>
       <KirtanList searchTerm={searchTerm} kirtans={kirtans}/>
 
     </div>
