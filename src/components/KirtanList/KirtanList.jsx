@@ -2,8 +2,7 @@ import "./KirtanList.scss";
 // import kirtans from "../../assets/data/kirtans.json";
 
 function KirtanList({searchTerm, kirtans}) {
-console.log(searchTerm);
-console.log(kirtans);
+
     return (
         <>
             <ul className="kirtan-list">
