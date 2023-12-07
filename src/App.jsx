@@ -10,24 +10,31 @@ function App() {
   let [searchTerm, setSearchTerm] = useState("");
   let [searchArray, setSearchArray] = useState([]);
   let [kirtans, setKirtans] = useState([]);
-  let possibleCombinations = [];
+  let [possibleCombinations, setPossibleCombinations] = useState([]);
   let newArray = [];
+  let arrayCombinations = [];
+
+  useEffect(() => {
+    getSearchCombinations(searchArray);
+  }, [searchArray]);
 
   useEffect(() => {
     setKirtans(kirtansData);
-  }, [searchTerm]);
+  }, [possibleCombinations]);
 
-  const getSearchCombinations = () => {
+  const getSearchCombinations = (searchArray) => {
+    // console.log("searchTerm", searchTerm);
+    // console.log("searchArray1", searchArray);
+    // console.log("possibleCombinations1", possibleCombinations);
     let newLength = searchArray.length - 1;
-    // let possibleCombinations = [];
-    // let newArray = [];
+    // console.log("newLength", newLength);
 
     if (newLength >= 0) {
       for (let i = 0; i <= searchArray.length - 1; i++) {
         newArray = searchArray.slice(0, newLength + 1);
-        possibleCombinations.push(newArray);
+        arrayCombinations.push(newArray);
+        setPossibleCombinations(arrayCombinations);
         newLength--;
-        console.log("possibleCombinations", possibleCombinations);
       }
     }
   };
@@ -35,7 +42,6 @@ function App() {
   const handleSearch = () => {
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
-    getSearchCombinations();
   };
 
   return (
@@ -44,7 +50,6 @@ function App() {
       <SearchBar inputRef={inputRef} handleSearch={handleSearch} />
       <KirtanList
         searchTerm={searchTerm}
-        // searchArray={searchArray}
         possibleCombinations={possibleCombinations}
         kirtans={kirtans}
       />
