@@ -1,17 +1,17 @@
 import "./SearchBar.scss";
-// import { useRef } from "react";
 
-function SearchBar({ inputRef, handleSearch }) {
+function SearchBar({ inputRef, handleSearch, searchHistory }) {
+  console.log("searchHistory", searchHistory);
   return (
     <>
-      <form>
+      <form onSubmit={(event) => handleSearch(event)}>
         <input
-          onChange={handleSearch}
           name="searchInput"
           ref={inputRef}
           className="searchbar"
           placeholder="Search by Kirtan, Name, Album"
         ></input>
+        <button>Search</button>
       </form>
     </>
   );
