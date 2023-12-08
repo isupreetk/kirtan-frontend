@@ -1,11 +1,12 @@
 import "./SearchBar.scss";
 
-function SearchBar({ inputRef, handleSearch, searchHistory }) {
-  console.log("searchHistory", searchHistory);
+function SearchBar({ inputRef, handleSearch }) {
+  // searchHistory
+//   console.log("searchHistory", searchHistory);
   return (
     <>
-      <form >
-      {/* onSubmit={(event) => handleSearch(event)} */}
+      <form>
+        {/* onSubmit={(event) => handleSearch(event)} */}
         <input
           name="searchInput"
           ref={inputRef}

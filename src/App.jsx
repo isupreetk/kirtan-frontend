@@ -17,15 +17,15 @@ function App() {
   let [filteredKirtans, setFilteredKirtans] = useState([]);
   let [sortedKirtans, setSortedKirtans] = useState([]);
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
-  let [searchHistory, setSearchHistory] = useState([]);
+  // let [searchHistory, setSearchHistory] = useState([]);
 
-  let newArray = [];
-  let arrayCombinations = [];
+  // let newArray = [];
+  // let arrayCombinations = [];
 
   // console.log("kirtanTitleRef", kirtanTitleRef.current);
 
   const getAllSubsets = (searchArray) => {
-    searchArray = searchArray.filter((s) => s != "");
+    searchArray = searchArray.filter((s) => s !== "");
     let sortedCombinations = searchArray
       .reduce(
         (subsets, value) =>
@@ -56,7 +56,7 @@ function App() {
       let array = possibleCombinations[i];
       let arrayLength = array.length;
       let searchExists = true;
-      if (arrayLength == 0) continue;
+      if (arrayLength === 0) continue;
       array.forEach((element) => {
         if (
           !(
@@ -122,14 +122,18 @@ function App() {
     setPossibleCombinations(getAllSubsets(searchArray));
   }, [searchArray]);
 
-  useEffect(() => {
-    setKirtans(kirtansData);
-    setFilteredKirtans(
-      kirtans.filter((kirtan) => {
-        return calculateScore(kirtan);
-      })
-    );
-  }, [possibleCombinations]);
+  useEffect(
+    () => {
+      setKirtans(kirtansData);
+      setFilteredKirtans(
+        kirtans.filter((kirtan) => {
+          return calculateScore(kirtan);
+        })
+      );
+    },
+    // eslint-disable-next-line
+    [possibleCombinations]
+  );
 
   useEffect(() => {
     getSortedKirtans(filteredKirtans);
@@ -153,7 +157,7 @@ function App() {
     // event.preventDefault();
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
-    searchHistory.push(inputRef.current.value);
+    // searchHistory.push(inputRef.current.value);
   };
 
   return (
@@ -162,7 +166,7 @@ function App() {
       <SearchBar
         inputRef={inputRef}
         handleSearch={handleSearch}
-        searchHistory={searchHistory}
+        // searchHistory={searchHistory}
       />
       <KirtanList
         searchTerm={searchTerm}
