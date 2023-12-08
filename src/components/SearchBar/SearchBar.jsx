@@ -4,12 +4,14 @@ function SearchBar({ inputRef, handleSearch, searchHistory }) {
   console.log("searchHistory", searchHistory);
   return (
     <>
-      <form onSubmit={(event) => handleSearch(event)}>
+      <form >
+      {/* onSubmit={(event) => handleSearch(event)} */}
         <input
           name="searchInput"
           ref={inputRef}
           className="searchbar"
           placeholder="Search by Kirtan, Name, Album"
+          onChange={handleSearch}
         ></input>
         <button>Search</button>
       </form>
