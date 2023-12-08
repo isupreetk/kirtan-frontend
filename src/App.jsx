@@ -4,8 +4,7 @@ import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import KirtanList from "./components/KirtanList/KirtanList";
 import kirtansData from "./assets/data/sept2023.json";
-import searchHistoryData from "./assets/data/searchHistory.json";
-
+// import searchHistoryData from "./assets/data/searchHistory.json";
 
 function App() {
   let inputRef = useRef();
@@ -15,7 +14,8 @@ function App() {
   let [possibleCombinations, setPossibleCombinations] = useState([]);
   let [filteredKirtans, setFilteredKirtans] = useState([]);
   let [sortedKirtans, setSortedKirtans] = useState([]);
-  let [searchHistory, setSearchHistory] = useState(searchHistoryData);
+  // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
+  let [searchHistory, setSearchHistory] = useState([]);
 
   let newArray = [];
   let arrayCombinations = [];
@@ -79,9 +79,7 @@ function App() {
     }
   };
 
-  const postSearchHistory = () => {
-
-  }
+  const postSearchHistory = () => {};
 
   const handleSearch = (event) => {
     event.preventDefault();
