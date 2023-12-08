@@ -5,6 +5,7 @@ function KirtanList({
   //   possibleCombinations,
   kirtans,
   sortedKirtans,
+  //   kirtanTitleRef,
 }) {
   return (
     <>
@@ -25,6 +26,7 @@ function KirtanList({
               return (
                 <li className="kirtan-list__items" key={index}>
                   <p>{kirtan.Title}</p>
+                  {/* ref={kirtanTitleRef} */}
                   <p>{kirtan.Sevadar}</p>
                   <p>{kirtan.Duration}</p>
                   <p>{kirtan.date}</p>

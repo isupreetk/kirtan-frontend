@@ -8,6 +8,8 @@ import kirtansData from "./assets/data/sept2023.json";
 
 function App() {
   let inputRef = useRef();
+  // let kirtanTitleRef = useRef([]);
+  // let [kirtanTitleRef, setKirtanTitleRef] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
   let [searchArray, setSearchArray] = useState([]);
   let [kirtans, setKirtans] = useState([]);
@@ -20,6 +22,8 @@ function App() {
   let newArray = [];
   let arrayCombinations = [];
 
+  // console.log("kirtanTitleRef", kirtanTitleRef.current);
+
   const getSortedKirtans = (data) => {
     let sortedData = data.sort((a, b) => {
       return b.Score - a.Score;
@@ -29,13 +33,30 @@ function App() {
 
   const calculateScore = (kirtan) => {
     kirtan.Score = 0;
+
     for (let i = 0; i <= possibleCombinations.length - 1; i++) {
       let array = possibleCombinations[i];
       let arrayLength = array.length;
       let searchExists = true;
       array.forEach((element) => {
-        if (!kirtan.Title.toLowerCase().includes(element.toLowerCase())) {
+        if (
+          !(
+            kirtan.Title.toLowerCase().includes(element.toLowerCase()) ||
+            kirtan.Sevadar.toLowerCase().includes(element.toLowerCase()) ||
+            kirtan.Album.toLowerCase().includes(element.toLowerCase())
+          )
+        ) {
           searchExists = false;
+        } else {
+          let substring = kirtan.Title.toLowerCase().match(
+            element.toLowerCase()
+          );
+          substring
+            ? console.log("substring", substring[0])
+            : console.log("No substring");
+          // substring.innerHTML = `<p className="substring">${substring}</p>`;
+          // kirtanTitleRef = document.getElementById("kirtanTitleRef");
+          // console.log("kirtanTitleRef", kirtanTitleRef);
         }
       });
       if (searchExists) {
@@ -79,7 +100,7 @@ function App() {
     }
   };
 
-  const postSearchHistory = () => {};
+  // const postSearchHistory = () => {};
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -101,6 +122,8 @@ function App() {
         // possibleCombinations={possibleCombinations}
         kirtans={kirtans}
         sortedKirtans={sortedKirtans}
+        // kirtanTitle={kirtanTitle}
+        // kirtanTitleRef={kirtanTitleRef}
       />
     </div>
   );
