@@ -179,7 +179,7 @@ function App() {
     // event.preventDefault();
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
-    // setCurrentPage(1); this is by default 1
+    setCurrentPage(1); //this is to bring back to page 1 for every new search
 
     // searchHistory.push(inputRef.current.value);
   };
