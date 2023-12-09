@@ -105,13 +105,22 @@ function App() {
         array.forEach((word) => {
           kirtan.hTitle = kirtan.hTitle
             ?.toLowerCase()
-            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
+            .replace(
+              word?.toLowerCase(),
+              `<strong>${word.toLowerCase()}</strong>`
+            );
           kirtan.hSevadar = kirtan.hSevadar
             ?.toLowerCase()
-            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
+            .replace(
+              word?.toLowerCase(),
+              `<strong>${word.toLowerCase()}</strong>`
+            );
           kirtan.hAlbum = kirtan.hAlbum
             ?.toLowerCase()
-            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
+            .replace(
+              word?.toLowerCase(),
+              `<strong>${word.toLowerCase()}</strong>`
+            );
         });
 
         break;
