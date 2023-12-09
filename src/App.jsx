@@ -5,6 +5,9 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import KirtanList from "./components/KirtanList/KirtanList";
 import kirtansData from "./assets/data/sept2023-1.json";
 // import searchHistoryData from "./assets/data/searchHistory.json";
+// import InfiniteScroll from "react-infinite-scroll-component";
+import PaginationComponent from "./components/Pagination/Pagination";
+import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   let inputRef = useRef();
@@ -16,6 +19,13 @@ function App() {
   let [possibleCombinations, setPossibleCombinations] = useState([]);
   let [filteredKirtans, setFilteredKirtans] = useState([]);
   let [sortedKirtans, setSortedKirtans] = useState([]);
+
+  // let [items, setItems] = useState([]);
+  let [isLoading, setIsLoading] = useState(false);
+  let [error, setError] = useState(null);
+  let [currentPage, setCurrentPage] = useState(1);
+  let [entriesPerPage] = useState(50);
+
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
 
@@ -124,12 +134,15 @@ function App() {
 
   useEffect(
     () => {
+      setIsLoading(true);
+      setError(false);
       setKirtans(kirtansData);
       setFilteredKirtans(
         kirtans.filter((kirtan) => {
           return calculateScore(kirtan);
         })
       );
+      setIsLoading(false);
     },
     // eslint-disable-next-line
     [possibleCombinations]
@@ -157,26 +170,67 @@ function App() {
     // event.preventDefault();
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
+    // setCurrentPage(1); this is by default 1
+
     // searchHistory.push(inputRef.current.value);
   };
 
+  // Get Current Kirtans
+  let indexOfLastKirtan = currentPage * entriesPerPage;
+  let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
+  let currentKirtans = searchTerm
+    ? sortedKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+    : kirtans.slice(indexOfFirstKirtan, indexOfLastKirtan);
+
+  // Get Page
+  const paginate = (event, pageNumber) => {
+    event.preventDefault();
+    setCurrentPage(pageNumber);
+  };
+
   return (
-    <div className="App">
-      <Header />
-      <SearchBar
-        inputRef={inputRef}
-        handleSearch={handleSearch}
-        // searchHistory={searchHistory}
-      />
-      <KirtanList
-        searchTerm={searchTerm}
-        // possibleCombinations={possibleCombinations}
-        kirtans={kirtans}
-        sortedKirtans={sortedKirtans}
-        // kirtanTitle={kirtanTitle}
-        // kirtanTitleRef={kirtanTitleRef}
-      />
-    </div>
+    <Container fluid className="App">
+      <Row>
+        <Header />
+      </Row>
+      <Container>
+        <Row className="p-4">
+          <Col xs={1} md={2}></Col>
+          <Col md={8} xs={10} className="p-0">
+            <SearchBar
+              inputRef={inputRef}
+              handleSearch={handleSearch}
+              // searchHistory={searchHistory}
+            />
+          </Col>
+          <Col xs={1} md={2}></Col>
+        </Row>
+        <Row className="align-items-center">
+          <KirtanList
+            searchTerm={searchTerm}
+            kirtans={currentKirtans}
+            sortedKirtans={currentKirtans}
+            isLoading={isLoading}
+            error={error}
+            // kirtanTitle={kirtanTitle}
+            // kirtanTitleRef={kirtanTitleRef}
+          />
+        </Row>
+        {/* <Row className="p-4">
+        <Col xs={1} md={2}></Col>
+        <Col md={8} xs={10} className="p-0"> */}
+        <PaginationComponent
+          entriesPerPage={entriesPerPage}
+          totalKirtans={searchTerm ? sortedKirtans.length : kirtans.length}
+          paginate={paginate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+        {/* </Col>
+        <Col xs={1} md={2}></Col>
+      </Row> */}
+      </Container>
+    </Container>
   );
 }
 

@@ -1,10 +1,19 @@
-.kirtan-list {
-    display: flex;
-    flex-direction: column;
+// .kirtan-list {
+//     display: flex;
+//     flex-direction: column;
 
-    &__items {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+//     &__items {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//     }
+// }
+
+.table, tr, td {
+    background-color: #ffffff;
+}
+
+th {
+    background-color: #17a8b5;
+    color: #ffffff;
 }

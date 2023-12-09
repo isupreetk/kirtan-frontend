@@ -1,24 +1,27 @@
 .header {
     background: #3697ab;
-    display: flex;
-    // flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0.5rem 0rem;
+    text-align: center;
+    width: 100%;
+    // margin-bottom: 1rem;
+    // display: flex;
+    // // flex-direction: column;
+    // align-items: center;
+    // justify-content: space-around;
+    // padding: 0.5rem 0rem;
 
-    &__headline {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+    // &__headline {
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: center;
+    //     justify-content: center;
+    // }
 
     // &__social-link {
         
     // }
 
-    &__social-icon {
-        height: 50px;
-        width: 50px;
-    }
+    // &__social-icon {
+    //     height: 50px;
+    //     width: 50px;
+    // }
 }
