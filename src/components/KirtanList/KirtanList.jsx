@@ -70,7 +70,6 @@ function KirtanList({
               __html: kirtan.hSevadar,
             }}
           />
-          <td>{kirtan.Duration}</td>
           <td
             dangerouslySetInnerHTML={{
               __html: kirtan.hAlbum,
@@ -122,7 +121,6 @@ function KirtanList({
           <tr>
             <th>Name</th>
             <th>Artist</th>
-            <th>Duration</th>
             <th>Album</th>
             <th></th>
             <th></th>

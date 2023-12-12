@@ -24,7 +24,7 @@ function App() {
   let [isLoading, setIsLoading] = useState(false);
   let [error, setError] = useState(null);
   let [currentPage, setCurrentPage] = useState(1);
-  let [entriesPerPage] = useState(50);
+  let [entriesPerPage] = useState(100);
 
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
