@@ -14,8 +14,6 @@ function Header() {
           {/* <a href="//www.facebook.com/brahmbungadodra.org/"><img src={FaceBookIcon} className="header__social-icon"/></a> */}
         </div>
       </div>
-
-      {/* <div>Brahm Bunga Dodra Kirtan Page</div> */}
     </>
   );
 }

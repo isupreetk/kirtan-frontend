@@ -2,16 +2,18 @@ import "./KirtanList.scss";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import { Table } from "react-bootstrap";
 import { FileEarmarkPlay, Download } from "react-bootstrap-icons";
+import { useState } from "react";
 
 function KirtanList({
   searchTerm,
-  //   possibleCombinations,
   kirtans,
   sortedKirtans,
   isLoading,
   error,
   //   kirtanTitleRef,
 }) {
+  let [play, setPlay] = useState(false);
+
   if (isLoading) {
     return <h2>...Loading</h2>;
   }
@@ -41,6 +43,13 @@ function KirtanList({
   //   }, []);
 
   //   };
+
+  const handlePlay = (event) => {
+    event.preventDefault();
+    setPlay = true;
+    console.log("setPlay", setPlay);
+  };
+
   const mapToHtml = (kirtan, index) => {
     if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
     if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
@@ -49,7 +58,6 @@ function KirtanList({
     return (
       <tbody>
         <tr>
-          {/* <li className="kirtan-list__items" key={index}> */}
           <td
             dangerouslySetInnerHTML={{
               __html: kirtan.hTitle,
@@ -63,43 +71,58 @@ function KirtanList({
             }}
           />
           <td>{kirtan.Duration}</td>
-          {/* <td>{kirtan.date}</td> */}
           <td
             dangerouslySetInnerHTML={{
               __html: kirtan.hAlbum,
             }}
           />
-
-          {/* <td>{kirtan.Score}</td> */}
           <td>
-            {/* <button> */}
-            {/* <i class="bi bi-file-earmark-play-fill"></i> */}
-            <FileEarmarkPlay />
-            {/* </button> */}
+            <a href={kirtan.cdnpath} target="_blank">
+              <FileEarmarkPlay />
+            </a>
           </td>
           <td>
-            {/* <button>
-              <i class="bi bi-download"></i>
-            </button> */}
-            <Download />
+            <a
+              //   title="Right click and save as"
+              //   download="Naam Simran.mp3"
+              //   content-type="application/octet-stream"
+              //   content-disposition="attachment"
+              target="_blank"
+              href={kirtan.cdnpath}
+              //   data-downloadurl="application/octet-stream:https://brahmbungadodra.org/kirtanrecords/samagams/September23/01%20Jaspreet%20Kaur%20LDH%20-%20Naam%20Simran%20%2823-09-23%29E.mp3"
+              // data-downloadurl="application/octet-stream:Naam+Simran.mp3:blob:https://brahmbungadodra.org/kirtanrecords/samagams/September23/01%20Jaspreet%20Kaur%20LDH%20-%20Naam%20Simran%20%2823-09-23%29E.mp3"
+              //   rel="noreferrer"
+              //   download={kirtan.cdnpath}
+              //   download
+            >
+              <Download />
+            </a>
           </td>
-          {/* </li> */}
         </tr>
+        {/* <tr> */}
+        {/* {setPlay ? (
+            <figure>
+              <figcaption>Listening to {kirtan.Title}:</figcaption>
+              <audio controls src={kirtan.cdnpath}>
+                <a href={kirtan.cdnpath}> Download audio </a>
+              </audio>
+            </figure>
+          ) : (
+            <></>
+          )} */}
+        {/* </tr> */}
       </tbody>
     );
   };
   return (
     <>
-      {/* <ul className="kirtan-list"> */}
       <Table striped bordered hover className="table">
         <thead>
           <tr>
             <th>Name</th>
             <th>Artist</th>
             <th>Duration</th>
-            {/* <th>Date</th> */}
             <th>Album</th>
-            {/* <th>Score</th> */}
             <th></th>
             <th></th>
           </tr>
@@ -109,7 +132,6 @@ function KirtanList({
           ? sortedKirtans.slice(0, 100).map(mapToHtml)
           : kirtans.slice(0, 100).map(mapToHtml)}
       </Table>
-      {/* </ul> */}
     </>
   );
 }

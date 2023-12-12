@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import KirtanList from "./components/KirtanList/KirtanList";
-import kirtansData from "./assets/data/sept2023-1.json";
+import kirtansData from "./assets/data/kirtanDataSet.json";
 // import searchHistoryData from "./assets/data/searchHistory.json";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import PaginationComponent from "./components/Pagination/Pagination";
@@ -28,9 +28,6 @@ function App() {
 
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
-
-  // let newArray = [];
-  // let arrayCombinations = [];
 
   // console.log("kirtanTitleRef", kirtanTitleRef.current);
 
@@ -76,25 +73,6 @@ function App() {
           )
         ) {
           searchExists = false;
-        } else {
-          // let substring = kirtan.Title?.toLowerCase().match(
-          //   element?.toLowerCase()
-          // );
-          // console.log("substring", substring);
-          // substring ?
-          // kirtan.Title = kirtan.Title?.toLowerCase().replace(
-          //   element?.toLowerCase(),
-          //   // `"${substring[0]}"`;
-          //   // `<span className="substring">${substring[0]}</span>`
-          //   `<span className="substring">${element}</span>`
-          // );
-          // : (kirtan.Title = kirtan.Title);
-          // substring
-          //   ? console.log("substring", substring[0])
-          //   : console.log("No substring");
-          // substring.innerHTML = `<p className="substring">${substring}</p>`;
-          // kirtanTitleRef = document.getElementById("kirtanTitleRef");
-          // console.log("kirtanTitleRef", kirtanTitleRef);
         }
       });
       kirtan.hTitle = kirtan.Title;
@@ -135,8 +113,8 @@ function App() {
 
   useEffect(() => {
     // getSearchCombinations(searchArray);
-    console.log("getAllSubsets(searchArray)", getAllSubsets(searchArray));
-    console.log("(searchArray)", searchArray);
+    // console.log("getAllSubsets(searchArray)", getAllSubsets(searchArray));
+    // console.log("(searchArray)", searchArray);
 
     setPossibleCombinations(getAllSubsets(searchArray));
   }, [searchArray]);
@@ -225,9 +203,6 @@ function App() {
             // kirtanTitleRef={kirtanTitleRef}
           />
         </Row>
-        {/* <Row className="p-4">
-        <Col xs={1} md={2}></Col>
-        <Col md={8} xs={10} className="p-0"> */}
         <PaginationComponent
           entriesPerPage={entriesPerPage}
           totalKirtans={searchTerm ? sortedKirtans.length : kirtans.length}
@@ -235,9 +210,6 @@ function App() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-        {/* </Col>
-        <Col xs={1} md={2}></Col>
-      </Row> */}
       </Container>
     </Container>
   );
