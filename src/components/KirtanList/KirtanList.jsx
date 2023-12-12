@@ -56,7 +56,7 @@ function KirtanList({
     if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
 
     return (
-      <tbody>
+      <tbody key={index}>
         <tr>
           <td
             dangerouslySetInnerHTML={{

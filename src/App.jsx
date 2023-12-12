@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import KirtanList from "./components/KirtanList/KirtanList";
-import kirtansData from "./assets/data/kirtanDataSet.json";
+import kirtansData from "./assets/data/randomisedKirtan.json";
 // import searchHistoryData from "./assets/data/searchHistory.json";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import PaginationComponent from "./components/Pagination/Pagination";

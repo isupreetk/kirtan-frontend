@@ -14,7 +14,7 @@ function PaginationComponent({
     pageNumbers.push(i);
   }
 
-  console.log("pageNumbers", pageNumbers);
+  //   console.log("pageNumbers", pageNumbers);
 
   return (
     <nav>
