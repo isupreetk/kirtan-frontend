@@ -8,8 +8,13 @@ import kirtansData from "./assets/data/randomisedKirtan.json";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import PaginationComponent from "./components/Pagination/Pagination";
 import { Container, Row, Col } from "react-bootstrap";
+import ReactGA from "react-ga";
 
 function App() {
+  const GA_MEASUREMENT_ID = "G-4R29HH74RE";
+  ReactGA.initialize(GA_MEASUREMENT_ID);
+  ReactGA.pageview(window.location.pathname + window.location.search);
+
   let inputRef = useRef();
   // let kirtanTitleRef = useRef([]);
   // let [kirtanTitleRef, setKirtanTitleRef] = useState([]);
