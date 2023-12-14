@@ -10,12 +10,12 @@ function KirtanList({
   sortedKirtans,
   isLoading,
   error,
-  albumFilter,
-  setAlbumFilter,
-  artistFilter,
-  setArtistFilter,
-  allAlbums,
-  allArtists,
+  //   albumFilter,
+  //   setAlbumFilter,
+  //   artistFilter,
+  //   setArtistFilter,
+  //   allAlbums,
+  //   allArtists,
   //   kirtanTitleRef,
 }) {
   //   let [play, setPlay] = useState(false);
