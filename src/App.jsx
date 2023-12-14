@@ -19,6 +19,10 @@ function App() {
   let [possibleCombinations, setPossibleCombinations] = useState([]);
   let [filteredKirtans, setFilteredKirtans] = useState([]);
   let [sortedKirtans, setSortedKirtans] = useState([]);
+  let [albumFilter, setAlbumFilter] = useState([]);
+  let [artistFilter, setArtistFilter] = useState([]);
+  let [allAlbums, setAllAlbums] = useState([]);
+  let [allArtists, setAllArtists] = useState([]);
 
   // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
@@ -48,6 +52,21 @@ function App() {
   };
 
   // console.log("getAllSubsets", getAllSubsets(["naam", "simran"]));
+
+  const handleFilters = (data) => {
+    setSortedKirtans(
+      data.filter((data) => {
+        // console.log(data);
+        // return albumFilter.forEach((filter) => {
+        return data.Album === albumFilter[0];
+        // });
+      })
+    );
+  };
+
+  useEffect(() => {
+    handleFilters(kirtans);
+  }, [albumFilter, artistFilter]);
 
   const getSortedKirtans = (data) => {
     let sortedData = data.sort((a, b) => {
@@ -139,6 +158,22 @@ function App() {
     getSortedKirtans(filteredKirtans);
   }, [filteredKirtans]);
 
+  useEffect(() => {
+    kirtansData.forEach((kirtan) => {
+      if (allAlbums.includes(kirtan.Album)) {
+        // continue
+      } else if (allArtists.includes(kirtan.Sevadar)) {
+      } else {
+        // console.log(kirtan.Album);
+        // console.log(kirtan.Sevadar);
+        allAlbums.push(kirtan.Album);
+        allArtists.push(kirtan.Sevadar);
+        setAllAlbums(allAlbums);
+        setAllArtists(allArtists);
+      }
+    });
+  }, [kirtansData]);
+
   // const getSearchCombinations = (searchArray) => {
   //   let newLength = searchArray.length - 1;
   //   if (newLength >= 0) {
@@ -199,6 +234,12 @@ function App() {
             sortedKirtans={currentKirtans}
             isLoading={isLoading}
             error={error}
+            albumFilter={albumFilter}
+            setAlbumFilter={setAlbumFilter}
+            artistFilter={artistFilter}
+            setArtistFilter={setArtistFilter}
+            allAlbums={allAlbums}
+            allArtists={allArtists}
             // kirtanTitle={kirtanTitle}
             // kirtanTitleRef={kirtanTitleRef}
           />

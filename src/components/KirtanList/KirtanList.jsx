@@ -1,8 +1,8 @@
 import "./KirtanList.scss";
 // import InfiniteScroll from "react-infinite-scroll-component";
-import { Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { FileEarmarkPlay, Download } from "react-bootstrap-icons";
-// import { useState } from "react";
+// import { useState, useEffect } from "react";
 
 function KirtanList({
   searchTerm,
@@ -10,6 +10,12 @@ function KirtanList({
   sortedKirtans,
   isLoading,
   error,
+  albumFilter,
+  setAlbumFilter,
+  artistFilter,
+  setArtistFilter,
+  allAlbums,
+  allArtists,
   //   kirtanTitleRef,
 }) {
   //   let [play, setPlay] = useState(false);
@@ -114,23 +120,82 @@ function KirtanList({
       </tbody>
     );
   };
+
+  const handleAlbumFilter = (event) => {
+    event.preventDefault();
+    albumFilter.push(event.target.innerText);
+    setAlbumFilter(albumFilter);
+    console.log("AlbumFilter", albumFilter);
+  };
+
+  const handleArtistFilter = (event) => {
+    event.preventDefault();
+    artistFilter.push(event.target.innerText);
+    setArtistFilter(artistFilter);
+    console.log("ArtistFilter", artistFilter);
+  };
+
   return (
     <>
-      <Table striped bordered hover className="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Artist</th>
-            <th>Album</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
+      <Container>
+        <div>
+          <ul>
+            <p>Album</p>
+            {/* {kirtans?.slice(0, 10).map((kirtan, index) => {
+              //   console.log(kirtan.Album);
+              return (
+                <li key={index}>
+                  <a href="#" onClick={(event) => handleAlbumFilter(event)}>
+                    {kirtan.Album}
+                  </a>
+                </li>
+              );
+            })} */}
+            {allAlbums.map((allAlbum, index) => {
+              return (
+                <li key={index} onClick={(event) => handleAlbumFilter(event)}>
+                  <a href="#">{allAlbum}</a>
+                </li>
+              );
+            })}
+          </ul>
+          <ul>
+            <p>Artist</p>
+            {/* {kirtans?.slice(0, 10).map((kirtan, index) => {
+              //   console.log(kirtan.Sevadar);
+              return (
+                <li key={index}>
+                  <a href="#" onClick={(event) => handleArtistFilter(event)}>
+                    {kirtan.Sevadar}
+                  </a>
+                </li>
+              );
+            })} */}
+            {allArtists.map((allArtist, index) => {
+              return (
+                <li key={index} onClick={(event) => handleArtistFilter(event)}>
+                  <a href="#">{allArtist}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <Table striped bordered hover className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Artist</th>
+              <th>Album</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
 
-        {searchTerm
-          ? sortedKirtans.slice(0, 100).map(mapToHtml)
-          : kirtans.slice(0, 100).map(mapToHtml)}
-      </Table>
+          {searchTerm
+            ? sortedKirtans.slice(0, 100).map(mapToHtml)
+            : kirtans.slice(0, 100).map(mapToHtml)}
+        </Table>
+      </Container>
     </>
   );
 }
