@@ -11,8 +11,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import ReactGA from "react-ga";
 
 function App() {
-  const GA_MEASUREMENT_ID = "G-4R29HH74RE";
-  ReactGA.initialize(GA_MEASUREMENT_ID);
+  const TRACKING_ID = "G-4R29HH74RE";
+  ReactGA.initialize(TRACKING_ID);
   ReactGA.pageview(window.location.pathname + window.location.search);
 
   let inputRef = useRef();
