@@ -24,11 +24,13 @@ function App() {
   let [possibleCombinations, setPossibleCombinations] = useState([]);
   let [filteredKirtans, setFilteredKirtans] = useState([]);
   let [sortedKirtans, setSortedKirtans] = useState([]);
-  // let [albumFilter, setAlbumFilter] = useState([]);
-  // let [artistFilter, setArtistFilter] = useState([]);
-  // let [allAlbums, setAllAlbums] = useState([]);
-  // let [allArtists, setAllArtists] = useState([]);
-
+  let [displayKirtans, setDisplayKirtans] = useState([]);
+  let [displayAlbumFilterKirtans, setDisplayAlbumFilterKirtans] = useState([]);
+  let [albumFilter, setAlbumFilter] = useState([]);
+  let [artistFilter, setArtistFilter] = useState([]);
+  let [allAlbums, setAllAlbums] = useState([]);
+  let [allArtists, setAllArtists] = useState([]);
+  let [currentKirtans, setCurrentKirtans] = useState([]);
   // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
   let [error, setError] = useState(null);
@@ -58,26 +60,51 @@ function App() {
 
   // console.log("getAllSubsets", getAllSubsets(["naam", "simran"]));
 
-  // const handleFilters = (data) => {
-  //   setSortedKirtans(
-  //     data.filter((data) => {
-  //       // console.log(data);
-  //       // return albumFilter.forEach((filter) => {
-  //       return data.Album === albumFilter[0];
-  //       // });
-  //     })
-  //   );
-  // };
+  const handleAlbumFilter = (event) => {
+    event.preventDefault();
+    albumFilter.push(event.target.innerText);
+    // console.log("concatenated", [].concat(albumFilter));
+    setAlbumFilter([].concat(albumFilter));
+    console.log("AlbumFilter", albumFilter);
+    // handleFilters(displayKirtans);
+  };
 
-  // useEffect(() => {
-  //   handleFilters(kirtans);
-  // }, [albumFilter, artistFilter]);
+  const handleArtistFilter = (event) => {
+    event.preventDefault();
+    artistFilter.push(event.target.innerText);
+    setArtistFilter(artistFilter);
+    console.log("ArtistFilter", artistFilter);
+  };
+
+  const handleFilters = (data) => {
+    console.log("albumFilter in handleFilters", albumFilter);
+    console.log("data in handleFilters", data);
+
+    let albumFilteredKirtans = data.filter((item) => {
+      // console.log(item);
+      // console.log(albumFilter[0]);
+      // console.log(item.Album === albumFilter[0]);
+      return albumFilter.includes(item.Album);
+    });
+    console.log("ddalbumFilter in handleFilters", albumFilter);
+    setDisplayKirtans(albumFilteredKirtans);
+  };
+
+  useEffect(() => {
+    console.log("albumFilter useEffect", albumFilter);
+    console.log("dd", displayKirtans);
+    if (albumFilter.length > 0 || artistFilter.length > 0) {
+      handleFilters(displayKirtans);
+    }
+  }, [albumFilter, artistFilter]);
 
   const getSortedKirtans = (data) => {
     let sortedData = data.sort((a, b) => {
       return b.Score - a.Score;
     });
     setSortedKirtans(sortedData);
+    console.log("nonon", data);
+    //setDisplayKirtans(sortedData);
   };
 
   const calculateScore = (kirtan) => {
@@ -147,7 +174,8 @@ function App() {
     () => {
       setIsLoading(true);
       setError(false);
-      setKirtans(kirtansData);
+      // setKirtans(kirtansData);
+      // setDisplayKirtans(kirtansData);
       setFilteredKirtans(
         kirtans.filter((kirtan) => {
           return calculateScore(kirtan);
@@ -163,21 +191,26 @@ function App() {
     getSortedKirtans(filteredKirtans);
   }, [filteredKirtans]);
 
-  // useEffect(() => {
-  //   kirtansData.forEach((kirtan) => {
-  //     if (allAlbums.includes(kirtan.Album)) {
-  //       // continue
-  //     } else if (allArtists.includes(kirtan.Sevadar)) {
-  //     } else {
-  //       // console.log(kirtan.Album);
-  //       // console.log(kirtan.Sevadar);
-  //       allAlbums.push(kirtan.Album);
-  //       allArtists.push(kirtan.Sevadar);
-  //       setAllAlbums(allAlbums);
-  //       setAllArtists(allArtists);
-  //     }
-  //   });
-  // }, [kirtansData]);
+  useEffect(() => {
+    kirtansData.forEach((kirtan) => {
+      if (allAlbums.includes(kirtan.Album)) {
+        // continue
+      } else if (allArtists.includes(kirtan.Sevadar)) {
+      } else {
+        // console.log(kirtan.Album);
+        // console.log(kirtan.Sevadar);
+        allAlbums.push(kirtan.Album);
+        allArtists.push(kirtan.Sevadar);
+      }
+    });
+    setAllAlbums(allAlbums);
+    setAllArtists(allArtists);
+  }, [kirtans]);
+
+  useEffect(() => {
+    setKirtans(kirtansData);
+    setDisplayKirtans(kirtansData);
+  }, []);
 
   // const getSearchCombinations = (searchArray) => {
   //   let newLength = searchArray.length - 1;
@@ -201,13 +234,17 @@ function App() {
 
     // searchHistory.push(inputRef.current.value);
   };
-
-  // Get Current Kirtans
-  let indexOfLastKirtan = currentPage * entriesPerPage;
-  let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
-  let currentKirtans = searchTerm
-    ? sortedKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
-    : kirtans.slice(indexOfFirstKirtan, indexOfLastKirtan);
+  useEffect(() => {
+    // Get Current Kirtans
+    let indexOfLastKirtan = currentPage * entriesPerPage;
+    let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
+    setCurrentKirtans(
+      // searchTerm
+      //   ? sortedKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+      //   : kirtans.slice(indexOfFirstKirtan, indexOfLastKirtan);
+      displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+    );
+  }, [displayKirtans, currentPage]);
 
   // Get Page
   const paginate = (event, pageNumber) => {
@@ -235,16 +272,21 @@ function App() {
         <Row className="align-items-center">
           <KirtanList
             searchTerm={searchTerm}
-            kirtans={currentKirtans}
-            sortedKirtans={currentKirtans}
+            // kirtans={currentKirtans}
+            displayKirtans={currentKirtans}
+            // sortedKirtans={currentKirtans}
             isLoading={isLoading}
             error={error}
-            // albumFilter={albumFilter}
-            // setAlbumFilter={setAlbumFilter}
-            // artistFilter={artistFilter}
-            // setArtistFilter={setArtistFilter}
-            // allAlbums={allAlbums}
-            // allArtists={allArtists}
+            albumFilter={albumFilter}
+            setAlbumFilter={setAlbumFilter}
+            artistFilter={artistFilter}
+            setArtistFilter={setArtistFilter}
+            allAlbums={allAlbums}
+            allArtists={allArtists}
+            handleFilters={handleFilters}
+            handleAlbumFilter={handleAlbumFilter}
+            handleArtistFilter={handleArtistFilter}
+            // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
             // kirtanTitle={kirtanTitle}
             // kirtanTitleRef={kirtanTitleRef}
           />
