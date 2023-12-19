@@ -83,45 +83,23 @@ function App() {
     console.log("ArtistFilter", artistFilter);
   };
 
-  // const getAlbumArtistFiltersData = (data) => {
-
-  // }
-
   const getAlbumFiltersData = (data) => {
-    console.log("albumFilter in getAlbumFiltersData", albumFilter);
-    console.log("data in getAlbumFiltersData", data);
     // albumFilteredKirtans = [];
     albumFilteredKirtans = data.filter((item) => {
-      // console.log(item);
-      // console.log(albumFilter[0]);
-      // console.log(item.Album === albumFilter[0]);
-      // console.log("item.Album", item.Album);
-      // console.log(
-      //   "albumFilter includes data",
-      //   albumFilter.includes(item.Album)
-      // );
       return albumFilter.includes(item.Album);
     });
-    console.log("ddalbumFilter in getAlbumFiltersData", albumFilter);
-    console.log("albumFilteredKirtans", albumFilteredKirtans);
     setAlbumFilteredKirtans(albumFilteredKirtans);
     setDisplayKirtans(albumFilteredKirtans);
   };
 
   const getArtistFiltersData = (data) => {
     let artistFilteredKirtans = data.filter((item) => {
-      // console.log(item);
-      // console.log(albumFilter[0]);
-      // console.log(item.Album === albumFilter[0]);
       return artistFilter.includes(item.Sevadar);
     });
-    console.log("ddartistFilter in getArtistFiltersData", artistFilter);
     setDisplayKirtans(artistFilteredKirtans);
   };
 
   useEffect(() => {
-    console.log("albumFilter useEffect", albumFilter);
-    console.log("dd", displayKirtans);
     if (albumFilter.length > 0 && artistFilter.length > 0) {
       getAlbumFiltersData(sortedSearchedKirtans);
       getArtistFiltersData(sortedSearchedKirtans);
@@ -141,7 +119,6 @@ function App() {
   // }, [artistFilter]);
 
   const getSortedSearchedKirtans = (data) => {
-    console.log("getSortedSearchedKirtans", data);
     let sortedData = data.sort((a, b) => {
       return b.Score - a.Score;
     });
@@ -263,9 +240,9 @@ function App() {
       }
     });
     setAllAlbums(allAlbums);
-    console.log("allAlbums", allAlbums);
+    // console.log("allAlbums", allAlbums);
     setAllArtists(allArtists);
-    console.log("allArtists", allArtists);
+    // console.log("allArtists", allArtists);
   }, [sortedSearchedKirtans]);
 
   useEffect(() => {
@@ -288,6 +265,16 @@ function App() {
 
   // const postSearchHistory = () => {};
 
+  const resetSearch = () => {
+    inputRef.current.value = "";
+    setSearchTerm("");
+    setSearchArray([]);
+    setCurrentPage(1);
+    setKirtans(kirtansData);
+    setDisplayKirtans(kirtansData);
+    setSortedSearchedKirtans(kirtansData);
+  };
+
   const handleSearch = () => {
     // event.preventDefault();
     setSearchTerm(inputRef.current.value);
@@ -296,6 +283,7 @@ function App() {
 
     // searchHistory.push(inputRef.current.value);
   };
+
   useEffect(() => {
     // Get Current Kirtans
     let indexOfLastKirtan = currentPage * entriesPerPage;
@@ -327,6 +315,7 @@ function App() {
             <SearchBar
               inputRef={inputRef}
               handleSearch={handleSearch}
+              resetSearch={resetSearch}
               // searchHistory={searchHistory}
             />
           </Col>
