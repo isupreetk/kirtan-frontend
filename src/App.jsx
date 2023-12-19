@@ -20,16 +20,20 @@ function App() {
   // let [kirtanTitleRef, setKirtanTitleRef] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
   let [searchArray, setSearchArray] = useState([]);
-  let [kirtans, setKirtans] = useState([]);
   let [possibleCombinations, setPossibleCombinations] = useState([]);
-  let [filteredKirtans, setFilteredKirtans] = useState([]);
-  let [sortedKirtans, setSortedKirtans] = useState([]);
+
+  let [kirtans, setKirtans] = useState([]);
+  // let [filteredKirtans, setFilteredKirtans] = useState([]);
+  // let [sortedKirtans, setSortedKirtans] = useState([]);
+  let [searchedKirtans, setSearchedKirtans] = useState([]);
+  let [sortedSearchedKirtans, setSortedSearchedKirtans] = useState([]);
+
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [displayAlbumFilterKirtans, setDisplayAlbumFilterKirtans] = useState([]);
-  let [albumFilter, setAlbumFilter] = useState([]);
-  let [artistFilter, setArtistFilter] = useState([]);
   let [allAlbums, setAllAlbums] = useState([]);
   let [allArtists, setAllArtists] = useState([]);
+  let [albumFilter, setAlbumFilter] = useState([]);
+  let [artistFilter, setArtistFilter] = useState([]);
   let [currentKirtans, setCurrentKirtans] = useState([]);
   // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
@@ -66,19 +70,19 @@ function App() {
     // console.log("concatenated", [].concat(albumFilter));
     setAlbumFilter([].concat(albumFilter));
     console.log("AlbumFilter", albumFilter);
-    // handleFilters(displayKirtans);
+    // getAlbumFiltersData(displayKirtans);
   };
 
   const handleArtistFilter = (event) => {
     event.preventDefault();
     artistFilter.push(event.target.innerText);
-    setArtistFilter(artistFilter);
+    setArtistFilter([].concat(artistFilter));
     console.log("ArtistFilter", artistFilter);
   };
 
-  const handleFilters = (data) => {
-    console.log("albumFilter in handleFilters", albumFilter);
-    console.log("data in handleFilters", data);
+  const getAlbumFiltersData = (data) => {
+    console.log("albumFilter in getAlbumFiltersData", albumFilter);
+    console.log("data in getAlbumFiltersData", data);
 
     let albumFilteredKirtans = data.filter((item) => {
       // console.log(item);
@@ -86,25 +90,48 @@ function App() {
       // console.log(item.Album === albumFilter[0]);
       return albumFilter.includes(item.Album);
     });
-    console.log("ddalbumFilter in handleFilters", albumFilter);
+    console.log("ddalbumFilter in getAlbumFiltersData", albumFilter);
+
     setDisplayKirtans(albumFilteredKirtans);
   };
 
-  useEffect(() => {
-    console.log("albumFilter useEffect", albumFilter);
-    console.log("dd", displayKirtans);
-    if (albumFilter.length > 0 || artistFilter.length > 0) {
-      handleFilters(displayKirtans);
-    }
-  }, [albumFilter, artistFilter]);
+  const getArtistFiltersData = (data) => {
+    let artistFilteredKirtans = data.filter((item) => {
+      // console.log(item);
+      // console.log(albumFilter[0]);
+      // console.log(item.Album === albumFilter[0]);
+      return artistFilter.includes(item.Sevadar);
+    });
+    console.log("ddartistFilter in getArtistFiltersData", artistFilter);
+    setDisplayKirtans(artistFilteredKirtans);
+  };
 
-  const getSortedKirtans = (data) => {
+  // useEffect(() => {
+  //   console.log("albumFilter useEffect", albumFilter);
+  //   console.log("dd", displayKirtans);
+  //   if (albumFilter.length > 0) {
+  //     getAlbumFiltersData(displayKirtans);
+  //   }
+  // }, [albumFilter]);
+
+  // useEffect(() => {
+  //   console.log("artistFilter useEffect", artistFilter);
+  //   console.log("artist", displayKirtans);
+  //   if (artistFilter.length > 0) {
+  //     getArtistFiltersData(displayKirtans);
+  //   }
+  // }, [artistFilter]);
+
+  const getSortedSearchedKirtans = (data) => {
+    console.log("getSortedSearchedKirtans", data);
     let sortedData = data.sort((a, b) => {
       return b.Score - a.Score;
     });
-    setSortedKirtans(sortedData);
-    console.log("nonon", data);
-    //setDisplayKirtans(sortedData);
+    // setSortedKirtans(sortedData);
+    if (sortedData.length > 0) {
+      setSortedSearchedKirtans(sortedData);
+      setDisplayKirtans(sortedData);
+    }
   };
 
   const calculateScore = (kirtan) => {
@@ -176,11 +203,16 @@ function App() {
       setError(false);
       // setKirtans(kirtansData);
       // setDisplayKirtans(kirtansData);
-      setFilteredKirtans(
+      setSearchedKirtans(
         kirtans.filter((kirtan) => {
           return calculateScore(kirtan);
         })
       );
+      // setFilteredKirtans(
+      //   kirtans.filter((kirtan) => {
+      //     return calculateScore(kirtan);
+      //   })
+      // );
       setIsLoading(false);
     },
     // eslint-disable-next-line
@@ -188,28 +220,41 @@ function App() {
   );
 
   useEffect(() => {
-    getSortedKirtans(filteredKirtans);
-  }, [filteredKirtans]);
+    getSortedSearchedKirtans(searchedKirtans);
+  }, [searchedKirtans]);
 
   useEffect(() => {
-    kirtansData.forEach((kirtan) => {
+    allAlbums = [];
+    allArtists = [];
+    let filterDataSet = [];
+    if (searchTerm) {
+      filterDataSet = sortedSearchedKirtans;
+    } else {
+      filterDataSet = displayKirtans;
+    }
+    // console.log("filterDataSet", filterDataSet);
+    // console.log("pre", allAlbums);
+
+    filterDataSet.forEach((kirtan) => {
       if (allAlbums.includes(kirtan.Album)) {
         // continue
       } else if (allArtists.includes(kirtan.Sevadar)) {
       } else {
-        // console.log(kirtan.Album);
         // console.log(kirtan.Sevadar);
         allAlbums.push(kirtan.Album);
         allArtists.push(kirtan.Sevadar);
       }
     });
     setAllAlbums(allAlbums);
+    console.log("allAlbums", allAlbums);
     setAllArtists(allArtists);
-  }, [kirtans]);
+    console.log("allArtists", allArtists);
+  }, [sortedSearchedKirtans]);
 
   useEffect(() => {
     setKirtans(kirtansData);
     setDisplayKirtans(kirtansData);
+    setSortedSearchedKirtans(kirtansData);
   }, []);
 
   // const getSearchCombinations = (searchArray) => {
@@ -283,7 +328,7 @@ function App() {
             setArtistFilter={setArtistFilter}
             allAlbums={allAlbums}
             allArtists={allArtists}
-            handleFilters={handleFilters}
+            getAlbumFiltersData={getAlbumFiltersData}
             handleAlbumFilter={handleAlbumFilter}
             handleArtistFilter={handleArtistFilter}
             // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
@@ -293,7 +338,7 @@ function App() {
         </Row>
         <PaginationComponent
           entriesPerPage={entriesPerPage}
-          totalKirtans={searchTerm ? sortedKirtans.length : kirtans.length}
+          totalKirtans={searchTerm ? searchedKirtans.length : kirtans.length}
           paginate={paginate}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

@@ -17,7 +17,7 @@ function KirtanList({
   setArtistFilter,
   allAlbums,
   allArtists,
-  handleFilters,
+  getAlbumFiltersData,
   handleAlbumFilter,
   handleArtistFilter,
   //   displayAlbumFilterKirtans,
@@ -131,7 +131,7 @@ function KirtanList({
   //     albumFilter.push(event.target.innerText);
   //     setAlbumFilter(albumFilter);
   //     console.log("AlbumFilter", albumFilter);
-  //     // handleFilters(displayKirtans);
+  //     // getAlbumFiltersData(displayKirtans);
   //   };
 
   //   const handleArtistFilter = (event) => {
@@ -147,16 +147,7 @@ function KirtanList({
         <div>
           <ul>
             <p>Album</p>
-            {/* {kirtans?.slice(0, 10).map((kirtan, index) => {
-              //   console.log(kirtan.Album);
-              return (
-                <li key={index}>
-                  <a href="#" onClick={(event) => handleAlbumFilter(event)}>
-                    {kirtan.Album}
-                  </a>
-                </li>
-              );
-            })} */}
+
             {allAlbums.map((allAlbum, index) => {
               return (
                 <li key={index} onClick={(event) => handleAlbumFilter(event)}>
@@ -167,16 +158,7 @@ function KirtanList({
           </ul>
           <ul>
             <p>Artist</p>
-            {/* {kirtans?.slice(0, 10).map((kirtan, index) => {
-              //   console.log(kirtan.Sevadar);
-              return (
-                <li key={index}>
-                  <a href="#" onClick={(event) => handleArtistFilter(event)}>
-                    {kirtan.Sevadar}
-                  </a>
-                </li>
-              );
-            })} */}
+
             {allArtists.map((allArtist, index) => {
               return (
                 <li key={index} onClick={(event) => handleArtistFilter(event)}>
