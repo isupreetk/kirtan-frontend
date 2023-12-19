@@ -2,6 +2,7 @@ import "./App.scss";
 import { useRef, useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
+import GoogleForm from "./components/GoogleForm/GoogleForm";
 import KirtanList from "./components/KirtanList/KirtanList";
 import kirtansData from "./assets/data/randomisedKirtan.json";
 // import searchHistoryData from "./assets/data/searchHistory.json";
@@ -318,6 +319,7 @@ function App() {
       <Row>
         <Header />
       </Row>
+      <GoogleForm />
       <Container>
         <Row className="p-4">
           <Col xs={1} md={2}></Col>
