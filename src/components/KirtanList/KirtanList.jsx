@@ -17,7 +17,7 @@ function KirtanList({
   setArtistFilter,
   allAlbums,
   allArtists,
-  getAlbumFiltersData,
+  //   getAlbumArtistFiltersData,
   handleAlbumFilter,
   handleArtistFilter,
   //   displayAlbumFilterKirtans,
@@ -131,7 +131,7 @@ function KirtanList({
   //     albumFilter.push(event.target.innerText);
   //     setAlbumFilter(albumFilter);
   //     console.log("AlbumFilter", albumFilter);
-  //     // getAlbumFiltersData(displayKirtans);
+  //     // getAlbumArtistFiltersData(displayKirtans);
   //   };
 
   //   const handleArtistFilter = (event) => {

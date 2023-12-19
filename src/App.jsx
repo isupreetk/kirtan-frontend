@@ -34,6 +34,8 @@ function App() {
   let [allArtists, setAllArtists] = useState([]);
   let [albumFilter, setAlbumFilter] = useState([]);
   let [artistFilter, setArtistFilter] = useState([]);
+  let [albumFilteredKirtans, setAlbumFilteredKirtans] = useState([]);
+  let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
   let [currentKirtans, setCurrentKirtans] = useState([]);
   // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
@@ -80,18 +82,28 @@ function App() {
     console.log("ArtistFilter", artistFilter);
   };
 
+  // const getAlbumArtistFiltersData = (data) => {
+
+  // }
+
   const getAlbumFiltersData = (data) => {
     console.log("albumFilter in getAlbumFiltersData", albumFilter);
     console.log("data in getAlbumFiltersData", data);
-
-    let albumFilteredKirtans = data.filter((item) => {
+    // albumFilteredKirtans = [];
+    albumFilteredKirtans = data.filter((item) => {
       // console.log(item);
       // console.log(albumFilter[0]);
       // console.log(item.Album === albumFilter[0]);
+      // console.log("item.Album", item.Album);
+      // console.log(
+      //   "albumFilter includes data",
+      //   albumFilter.includes(item.Album)
+      // );
       return albumFilter.includes(item.Album);
     });
     console.log("ddalbumFilter in getAlbumFiltersData", albumFilter);
-
+    console.log("albumFilteredKirtans", albumFilteredKirtans);
+    setAlbumFilteredKirtans(albumFilteredKirtans);
     setDisplayKirtans(albumFilteredKirtans);
   };
 
@@ -106,13 +118,18 @@ function App() {
     setDisplayKirtans(artistFilteredKirtans);
   };
 
-  // useEffect(() => {
-  //   console.log("albumFilter useEffect", albumFilter);
-  //   console.log("dd", displayKirtans);
-  //   if (albumFilter.length > 0) {
-  //     getAlbumFiltersData(displayKirtans);
-  //   }
-  // }, [albumFilter]);
+  useEffect(() => {
+    console.log("albumFilter useEffect", albumFilter);
+    console.log("dd", displayKirtans);
+    if (albumFilter.length > 0 && artistFilter.length > 0) {
+      getAlbumFiltersData(sortedSearchedKirtans);
+      getArtistFiltersData(sortedSearchedKirtans);
+    } else if (artistFilter.length > 0 && !(albumFilter.length > 0)) {
+      getArtistFiltersData(sortedSearchedKirtans);
+    } else if (albumFilter.length > 0 && !(artistFilter.length > 0)) {
+      getAlbumFiltersData(sortedSearchedKirtans);
+    }
+  }, [albumFilter, artistFilter]);
 
   // useEffect(() => {
   //   console.log("artistFilter useEffect", artistFilter);
@@ -127,7 +144,6 @@ function App() {
     let sortedData = data.sort((a, b) => {
       return b.Score - a.Score;
     });
-    // setSortedKirtans(sortedData);
     if (sortedData.length > 0) {
       setSortedSearchedKirtans(sortedData);
       setDisplayKirtans(sortedData);
@@ -328,7 +344,7 @@ function App() {
             setArtistFilter={setArtistFilter}
             allAlbums={allAlbums}
             allArtists={allArtists}
-            getAlbumFiltersData={getAlbumFiltersData}
+            // getAlbumFiltersData={getAlbumArtistFiltersData}
             handleAlbumFilter={handleAlbumFilter}
             handleArtistFilter={handleArtistFilter}
             // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
