@@ -1,38 +1,26 @@
-function Filters({ allAlbums, allArtists, handleAlbumFilter }) {
+function Filters() {
+  const handleAlbumDropdown = () => {
+    const selectedUrl = "http://localhost:3000/albumsFilter";
+    window.open(selectedUrl, "_parent");
+  };
+
+  const handleArtistDropdown = () => {
+    const selectedUrl = "http://localhost:3000/artistsFilter";
+    window.open(selectedUrl, "_parent");
+  };
+
   return (
     <>
-      {/* <form onSubmit={(event) => handleAlbumFilter(event)}>
-        <fieldset>
-          <label>Albums</label>
-          <br />
-          {allAlbums.map((allAlbum, index) => {
-            return (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  name={allAlbum}
-                  value={allAlbum}
-                  onSelect={(event) => handleAlbumFilter(event)}
-                />
-                {allAlbum}
-                <br />
-              </li>
-            );
-          })}
-          ;
-          <input type="submit" value="Search now" />
-        </fieldset>
-      </form> */}
       <form>
-        <select name="Albums" id="Albums">
-          <option value="Albums">
-            <a href="https://www.w3schools.com" target="_blank">
-              Albums
-            </a>
-          </option>
+        <select name="albums" id="albums" onClick={handleAlbumDropdown}>
+          <option selected>Albums</option>
         </select>
-        <br />
-        <br />
+      </form>
+
+      <form>
+        <select name="artists" id="artists" onClick={handleArtistDropdown}>
+          <option selected>Artists</option>
+        </select>
       </form>
     </>
   );
