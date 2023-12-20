@@ -144,7 +144,7 @@ function KirtanList({
   return (
     <>
       <Container>
-        <div>
+        {/* <div>
           <ul>
             <p>Album</p>
 
@@ -167,7 +167,7 @@ function KirtanList({
               );
             })}
           </ul>
-        </div>
+        </div> */}
         <Table striped bordered hover className="table">
           <thead>
             <tr>
