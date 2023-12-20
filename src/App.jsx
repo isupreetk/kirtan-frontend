@@ -44,7 +44,6 @@ function App() {
   let [error, setError] = useState(null);
   let [currentPage, setCurrentPage] = useState(1);
   let [entriesPerPage] = useState(100);
-  let kirtansSortedData = [];
 
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
@@ -52,11 +51,9 @@ function App() {
   // console.log("kirtanTitleRef", kirtanTitleRef.current);
 
   const getLatestKirtans = () => {
-    kirtansSortedData = kirtansData.sort((a, b) => {
-      // console.log(a, b);
+    kirtansData = kirtansData.sort((a, b) => {
       return new Date(b.createdon) - new Date(a.createdon);
     });
-    console.log(kirtansSortedData);
   };
 
   const getAllSubsets = (searchArray) => {
@@ -278,9 +275,9 @@ function App() {
 
   useEffect(() => {
     getLatestKirtans();
-    setKirtans(kirtansSortedData);
-    setDisplayKirtans(kirtansSortedData);
-    setSortedSearchedKirtans(kirtansSortedData);
+    setKirtans(kirtansData);
+    setDisplayKirtans(kirtansData);
+    setSortedSearchedKirtans(kirtansData);
   }, []);
 
   // const getSearchCombinations = (searchArray) => {
