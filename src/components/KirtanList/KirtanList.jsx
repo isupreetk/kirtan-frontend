@@ -2,7 +2,7 @@ import "./KirtanList.scss";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import { Container, Table } from "react-bootstrap";
 import { FileEarmarkPlay, Download } from "react-bootstrap-icons";
-// import {  useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function KirtanList({
   searchTerm,
@@ -23,7 +23,7 @@ function KirtanList({
   //   displayAlbumFilterKirtans,
   //   kirtanTitleRef,
 }) {
-  //   let [play, setPlay] = useState(false);
+  let [play, setPlay] = useState(false);
 
   if (isLoading) {
     return <h2>...Loading</h2>;
@@ -110,8 +110,8 @@ function KirtanList({
             </a>
           </td>
         </tr>
-        {/* <tr> */}
-        {/* {setPlay ? (
+        <tr>
+          {setPlay ? (
             <figure>
               <figcaption>Listening to {kirtan.Title}:</figcaption>
               <audio controls src={kirtan.cdnpath}>
@@ -120,8 +120,8 @@ function KirtanList({
             </figure>
           ) : (
             <></>
-          )} */}
-        {/* </tr> */}
+          )}
+        </tr>
       </tbody>
     );
   };
