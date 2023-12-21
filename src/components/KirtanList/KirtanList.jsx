@@ -2,7 +2,6 @@ import "./KirtanList.scss";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import { Container, Table } from "react-bootstrap";
 import { FileEarmarkPlay, Download } from "react-bootstrap-icons";
-import { useState, useEffect } from "react";
 
 function KirtanList({
   searchTerm,
@@ -22,8 +21,8 @@ function KirtanList({
   handleArtistFilter,
   //   displayAlbumFilterKirtans,
   //   kirtanTitleRef,
-  selectedKirtan,
   setSelectedKirtan,
+  setPlay,
 }) {
   if (isLoading) {
     return <h2>...Loading</h2>;
@@ -61,6 +60,12 @@ function KirtanList({
   //     console.log("setPlay", setPlay);
   //   };
 
+  const handleKirtanSelection = (kirtan) => {
+    console.log("kirtan", kirtan);
+    setPlay(true);
+    setSelectedKirtan(kirtan);
+  };
+
   const mapToHtml = (kirtan, index) => {
     if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
     if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
@@ -93,7 +98,8 @@ function KirtanList({
               rel="noopener noreferrer"
               onClick={() => setSelectedKirtan(kirtan)}
             > */}
-            <p onClick={() => setSelectedKirtan(kirtan)}>
+            {/* <p onClick={() => setSelectedKirtan(kirtan)}> */}
+            <p onClick={() => handleKirtanSelection(kirtan)}>
               <FileEarmarkPlay />
             </p>
           </td>
@@ -113,7 +119,7 @@ function KirtanList({
               //   download
               onClick={() => setSelectedKirtan(kirtan)}
             > */}
-            <p onClick={() => setSelectedKirtan(kirtan)}>
+            <p onClick={() => handleKirtanSelection(kirtan)}>
               <Download />
             </p>
           </td>

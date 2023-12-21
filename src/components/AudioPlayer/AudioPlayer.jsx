@@ -1,17 +1,12 @@
-import { useState } from "react";
-
-function AudioPlayer({ selectedKirtan }) {
-  let [play, setPlay] = useState(false);
-  console.log("selectedKirtan", selectedKirtan);
-
+function AudioPlayer({ selectedKirtan, play }) {
   return (
     <>
       <div>Audio Player</div>;
       <div>
-        {setPlay ? (
+        {play ? (
           <figure>
             <figcaption>Listening to {selectedKirtan.Title}:</figcaption>
-            <audio controls src={selectedKirtan.cdnpath}>
+            <audio controls autoPlay src={selectedKirtan.cdnpath}>
               <a href={selectedKirtan.cdnpath}> Download audio </a>
             </audio>
           </figure>

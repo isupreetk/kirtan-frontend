@@ -33,15 +33,16 @@ function App() {
   let [sortedSearchedKirtans, setSortedSearchedKirtans] = useState([]);
 
   let [displayKirtans, setDisplayKirtans] = useState([]);
-  let [displayAlbumFilterKirtans, setDisplayAlbumFilterKirtans] = useState([]);
+  // let [displayAlbumFilterKirtans, setDisplayAlbumFilterKirtans] = useState([]);
   let [allAlbums, setAllAlbums] = useState([]);
   let [allArtists, setAllArtists] = useState([]);
   let [albumFilter, setAlbumFilter] = useState([]);
   let [artistFilter, setArtistFilter] = useState([]);
   let [albumFilteredKirtans, setAlbumFilteredKirtans] = useState([]);
-  let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
+  // let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
   let [currentKirtans, setCurrentKirtans] = useState([]);
   let [selectedKirtan, setSelectedKirtan] = useState([]); // for play and download functionality
+  let [play, setPlay] = useState(false);
   // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
   let [error, setError] = useState(null);
@@ -381,11 +382,11 @@ function App() {
             // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
             // kirtanTitle={kirtanTitle}
             // kirtanTitleRef={kirtanTitleRef}
-            selectedKirtan={selectedKirtan}
             setSelectedKirtan={setSelectedKirtan}
+            setPlay={setPlay}
           />
         </Row>
-        <AudioPlayer selectedKirtan={selectedKirtan} />
+        <AudioPlayer selectedKirtan={selectedKirtan} play={play} />
         <PaginationComponent
           entriesPerPage={entriesPerPage}
           totalKirtans={searchTerm ? searchedKirtans.length : kirtans.length}
