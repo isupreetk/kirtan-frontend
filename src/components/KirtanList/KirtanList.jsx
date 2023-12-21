@@ -22,9 +22,9 @@ function KirtanList({
   handleArtistFilter,
   //   displayAlbumFilterKirtans,
   //   kirtanTitleRef,
+  selectedKirtan,
+  setSelectedKirtan,
 }) {
-  let [play, setPlay] = useState(false);
-
   if (isLoading) {
     return <h2>...Loading</h2>;
   }
@@ -87,12 +87,18 @@ function KirtanList({
             }}
           />
           <td>
-            <a href={kirtan.cdnpath} target="_blank" rel="noopener noreferrer">
+            {/* <a
+              href={kirtan.cdnpath}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setSelectedKirtan(kirtan)}
+            > */}
+            <p onClick={() => setSelectedKirtan(kirtan)}>
               <FileEarmarkPlay />
-            </a>
+            </p>
           </td>
           <td>
-            <a
+            {/* <a
               //   title="Right click and save as"
               //   download="Naam Simran.mp3"
               //   content-type="application/octet-stream"
@@ -105,22 +111,12 @@ function KirtanList({
               //   rel="noreferrer"
               //   download={kirtan.cdnpath}
               //   download
-            >
+              onClick={() => setSelectedKirtan(kirtan)}
+            > */}
+            <p onClick={() => setSelectedKirtan(kirtan)}>
               <Download />
-            </a>
+            </p>
           </td>
-        </tr>
-        <tr>
-          {setPlay ? (
-            <figure>
-              <figcaption>Listening to {kirtan.Title}:</figcaption>
-              <audio controls src={kirtan.cdnpath}>
-                <a href={kirtan.cdnpath}> Download audio </a>
-              </audio>
-            </figure>
-          ) : (
-            <></>
-          )}
         </tr>
       </tbody>
     );

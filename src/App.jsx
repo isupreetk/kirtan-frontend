@@ -1,11 +1,13 @@
 import "./App.scss";
 import { useRef, useEffect, useState } from "react";
+import kirtansData from "./assets/data/randomisedKirtan.json";
+
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Filters from "./components/Filters/Filters";
 import GoogleForm from "./components/GoogleForm/GoogleForm";
 import KirtanList from "./components/KirtanList/KirtanList";
-import kirtansData from "./assets/data/randomisedKirtan.json";
+import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
 // import searchHistoryData from "./assets/data/searchHistory.json";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import PaginationComponent from "./components/Pagination/Pagination";
@@ -39,6 +41,7 @@ function App() {
   let [albumFilteredKirtans, setAlbumFilteredKirtans] = useState([]);
   let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
   let [currentKirtans, setCurrentKirtans] = useState([]);
+  let [selectedKirtan, setSelectedKirtan] = useState([]); // for play and download functionality
   // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
   let [error, setError] = useState(null);
@@ -378,8 +381,11 @@ function App() {
             // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
             // kirtanTitle={kirtanTitle}
             // kirtanTitleRef={kirtanTitleRef}
+            selectedKirtan={selectedKirtan}
+            setSelectedKirtan={setSelectedKirtan}
           />
         </Row>
+        <AudioPlayer selectedKirtan={selectedKirtan} />
         <PaginationComponent
           entriesPerPage={entriesPerPage}
           totalKirtans={searchTerm ? searchedKirtans.length : kirtans.length}
