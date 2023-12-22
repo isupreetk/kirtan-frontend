@@ -61,7 +61,7 @@ function KirtanList({
   //   };
 
   const handleKirtanSelection = (kirtan) => {
-    console.log("kirtan", kirtan);
+    // console.log("kirtan", kirtan);
     setPlay(true);
     setSelectedKirtan(kirtan);
   };
