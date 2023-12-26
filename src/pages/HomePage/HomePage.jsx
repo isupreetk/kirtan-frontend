@@ -1,8 +1,8 @@
-// import "./App.scss";
+import "./HomePage.scss";
 import { useRef, useEffect, useState } from "react";
 import kirtansData from "../../assets/data/randomisedKirtan.json";
 
-import Header from "../../components/Header/Header";
+// import Header from "../../components/Header/Header";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
@@ -11,7 +11,7 @@ import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 // import searchHistoryData from "./assets/data/searchHistory.json";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import PaginationComponent from "../../components/Pagination/Pagination";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import ReactGA from "react-ga";
 import { useParams } from "react-router-dom";
 
@@ -21,7 +21,6 @@ function HomePage() {
   ReactGA.pageview(window.location.pathname + window.location.search);
 
   let { urlAlbum } = useParams();
-  console.log("params", urlAlbum);
 
   let inputRef = useRef();
   // let kirtanTitleRef = useRef([]);
@@ -31,13 +30,10 @@ function HomePage() {
   let [possibleCombinations, setPossibleCombinations] = useState([]);
 
   let [kirtans, setKirtans] = useState([]);
-  // let [filteredKirtans, setFilteredKirtans] = useState([]);
-  // let [sortedKirtans, setSortedKirtans] = useState([]);
   let [searchedKirtans, setSearchedKirtans] = useState([]);
   let [sortedSearchedKirtans, setSortedSearchedKirtans] = useState([]);
 
   let [displayKirtans, setDisplayKirtans] = useState([]);
-  // let [displayAlbumFilterKirtans, setDisplayAlbumFilterKirtans] = useState([]);
   let [allAlbums, setAllAlbums] = useState([]);
   let [allArtists, setAllArtists] = useState([]);
   let [albumFilter, setAlbumFilter] = useState([]);
@@ -47,7 +43,6 @@ function HomePage() {
   let [currentKirtans, setCurrentKirtans] = useState([]);
   let [selectedKirtan, setSelectedKirtan] = useState([]); // for play and download functionality
   let [play, setPlay] = useState(false);
-  // let [items, setItems] = useState([]);
   let [isLoading, setIsLoading] = useState(false);
   let [error, setError] = useState(null);
   let [currentPage, setCurrentPage] = useState(1);
@@ -55,8 +50,6 @@ function HomePage() {
 
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
-
-  // console.log("kirtanTitleRef", kirtanTitleRef.current);
 
   const sortByLatestKirtans = () => {
     kirtansData = kirtansData.sort((a, b) => {
@@ -78,11 +71,7 @@ function HomePage() {
     return sortedCombinations;
   };
 
-  // console.log("getAllSubsets", getAllSubsets(["naam", "simran"]));
-
   const handleAlbumFilter = (event) => {
-    // TODO multiselect filter event.preventDefault();
-
     /* to accomodate multi select filter */
     albumFilter = [];
     event.length > 0
@@ -91,12 +80,6 @@ function HomePage() {
           setAlbumFilter(albumFilter);
         })
       : setAlbumFilter(albumFilter);
-
-    // TODO multiselect filter albumFilter.push(event.target.innerText);
-    // console.log("concatenated", [].concat(albumFilter));
-    // TODO multiselect filter setAlbumFilter([].concat(albumFilter));
-    // TODO multiselect filter console.log("AlbumFilter", albumFilter);
-    // getAlbumFiltersData(displayKirtans);
   };
 
   const handleArtistFilter = (event) => {
@@ -133,11 +116,6 @@ function HomePage() {
       setArtistFilteredKirtans(artistFilteredKirtans);
       setDisplayKirtans(artistFilteredKirtans);
     }
-
-    // let artistFilteredKirtans = data.filter((item) => {
-    //   return artistFilter.includes(item.Sevadar);
-    // });
-    // setDisplayKirtans(artistFilteredKirtans);
   };
 
   const getAlbumAndArtistFiltersData = (data) => {
@@ -149,19 +127,21 @@ function HomePage() {
     setDisplayKirtans(albumAndArtistFilteredKirtans);
   };
 
-  useEffect(() => {
-    if (albumFilter.length > 0 && artistFilter.length > 0) {
-      getAlbumAndArtistFiltersData(sortedSearchedKirtans);
-    } else if (artistFilter.length > 0 && !(albumFilter.length > 0)) {
-      getArtistFiltersData(sortedSearchedKirtans);
-    } else if (albumFilter.length > 0 && !(artistFilter.length > 0)) {
-      getAlbumFiltersData(sortedSearchedKirtans);
-    } else if (albumFilter.length === 0 && artistFilter.length === 0) {
-      // getAlbumFiltersData(sortedSearchedKirtans);
-      // getArtistFiltersData(sortedSearchedKirtans);
-      setDisplayKirtans(sortedSearchedKirtans);
-    }
-  }, [albumFilter, artistFilter]);
+  useEffect(
+    () => {
+      if (albumFilter.length > 0 && artistFilter.length > 0) {
+        getAlbumAndArtistFiltersData(sortedSearchedKirtans);
+      } else if (artistFilter.length > 0 && !(albumFilter.length > 0)) {
+        getArtistFiltersData(sortedSearchedKirtans);
+      } else if (albumFilter.length > 0 && !(artistFilter.length > 0)) {
+        getAlbumFiltersData(sortedSearchedKirtans);
+      } else if (albumFilter.length === 0 && artistFilter.length === 0) {
+        setDisplayKirtans(sortedSearchedKirtans);
+      }
+    },
+    // eslint-disable-next-line
+    [albumFilter, artistFilter]
+  );
 
   const getSortedSearchedKirtans = (data) => {
     let sortedData = data.sort((a, b) => {
@@ -230,10 +210,6 @@ function HomePage() {
   };
 
   useEffect(() => {
-    // getSearchCombinations(searchArray);
-    // console.log("getAllSubsets(searchArray)", getAllSubsets(searchArray));
-    // console.log("(searchArray)", searchArray);
-
     setPossibleCombinations(getAllSubsets(searchArray));
   }, [searchArray]);
 
@@ -241,18 +217,11 @@ function HomePage() {
     () => {
       setIsLoading(true);
       setError(false);
-      // setKirtans(kirtansData);
-      // setDisplayKirtans(kirtansData);
       setSearchedKirtans(
         kirtans.filter((kirtan) => {
           return calculateScore(kirtan);
         })
       );
-      // setFilteredKirtans(
-      //   kirtans.filter((kirtan) => {
-      //     return calculateScore(kirtan);
-      //   })
-      // );
       setIsLoading(false);
     },
     // eslint-disable-next-line
@@ -264,7 +233,9 @@ function HomePage() {
   }, [searchedKirtans]);
 
   useEffect(() => {
+    // eslint-disable-next-line
     allAlbums = [];
+    // eslint-disable-next-line
     allArtists = [];
     let filterDataSet = [];
     if (searchTerm) {
@@ -272,12 +243,9 @@ function HomePage() {
     } else {
       filterDataSet = displayKirtans;
     }
-    // console.log("filterDataSet", filterDataSet);
-    // console.log("pre", allAlbums);
 
     filterDataSet.forEach((kirtan) => {
       if (allAlbums.includes(kirtan.Album)) {
-        // continue
       } else if (allArtists.includes(kirtan.Sevadar)) {
       } else {
         allAlbums.push(kirtan.Album);
@@ -303,20 +271,6 @@ function HomePage() {
     setSortedSearchedKirtans(kirtansData);
   }, []);
 
-  // const getSearchCombinations = (searchArray) => {
-  //   let newLength = searchArray.length - 1;
-  //   if (newLength >= 0) {
-  //     for (let i = 0; i <= searchArray.length - 1; i++) {
-  //       newArray = searchArray.slice(0, newLength + 1);
-  //       arrayCombinations.push(newArray);
-  //       newLength--;
-  //     }
-  //     setPossibleCombinations(arrayCombinations);
-  //   }
-  // };
-
-  // const postSearchHistory = () => {};
-
   const resetSearch = () => {
     inputRef.current.value = "";
     setSearchTerm("");
@@ -328,7 +282,6 @@ function HomePage() {
   };
 
   const handleSearch = () => {
-    // event.preventDefault();
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
     setCurrentPage(1); //this is to bring back to page 1 for every new search
@@ -336,17 +289,21 @@ function HomePage() {
     // searchHistory.push(inputRef.current.value);
   };
 
-  useEffect(() => {
-    // Get Current Kirtans
-    let indexOfLastKirtan = currentPage * entriesPerPage;
-    let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
-    setCurrentKirtans(
-      // searchTerm
-      //   ? sortedKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
-      //   : kirtans.slice(indexOfFirstKirtan, indexOfLastKirtan);
-      displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
-    );
-  }, [displayKirtans, currentPage]);
+  useEffect(
+    () => {
+      // Get Current Kirtans
+      let indexOfLastKirtan = currentPage * entriesPerPage;
+      let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
+      setCurrentKirtans(
+        // searchTerm
+        //   ? sortedKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+        //   : kirtans.slice(indexOfFirstKirtan, indexOfLastKirtan);
+        displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+      );
+    },
+    // eslint-disable-next-line
+    [displayKirtans, currentPage]
+  );
 
   // Get Page
   const paginate = (event, pageNumber) => {
@@ -355,23 +312,22 @@ function HomePage() {
   };
 
   return (
-    <Container fluid className="App">
-      <Row>
+    <Container fluid className="homepage">
+      {/* <Row>
         <Header />
-      </Row>
-      <GoogleForm />
+      </Row> */}
       <Container>
         <Row className="p-4">
-          <Col xs={1} md={2}></Col>
-          <Col md={8} xs={10} className="p-0">
-            <SearchBar
-              inputRef={inputRef}
-              handleSearch={handleSearch}
-              resetSearch={resetSearch}
-              // searchHistory={searchHistory}
-            />
-          </Col>
-          <Col xs={1} md={2}></Col>
+          {/* <Col xs={1} md={2}></Col>
+          <Col md={8} xs={10} className="p-0"> */}
+          <SearchBar
+            inputRef={inputRef}
+            handleSearch={handleSearch}
+            resetSearch={resetSearch}
+            // searchHistory={searchHistory}
+          />
+          {/* </Col>
+          <Col xs={1} md={2}></Col> */}
         </Row>
         <Row>
           <Filters
@@ -414,6 +370,9 @@ function HomePage() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
+        <Row>
+          <GoogleForm />
+        </Row>
       </Container>
     </Container>
   );

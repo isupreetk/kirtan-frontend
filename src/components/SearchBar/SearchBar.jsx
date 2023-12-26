@@ -1,6 +1,6 @@
 import "./SearchBar.scss";
-import Form from "react-bootstrap/Form";
-import { Container } from "react-bootstrap";
+// import Form from "react-bootstrap/Form";
+import { Col } from "react-bootstrap";
 import CloseButton from "../../assets/images/close-line-icon.png";
 
 function SearchBar({ inputRef, handleSearch, resetSearch }) {
@@ -8,7 +8,7 @@ function SearchBar({ inputRef, handleSearch, resetSearch }) {
   //   console.log("searchHistory", searchHistory);
   return (
     <>
-      <Form.Control
+      {/* <Form.Control
         size="sm"
         type="text"
         name="searchInput"
@@ -21,18 +21,25 @@ function SearchBar({ inputRef, handleSearch, resetSearch }) {
         alt="clear search"
         className="search__close-button"
         onClick={resetSearch}
-      ></img>
-      {/* <form> */}
-      {/* onSubmit={(event) => handleSearch(event)} */}
-      {/* <input
+      ></img> */}
+      <form className="searchbar">
+        {/* onSubmit={(event) => handleSearch(event)} */}
+        <input
           name="searchInput"
           ref={inputRef}
-          className="searchbar"
+          className="searchbar__form"
           placeholder="Search by Kirtan, Name, Album"
           onChange={handleSearch}
-        ></input> */}
-      {/* <button>Search</button> */}
-      {/* </form> */}
+        ></input>
+        {/* <button>Search</button> */}
+      </form>
+      <Col xs={1}></Col>
+      <img
+        src={CloseButton}
+        alt="clear search"
+        className="searchbar__close-button"
+        onClick={resetSearch}
+      ></img>
     </>
   );
 }

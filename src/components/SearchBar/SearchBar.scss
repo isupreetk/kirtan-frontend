@@ -1,13 +1,19 @@
-// .searchbar {
-//     width: 90%;
-//     height: 80px;
-// }
+.searchbar {
 
-.search
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    flex-direction: row;
+    // height: 80px;
 
-{
+    &__form {
+        width: 100%;
+    }
+
     &__close-button {
-    height: 10px;
-    width: 10px;
-}
+        height: 10px;
+        width: 10px;
+        margin-top: 0.5rem;
+    }
 }
