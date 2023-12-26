@@ -93,18 +93,19 @@ function Filters({
   handleAlbumFilter,
   allArtists,
   handleArtistFilter,
+  urlAlbum,
 }) {
   allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
   // console.log("allAlbums in Filters", allAlbums);
   // console.log("allArtists in Filters", allArtists);
-
+  console.log("urlAlbum", urlAlbum);
   return (
     <>
       <Select
         closeMenuOnSelect={false}
         components={animatedComponents}
-        defaultValue={[]}
+        defaultValue={[{ label: urlAlbum, value: urlAlbum }]}
         isMulti
         options={allAlbums}
         onChange={(event) => handleAlbumFilter(event)}
@@ -115,6 +116,7 @@ function Filters({
         // closeMenuOnSelect={false}
         components={animatedComponents}
         defaultValue={[]}
+        // defaultValue={[colourOptions[4], colourOptions[5]]}
         isMulti
         options={allArtists}
         onChange={(event) => handleArtistFilter(event)}
