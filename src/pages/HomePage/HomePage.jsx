@@ -30,6 +30,7 @@ function HomePage() {
   let [possibleCombinations, setPossibleCombinations] = useState([]);
 
   let [kirtans, setKirtans] = useState([]);
+  let [sortedKirtans] = useState([]);
   let [searchedKirtans, setSearchedKirtans] = useState([]);
   let [sortedSearchedKirtans, setSortedSearchedKirtans] = useState([]);
 
@@ -52,9 +53,10 @@ function HomePage() {
   // let [searchHistory, setSearchHistory] = useState([]);
 
   const sortByLatestKirtans = () => {
-    kirtansData = kirtansData.sort((a, b) => {
+    sortedKirtans = kirtansData.sort((a, b) => {
       return new Date(b.createdon) - new Date(a.createdon);
     });
+    return sortedKirtans;
   };
 
   const getAllSubsets = (searchArray) => {
@@ -264,21 +266,25 @@ function HomePage() {
     }
   }, [urlAlbum]);
 
-  useEffect(() => {
-    sortByLatestKirtans();
-    setKirtans(kirtansData);
-    setDisplayKirtans(kirtansData);
-    setSortedSearchedKirtans(kirtansData);
-  }, []);
+  useEffect(
+    () => {
+      sortByLatestKirtans();
+      setKirtans(sortedKirtans);
+      setDisplayKirtans(sortedKirtans);
+      setSortedSearchedKirtans(sortedKirtans);
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   const resetSearch = () => {
     inputRef.current.value = "";
     setSearchTerm("");
     setSearchArray([]);
     setCurrentPage(1);
-    setKirtans(kirtansData);
-    setDisplayKirtans(kirtansData);
-    setSortedSearchedKirtans(kirtansData);
+    setKirtans(sortedKirtans);
+    setDisplayKirtans(sortedKirtans);
+    setSortedSearchedKirtans(sortedKirtans);
   };
 
   const handleSearch = () => {
