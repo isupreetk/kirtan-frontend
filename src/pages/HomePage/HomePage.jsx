@@ -282,9 +282,9 @@ function HomePage() {
     setSearchTerm("");
     setSearchArray([]);
     setCurrentPage(1);
-    setKirtans(sortedKirtans);
-    setDisplayKirtans(sortedKirtans);
-    setSortedSearchedKirtans(sortedKirtans);
+    setKirtans(kirtansData);
+    setDisplayKirtans(kirtansData);
+    setSortedSearchedKirtans(kirtansData);
   };
 
   const handleSearch = () => {
