@@ -84,7 +84,8 @@
 
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-
+// import Multiselect from "multiselect-react-dropdown";
+import { useState } from "react";
 const animatedComponents = makeAnimated();
 
 function Filters({
@@ -93,10 +94,11 @@ function Filters({
   allArtists,
   handleArtistFilter,
 }) {
-  allAlbums = allAlbums.map((album) => ({ value: album, label: album }));
+  allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
   // console.log("allAlbums in Filters", allAlbums);
   // console.log("allArtists in Filters", allArtists);
+
   return (
     <>
       <Select
@@ -110,13 +112,23 @@ function Filters({
       <br />
       <br />
       <Select
-        closeMenuOnSelect={false}
+        // closeMenuOnSelect={false}
         components={animatedComponents}
         defaultValue={[]}
         isMulti
         options={allArtists}
         onChange={(event) => handleArtistFilter(event)}
       />
+      {/* <Multiselect
+        displayValue="value"
+        onKeyPressFn={function noRefCheck() {}}
+        onRemove={function noRefCheck() {}}
+        onSearch={function noRefCheck() {}}
+        onSelect={function noRefCheck() {}}
+        onChange={(event) => handleAlbumFilter(event)}
+        options={allAlbums}
+        showCheckbox
+      /> */}
     </>
   );
 }

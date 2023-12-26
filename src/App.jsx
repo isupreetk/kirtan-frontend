@@ -39,7 +39,7 @@ function App() {
   let [albumFilter, setAlbumFilter] = useState([]);
   let [artistFilter, setArtistFilter] = useState([]);
   let [albumFilteredKirtans, setAlbumFilteredKirtans] = useState([]);
-  // let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
+  let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
   let [currentKirtans, setCurrentKirtans] = useState([]);
   let [selectedKirtan, setSelectedKirtan] = useState([]); // for play and download functionality
   let [play, setPlay] = useState(false);
@@ -69,8 +69,6 @@ function App() {
         [[]]
       )
       .sort((a, b) => {
-        // console.log("a", a);
-        // console.log("b", b);
         return b.length - a.length;
       });
     return sortedCombinations;
@@ -83,12 +81,12 @@ function App() {
 
     /* to accomodate multi select filter */
     albumFilter = [];
-    event.forEach((e) => {
-      albumFilter.push(e.value);
-      // console.log("not concatenated", albumFilter);
-      // console.log("concatenated", [].concat(albumFilter));
-      setAlbumFilter(albumFilter);
-    });
+    event.length > 0
+      ? event.forEach((e) => {
+          albumFilter.push(e.value);
+          setAlbumFilter(albumFilter);
+        })
+      : setAlbumFilter(albumFilter);
 
     // TODO multiselect filter albumFilter.push(event.target.innerText);
     // console.log("concatenated", [].concat(albumFilter));
@@ -98,56 +96,68 @@ function App() {
   };
 
   const handleArtistFilter = (event) => {
-    // event.preventDefault();
-    // artistFilter.push(event.target.innerText);
-    // setArtistFilter([].concat(artistFilter));
-    // console.log("ArtistFilter", artistFilter);
-
     /* to accomodate multi select filter */
     artistFilter = [];
-    // console.log(event);
-    event.forEach((e) => {
-      artistFilter.push(e.value);
-      console.log("not concatenated artist", artistFilter);
-      // console.log("concatenated", [].concat(artistFilter));
-      setArtistFilter(artistFilter);
-    });
+    event.length > 0
+      ? event.forEach((e) => {
+          artistFilter.push(e.value);
+          setArtistFilter(artistFilter);
+        })
+      : setArtistFilter(artistFilter);
   };
 
   const getAlbumFiltersData = (data) => {
-    // albumFilteredKirtans = [];
-    albumFilteredKirtans = data.filter((item) => {
-      return albumFilter.includes(item.Album);
-    });
-    setAlbumFilteredKirtans(albumFilteredKirtans);
-    setDisplayKirtans(albumFilteredKirtans);
+    if (albumFilter.length === 0) {
+      setAlbumFilteredKirtans(sortedSearchedKirtans);
+      setDisplayKirtans(sortedSearchedKirtans);
+    } else {
+      albumFilteredKirtans = data.filter((item) => {
+        return albumFilter.includes(item.Album);
+      });
+      setAlbumFilteredKirtans(albumFilteredKirtans);
+      setDisplayKirtans(albumFilteredKirtans);
+    }
   };
 
   const getArtistFiltersData = (data) => {
-    let artistFilteredKirtans = data.filter((item) => {
-      return artistFilter.includes(item.Sevadar);
+    if (artistFilter.length === 0) {
+      setArtistFilteredKirtans(sortedSearchedKirtans);
+    } else {
+      artistFilteredKirtans = data.filter((item) => {
+        return artistFilter.includes(item.Sevadar);
+      });
+      setArtistFilteredKirtans(artistFilteredKirtans);
+      setDisplayKirtans(artistFilteredKirtans);
+    }
+
+    // let artistFilteredKirtans = data.filter((item) => {
+    //   return artistFilter.includes(item.Sevadar);
+    // });
+    // setDisplayKirtans(artistFilteredKirtans);
+  };
+
+  const getAlbumAndArtistFiltersData = (data) => {
+    let albumAndArtistFilteredKirtans = data.filter((item) => {
+      return (
+        albumFilter.includes(item.Album) && artistFilter.includes(item.Sevadar)
+      );
     });
-    setDisplayKirtans(artistFilteredKirtans);
+    setDisplayKirtans(albumAndArtistFilteredKirtans);
   };
 
   useEffect(() => {
     if (albumFilter.length > 0 && artistFilter.length > 0) {
-      getAlbumFiltersData(sortedSearchedKirtans);
-      getArtistFiltersData(sortedSearchedKirtans);
+      getAlbumAndArtistFiltersData(sortedSearchedKirtans);
     } else if (artistFilter.length > 0 && !(albumFilter.length > 0)) {
       getArtistFiltersData(sortedSearchedKirtans);
     } else if (albumFilter.length > 0 && !(artistFilter.length > 0)) {
       getAlbumFiltersData(sortedSearchedKirtans);
+    } else if (albumFilter.length === 0 && artistFilter.length === 0) {
+      // getAlbumFiltersData(sortedSearchedKirtans);
+      // getArtistFiltersData(sortedSearchedKirtans);
+      setDisplayKirtans(sortedSearchedKirtans);
     }
   }, [albumFilter, artistFilter]);
-
-  // useEffect(() => {
-  //   console.log("artistFilter useEffect", artistFilter);
-  //   console.log("artist", displayKirtans);
-  //   if (artistFilter.length > 0) {
-  //     getArtistFiltersData(displayKirtans);
-  //   }
-  // }, [artistFilter]);
 
   const getSortedSearchedKirtans = (data) => {
     let sortedData = data.sort((a, b) => {
@@ -266,7 +276,6 @@ function App() {
         // continue
       } else if (allArtists.includes(kirtan.Sevadar)) {
       } else {
-        // console.log(kirtan.Sevadar);
         allAlbums.push(kirtan.Album);
         allArtists.push(kirtan.Sevadar);
       }
