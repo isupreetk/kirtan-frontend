@@ -169,7 +169,8 @@ function HomePage() {
             kirtan.Title.toLowerCase().includes(element.toLowerCase()) ||
             kirtan.Sevadar.toLowerCase().includes(element.toLowerCase()) ||
             kirtan.Album.toLowerCase().includes(element.toLowerCase()) ||
-            kirtan.audio_year?.includes(element)
+            kirtan.audio_year?.includes(element) ||
+            kirtan.Titlefws.toLowerCase().includes(element.toLowerCase())
           )
         ) {
           searchExists = false;
