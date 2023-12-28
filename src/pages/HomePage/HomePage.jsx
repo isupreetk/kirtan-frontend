@@ -329,82 +329,85 @@ function HomePage() {
   };
 
   return (
-    <Container fluid className="homepage">
-      {/* <Row>
-        <Header />
-      </Row> */}
-      <Container>
-        <Row className="p-4">
-          {/* <Col xs={1} md={2}></Col>
+    <>
+      <Container fluid>
+        <Container>
+          <Row className="p-4">
+            {/* <Col xs={1} md={2}></Col>
           <Col md={8} xs={10} className="p-0"> */}
-          <SearchBar
-            inputRef={inputRef}
-            handleSearch={handleSearch}
-            resetSearch={resetSearch}
-            // searchHistory={searchHistory}
-          />
-          {/* </Col>
+            <SearchBar
+              inputRef={inputRef}
+              handleSearch={handleSearch}
+              resetSearch={resetSearch}
+              // searchHistory={searchHistory}
+            />
+            {/* </Col>
           <Col xs={1} md={2}></Col> */}
-        </Row>
-        <Row>
-          <Filters
-            allAlbums={allAlbums}
-            handleAlbumFilter={handleAlbumFilter}
-            allArtists={allArtists}
-            handleArtistFilter={handleArtistFilter}
-            urlAlbum={urlAlbum}
-          />
-        </Row>
-        <Row>
-          {/* className="align-items-center" */}
-          <KirtanList
-            searchTerm={searchTerm}
-            // kirtans={currentKirtans}
-            displayKirtans={currentKirtans}
-            // sortedKirtans={currentKirtans}
-            isLoading={isLoading}
-            error={error}
-            albumFilter={albumFilter}
-            setAlbumFilter={setAlbumFilter}
-            artistFilter={artistFilter}
-            setArtistFilter={setArtistFilter}
-            allAlbums={allAlbums}
-            allArtists={allArtists}
-            // getAlbumFiltersData={getAlbumArtistFiltersData}
-            handleAlbumFilter={handleAlbumFilter}
-            handleArtistFilter={handleArtistFilter}
-            // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
-            // kirtanTitle={kirtanTitle}
-            // kirtanTitleRef={kirtanTitleRef}
-            setSelectedKirtan={setSelectedKirtan}
-            setPlay={setPlay}
-          />
-        </Row>
-        <AudioPlayer selectedKirtan={selectedKirtan} play={play} />
-        <PaginationComponent
-          entriesPerPage={entriesPerPage}
-          totalKirtans={
-            // searchTerm || albumFilter || artistFilter
-            //   ? // sortedSearchedKirtans.length > 0
-            //     sortedSearchedKirtans.length
-            //   : kirtans.length
-            totalKirtans
-          }
-          paginate={paginate}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        <Row>
-          <GoogleForm />
-        </Row>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+          </Row>
+          <Row>
+            <Filters
+              allAlbums={allAlbums}
+              handleAlbumFilter={handleAlbumFilter}
+              allArtists={allArtists}
+              handleArtistFilter={handleArtistFilter}
+              urlAlbum={urlAlbum}
+            />
+          </Row>
+          <Row>
+            {/* className="align-items-center" */}
+            <KirtanList
+              searchTerm={searchTerm}
+              // kirtans={currentKirtans}
+              displayKirtans={currentKirtans}
+              // sortedKirtans={currentKirtans}
+              isLoading={isLoading}
+              error={error}
+              albumFilter={albumFilter}
+              setAlbumFilter={setAlbumFilter}
+              artistFilter={artistFilter}
+              setArtistFilter={setArtistFilter}
+              allAlbums={allAlbums}
+              allArtists={allArtists}
+              // getAlbumFiltersData={getAlbumArtistFiltersData}
+              handleAlbumFilter={handleAlbumFilter}
+              handleArtistFilter={handleArtistFilter}
+              // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
+              // kirtanTitle={kirtanTitle}
+              // kirtanTitleRef={kirtanTitleRef}
+              setSelectedKirtan={setSelectedKirtan}
+              setPlay={setPlay}
+            />
+          </Row>
+          <AudioPlayer selectedKirtan={selectedKirtan} play={play} />
+        </Container>
       </Container>
-    </Container>
+      <PaginationComponent
+        entriesPerPage={entriesPerPage}
+        totalKirtans={
+          // searchTerm || albumFilter || artistFilter
+          //   ? // sortedSearchedKirtans.length > 0
+          //     sortedSearchedKirtans.length
+          //   : kirtans.length
+          totalKirtans
+        }
+        paginate={paginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+      <Container fluid>
+        <Container>
+          <Row>
+            <GoogleForm />
+          </Row>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </Container>
+      </Container>
+    </>
   );
 }
 
