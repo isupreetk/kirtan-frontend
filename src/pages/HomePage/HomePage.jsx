@@ -237,17 +237,19 @@ function HomePage() {
 
   useEffect(() => {
     // eslint-disable-next-line
-    allAlbums = [];
+    // allAlbums = [];
     // eslint-disable-next-line
-    allArtists = [];
-    let filterDataSet = [];
-    if (searchTerm) {
-      filterDataSet = sortedSearchedKirtans;
-    } else {
-      filterDataSet = displayKirtans;
-    }
+    // allArtists = [];
+    // let filterDataSet = kirtans;
+    // let filterDataSet = [];
+    // if (searchTerm) {
+    // filterDataSet = kirtans;
+    // } else {
+    // filterDataSet = displayKirtans;
+    // }
 
-    filterDataSet.forEach((kirtan) => {
+    // filterDataSet.forEach((kirtan) => {
+    kirtans.forEach((kirtan) => {
       if (allAlbums.includes(kirtan.Album)) {
       } else if (allArtists.includes(kirtan.Sevadar)) {
       } else {
@@ -259,7 +261,8 @@ function HomePage() {
     // console.log("allAlbums", allAlbums);
     setAllArtists(allArtists);
     // console.log("allArtists", allArtists);
-  }, [sortedSearchedKirtans]);
+    // }, [sortedSearchedKirtans]);
+  }, [kirtans]);
 
   useEffect(() => {
     if (urlAlbum) {
@@ -380,6 +383,12 @@ function HomePage() {
         <Row>
           <GoogleForm />
         </Row>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </Container>
     </Container>
   );
