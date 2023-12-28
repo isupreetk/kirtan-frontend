@@ -143,52 +143,88 @@ function KirtanList({
   //     console.log("ArtistFilter", artistFilter);
   //   };
 
+  //   return (
+  //     <>
+  //       <Container>
+  //         {/* <div>
+  //           <ul>
+  //             <p>Album</p>
+
+  //             {allAlbums.map((allAlbum, index) => {
+  //               return (
+  //                 <li key={index} onClick={(event) => handleAlbumFilter(event)}>
+  //                   <a href="#">{allAlbum}</a>
+  //                 </li>
+  //               );
+  //             })}
+  //           </ul>
+  //           <ul>
+  //             <p>Artist</p>
+
+  //             {allArtists.map((allArtist, index) => {
+  //               return (
+  //                 <li key={index} onClick={(event) => handleArtistFilter(event)}>
+  //                   <a href="#">{allArtist}</a>
+  //                 </li>
+  //               );
+  //             })}
+  //           </ul>
+  //         </div> */}
+  //         <Table striped bordered hover className="table">
+  //           <thead>
+  //             <tr>
+  //               <th>Shabad</th>
+  //               <th>Sevadar</th>
+  //               <th>Album</th>
+  //               <th></th>
+  //               <th></th>
+  //             </tr>
+  //           </thead>
+  //           {/*
+  //         {searchTerm
+  //           ? sortedKirtans.slice(0, 100).map(mapToHtml)
+  //           : kirtans.slice(0, 100).map(mapToHtml)} */}
+
+  //           {displayKirtans.map(mapToHtml)}
+  //         </Table>
+  //       </Container>
+  //     </>
+  //   );
+
   return (
-    <>
-      <Container>
-        {/* <div>
-          <ul>
-            <p>Album</p>
-
-            {allAlbums.map((allAlbum, index) => {
-              return (
-                <li key={index} onClick={(event) => handleAlbumFilter(event)}>
-                  <a href="#">{allAlbum}</a>
-                </li>
-              );
-            })}
-          </ul>
-          <ul>
-            <p>Artist</p>
-
-            {allArtists.map((allArtist, index) => {
-              return (
-                <li key={index} onClick={(event) => handleArtistFilter(event)}>
-                  <a href="#">{allArtist}</a>
-                </li>
-              );
-            })}
-          </ul>
-        </div> */}
-        <Table striped bordered hover className="table">
-          <thead>
-            <tr>
-              <th>Shabad</th>
-              <th>Sevadar</th>
-              <th>Album</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          {/* 
-        {searchTerm
-          ? sortedKirtans.slice(0, 100).map(mapToHtml)
-          : kirtans.slice(0, 100).map(mapToHtml)} */}
-
-          {displayKirtans.map(mapToHtml)}
-        </Table>
-      </Container>
-    </>
+    <Container>
+      {displayKirtans.map((kirtan) => {
+        // console.log(kirtan.Title);
+        return (
+          <div className="list-group">
+            <a
+              href="#"
+              className="list-group-item list-group-item-action flex-column align-items-start"
+            >
+              <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">{kirtan.Title}</h5>
+                <div className="d-flex justify-content-end">
+                  <small className="text-muted mr-1">
+                    <p onClick={() => handleKirtanSelection(kirtan)}>
+                      <FileEarmarkPlay />
+                    </p>
+                  </small>
+                  <small className="text-muted ml-1">
+                    <p onClick={() => handleKirtanSelection(kirtan)}>
+                      <Download />
+                    </p>
+                  </small>
+                </div>
+              </div>
+              <p className="d-flex mb-1 ml-1">
+                {kirtan.Sevadar}, {kirtan.Album}
+              </p>
+              {/* <small className="text-muted">Donec id elit non mi porta.</small> */}
+            </a>
+          </div>
+        );
+      })}
+    </Container>
   );
 }
 

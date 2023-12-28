@@ -177,9 +177,11 @@ function HomePage() {
           searchExists = false;
         }
       });
+
       kirtan.hTitle = kirtan.Title;
       kirtan.hSevadar = kirtan.Sevadar;
       kirtan.hAlbum = kirtan.Album;
+
       if (searchExists) {
         kirtan.Score = arrayLength;
         array.forEach((word) => {
