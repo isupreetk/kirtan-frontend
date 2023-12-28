@@ -345,7 +345,8 @@ function HomePage() {
             urlAlbum={urlAlbum}
           />
         </Row>
-        <Row className="align-items-center">
+        <Row>
+          {/* className="align-items-center" */}
           <KirtanList
             searchTerm={searchTerm}
             // kirtans={currentKirtans}

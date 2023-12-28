@@ -21,3 +21,17 @@ th {
 a{
     text-decoration: none;
 }
+
+.button {
+
+    &__play {
+    height: 25px;
+    width: 25px;
+}
+
+&__download {
+    height: 25px;
+    width: 25px;
+}
+}
+

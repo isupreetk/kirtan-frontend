@@ -1,6 +1,6 @@
 import "./KirtanList.scss";
 // import InfiniteScroll from "react-infinite-scroll-component";
-import { Container, Table } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { FileEarmarkPlay, Download } from "react-bootstrap-icons";
 
 function KirtanList({
@@ -66,67 +66,67 @@ function KirtanList({
     setSelectedKirtan(kirtan);
   };
 
-  const mapToHtml = (kirtan, index) => {
-    if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
-    if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
-    if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
+  //   const mapToHtml = (kirtan, index) => {
+  //     if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
+  //     if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
+  //     if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
 
-    return (
-      <tbody key={index}>
-        <tr>
-          <td
-            dangerouslySetInnerHTML={{
-              __html: kirtan.hTitle,
-            }}
-          />
-          {/* ref={kirtanTitleRef} */}
+  //     return (
+  //       <tbody key={index}>
+  //         <tr>
+  //           <td
+  //             dangerouslySetInnerHTML={{
+  //               __html: kirtan.hTitle,
+  //             }}
+  //           />
+  //           {/* ref={kirtanTitleRef} */}
 
-          <td
-            dangerouslySetInnerHTML={{
-              __html: kirtan.hSevadar,
-            }}
-          />
-          <td
-            dangerouslySetInnerHTML={{
-              __html: kirtan.hAlbum,
-            }}
-          />
-          <td>
-            {/* <a
-              href={kirtan.cdnpath}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setSelectedKirtan(kirtan)}
-            > */}
-            {/* <p onClick={() => setSelectedKirtan(kirtan)}> */}
-            <p onClick={() => handleKirtanSelection(kirtan)}>
-              <FileEarmarkPlay />
-            </p>
-          </td>
-          <td>
-            {/* <a
-              //   title="Right click and save as"
-              //   download="Naam Simran.mp3"
-              //   content-type="application/octet-stream"
-              //   content-disposition="attachment"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={kirtan.cdnpath}
-              //   data-downloadurl="application/octet-stream:https://brahmbungadodra.org/kirtanrecords/samagams/September23/01%20Jaspreet%20Kaur%20LDH%20-%20Naam%20Simran%20%2823-09-23%29E.mp3"
-              // data-downloadurl="application/octet-stream:Naam+Simran.mp3:blob:https://brahmbungadodra.org/kirtanrecords/samagams/September23/01%20Jaspreet%20Kaur%20LDH%20-%20Naam%20Simran%20%2823-09-23%29E.mp3"
-              //   rel="noreferrer"
-              //   download={kirtan.cdnpath}
-              //   download
-              onClick={() => setSelectedKirtan(kirtan)}
-            > */}
-            <p onClick={() => handleKirtanSelection(kirtan)}>
-              <Download />
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    );
-  };
+  //           <td
+  //             dangerouslySetInnerHTML={{
+  //               __html: kirtan.hSevadar,
+  //             }}
+  //           />
+  //           <td
+  //             dangerouslySetInnerHTML={{
+  //               __html: kirtan.hAlbum,
+  //             }}
+  //           />
+  //           <td>
+  //             {/* <a
+  //               href={kirtan.cdnpath}
+  //               target="_blank"
+  //               rel="noopener noreferrer"
+  //               onClick={() => setSelectedKirtan(kirtan)}
+  //             > */}
+  //             {/* <p onClick={() => setSelectedKirtan(kirtan)}> */}
+  //             <p onClick={() => handleKirtanSelection(kirtan)}>
+  //               <FileEarmarkPlay />
+  //             </p>
+  //           </td>
+  //           <td>
+  //             {/* <a
+  //               //   title="Right click and save as"
+  //               //   download="Naam Simran.mp3"
+  //               //   content-type="application/octet-stream"
+  //               //   content-disposition="attachment"
+  //               target="_blank"
+  //               rel="noopener noreferrer"
+  //               href={kirtan.cdnpath}
+  //               //   data-downloadurl="application/octet-stream:https://brahmbungadodra.org/kirtanrecords/samagams/September23/01%20Jaspreet%20Kaur%20LDH%20-%20Naam%20Simran%20%2823-09-23%29E.mp3"
+  //               // data-downloadurl="application/octet-stream:Naam+Simran.mp3:blob:https://brahmbungadodra.org/kirtanrecords/samagams/September23/01%20Jaspreet%20Kaur%20LDH%20-%20Naam%20Simran%20%2823-09-23%29E.mp3"
+  //               //   rel="noreferrer"
+  //               //   download={kirtan.cdnpath}
+  //               //   download
+  //               onClick={() => setSelectedKirtan(kirtan)}
+  //             > */}
+  //             <p onClick={() => handleKirtanSelection(kirtan)}>
+  //               <Download />
+  //             </p>
+  //           </td>
+  //         </tr>
+  //       </tbody>
+  //     );
+  //   };
 
   //   const handleAlbumFilter = (event) => {
   //     event.preventDefault();
@@ -192,39 +192,42 @@ function KirtanList({
   //   );
 
   return (
-    <Container>
+    <>
       {displayKirtans.map((kirtan) => {
         // console.log(kirtan.Title);
         return (
-          <div className="list-group">
-            <a
-              href="#"
-              className="list-group-item list-group-item-action flex-column align-items-start"
-            >
-              <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{kirtan.Title}</h5>
-                <div className="d-flex justify-content-end">
-                  <small className="text-muted mr-1">
-                    <p onClick={() => handleKirtanSelection(kirtan)}>
-                      <FileEarmarkPlay />
-                    </p>
-                  </small>
-                  <small className="text-muted ml-1">
-                    <p onClick={() => handleKirtanSelection(kirtan)}>
-                      <Download />
-                    </p>
-                  </small>
+          <Row>
+            <div className="list-group">
+              <a
+                href="#"
+                onClick={() => handleKirtanSelection(kirtan)}
+                className="list-group-item list-group-item-action flex-column align-items-start"
+              >
+                <div className="d-flex w-100 justify-content-between">
+                  <p className="mb-1">{kirtan.Title}</p>
+                  <div className="d-flex justify-content-end">
+                    <small className="text-muted mr-1">
+                      <p onClick={() => handleKirtanSelection(kirtan)}>
+                        <FileEarmarkPlay className="button__play" />
+                      </p>
+                    </small>
+                    <small className="text-muted ml-1">
+                      <p onClick={() => handleKirtanSelection(kirtan)}>
+                        <Download className="button__download" />
+                      </p>
+                    </small>
+                  </div>
                 </div>
-              </div>
-              <p className="d-flex mb-1 ml-1">
-                {kirtan.Sevadar}, {kirtan.Album}
-              </p>
-              {/* <small className="text-muted">Donec id elit non mi porta.</small> */}
-            </a>
-          </div>
+                <p className="d-flex mb-1 ml-1">
+                  {kirtan.Sevadar}, {kirtan.Album}
+                </p>
+                {/* <small className="text-muted">Donec id elit non mi porta.</small> */}
+              </a>
+            </div>
+          </Row>
         );
       })}
-    </Container>
+    </>
   );
 }
 
