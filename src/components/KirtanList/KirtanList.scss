@@ -1,45 +1,30 @@
-// .kirtan-list {
-//     display: flex;
-//     flex-direction: column;
-
-//     &__items {
-//         display: flex;
-//         align-items: center;
-//         justify-content: space-between;
-//     }
-// }
-
-// .table, tr, td {
-//     background-color: #ffffff;
-// }
-
-// th {
-//     background-color: #17a8b5;
-//     color: #ffffff;
-// }
-
-// a{
-//     text-decoration: none;
-// }
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
 
 .kirtan-list {
     &__container {
         display: flex;
         flex-direction: column;
         width: 100%;
-        // border: 1px solid black;
     }
 }
 
 .kirtan-list-item {
     display: flex;
-    // border: 2px dashed red;
     border-bottom: 4px solid #17a8b5;
     margin: 0.5rem;
     width: 100%;
 
     &__container1 {
         width: 20%;
+
+        @include tablet {
+            width: 15%;
+        }
+
+        @include desktop {
+            width: 10%;
+        }
     }
 
     &__avatar {
@@ -47,8 +32,11 @@
         background-color: grey;
         height: 50px;
         width: 50px;
+
+        @include tablet {
         margin: 0;
         margin-left: 1rem;
+    }
     }
 
     &__container2 {
@@ -57,17 +45,21 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
+
+        @include tablet {
+            width: 75%;
+        }
+
+        @include desktop {
+            width: 80%;
+        }
     }
 
     &__title {
-        // display: flex;
-        // align-items: flex-start;
         text-align: left;
     }
 
     &__details {
-        // display: flex;
-        // align-items: flex-start;
         text-align: left;
     }
 
@@ -77,11 +69,10 @@
 }
 
 .button {
-
-    &__play {
-    height: 25px;
-    width: 25px;
-}
+//     &__play {
+//     height: 25px;
+//     width: 25px;
+// }
 
 &__download {
     height: 25px;
