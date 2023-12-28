@@ -1,0 +1,16 @@
+.audioplayer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: bisque;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+}
+
+.figure {
+    margin: 0rem;
+}

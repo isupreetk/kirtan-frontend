@@ -1,8 +1,10 @@
+import "./AudioPlayer.scss";
+
 function AudioPlayer({ selectedKirtan, play }) {
   return (
-    <div>
+    <div className="audioplayer">
       {play ? (
-        <figure>
+        <figure className="figure">
           <figcaption>Listening to {selectedKirtan.Title}:</figcaption>
           <audio controls autoPlay src={selectedKirtan.cdnpath}>
             <a href={selectedKirtan.cdnpath}> Download audio </a>
