@@ -41,7 +41,9 @@ function KirtanList({
           <Row className="">
             <div className="kirtan-list-item">
               <div className="kirtan-list-item__container1">
-                <div className="kirtan-list-item__avatar"></div>
+                <div className="kirtan-list-item__avatar">
+                  {kirtan.Sevadar.charAt(0).toUpperCase()}
+                </div>
               </div>
               <div
                 className="kirtan-list-item__container2"
