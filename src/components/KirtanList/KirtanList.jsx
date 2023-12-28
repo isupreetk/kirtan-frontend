@@ -41,8 +41,9 @@ function KirtanList({
         return (
           <Row>
             <div className="list-group">
-              <a
-                href="#"
+              <p
+                // eslint-disable-next-line
+                // href=""
                 onClick={() => handleKirtanSelection(kirtan)}
                 className="list-group-item list-group-item-action flex-column align-items-start"
               >
@@ -65,7 +66,7 @@ function KirtanList({
                   {kirtan.Sevadar}, {kirtan.Album}
                 </p>
                 {/* <small className="text-muted">Donec id elit non mi porta.</small> */}
-              </a>
+              </p>
             </div>
           </Row>
         );
