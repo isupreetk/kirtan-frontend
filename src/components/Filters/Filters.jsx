@@ -12,6 +12,9 @@ function Filters({
 }) {
   allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
+  allArtists = allArtists.sort((a, b) => {
+    return a.label.localeCompare(b.label);
+  });
   return (
     <>
       <Col xs={1}></Col>
