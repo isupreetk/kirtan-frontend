@@ -173,8 +173,8 @@ function KirtanList({
         <Table striped bordered hover className="table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Artist</th>
+              <th>Shabad</th>
+              <th>Sevadar</th>
               <th>Album</th>
               <th></th>
               <th></th>
