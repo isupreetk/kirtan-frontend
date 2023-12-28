@@ -1,14 +1,18 @@
 .searchbar {
-
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 80%;
-    flex-direction: row;
-    // height: 80px;
+    justify-content: space-evenly;
+    width: 100%;
 
     &__form {
-        width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-direction: row;
+}
+    &__input {
+        width: 90%;
     }
 
     &__close-button {
