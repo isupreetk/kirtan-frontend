@@ -56,7 +56,7 @@ function KirtanList({
     <section className="kirtan-list__container">
       {displayKirtans.map((kirtan) => {
         return (
-          <Row key={kirtan.aid} className="">
+          <Row key={kirtan.aid}>
             <div className="kirtan-list-item">
               <div className="kirtan-list-item__wrapper">
                 <div className="kirtan-list-item__container1">
