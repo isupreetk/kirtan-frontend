@@ -14,6 +14,7 @@ import PaginationComponent from "../../components/Pagination/Pagination";
 import { Container, Row } from "react-bootstrap";
 import ReactGA from "react-ga";
 import { useParams } from "react-router-dom";
+import toPascalCase from "../../utils.js";
 
 function HomePage() {
   const TRACKING_ID = "G-4R29HH74RE";
@@ -184,24 +185,17 @@ function HomePage() {
         array.forEach((word) => {
           kirtan.hTitle = kirtan.hTitle
             ?.toLowerCase()
-            .replace(
-              word?.toLowerCase(),
-              `<strong>${word.toLowerCase()}</strong>`
-            );
+            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
           kirtan.hSevadar = kirtan.hSevadar
             ?.toLowerCase()
-            .replace(
-              word?.toLowerCase(),
-              `<strong>${word.toLowerCase()}</strong>`
-            );
+            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
           kirtan.hAlbum = kirtan.hAlbum
             ?.toLowerCase()
-            .replace(
-              word?.toLowerCase(),
-              `<strong>${word.toLowerCase()}</strong>`
-            );
+            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
         });
-
+        kirtan.hTitle = toPascalCase(kirtan.hTitle);
+        kirtan.hSevadar = toPascalCase(kirtan.hSevadar);
+        kirtan.hAlbum = toPascalCase(kirtan.hAlbum);
         break;
       }
     }
@@ -262,6 +256,7 @@ function HomePage() {
     setAllArtists(allArtists);
     // console.log("allArtists", allArtists);
     // }, [sortedSearchedKirtans]);
+    // eslint-disable-next-line
   }, [kirtans]);
 
   useEffect(() => {
