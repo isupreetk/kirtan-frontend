@@ -49,6 +49,7 @@ function HomePage() {
   let [error, setError] = useState(null);
   let [currentPage, setCurrentPage] = useState(1);
   let [entriesPerPage] = useState(100);
+  let [totalKirtans, setTotalKirtans] = useState(0);
 
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
@@ -100,24 +101,28 @@ function HomePage() {
     if (albumFilter.length === 0) {
       setAlbumFilteredKirtans(sortedSearchedKirtans);
       setDisplayKirtans(sortedSearchedKirtans);
+      setTotalKirtans(sortedSearchedKirtans.length);
     } else {
       albumFilteredKirtans = data.filter((item) => {
         return albumFilter.includes(item.Album);
       });
       setAlbumFilteredKirtans(albumFilteredKirtans);
       setDisplayKirtans(albumFilteredKirtans);
+      setTotalKirtans(albumFilteredKirtans.length);
     }
   };
 
   const getArtistFiltersData = (data) => {
     if (artistFilter.length === 0) {
       setArtistFilteredKirtans(sortedSearchedKirtans);
+      setTotalKirtans(sortedSearchedKirtans.length);
     } else {
       artistFilteredKirtans = data.filter((item) => {
         return artistFilter.includes(item.Sevadar);
       });
       setArtistFilteredKirtans(artistFilteredKirtans);
       setDisplayKirtans(artistFilteredKirtans);
+      setTotalKirtans(artistFilteredKirtans.length);
     }
   };
 
@@ -128,6 +133,7 @@ function HomePage() {
       );
     });
     setDisplayKirtans(albumAndArtistFilteredKirtans);
+    setTotalKirtans(albumAndArtistFilteredKirtans.length);
   };
 
   useEffect(
@@ -140,6 +146,7 @@ function HomePage() {
         getAlbumFiltersData(sortedSearchedKirtans);
       } else if (albumFilter.length === 0 && artistFilter.length === 0) {
         setDisplayKirtans(sortedSearchedKirtans);
+        setTotalKirtans(sortedSearchedKirtans.length);
       }
     },
     // eslint-disable-next-line
@@ -153,6 +160,7 @@ function HomePage() {
     if (sortedData.length > 0) {
       setSortedSearchedKirtans(sortedData);
       setDisplayKirtans(sortedData);
+      setTotalKirtans(sortedData.length);
     }
   };
 
@@ -273,6 +281,7 @@ function HomePage() {
       setKirtans(sortedKirtans);
       setDisplayKirtans(sortedKirtans);
       setSortedSearchedKirtans(sortedKirtans);
+      setTotalKirtans(sortedKirtans.length);
     },
     // eslint-disable-next-line
     []
@@ -286,6 +295,7 @@ function HomePage() {
     setKirtans(kirtansData);
     setDisplayKirtans(kirtansData);
     setSortedSearchedKirtans(kirtansData);
+    setTotalKirtans(kirtansData.length);
   };
 
   const handleSearch = () => {
@@ -373,7 +383,13 @@ function HomePage() {
         <AudioPlayer selectedKirtan={selectedKirtan} play={play} />
         <PaginationComponent
           entriesPerPage={entriesPerPage}
-          totalKirtans={searchTerm ? searchedKirtans.length : kirtans.length}
+          totalKirtans={
+            // searchTerm || albumFilter || artistFilter
+            //   ? // sortedSearchedKirtans.length > 0
+            //     sortedSearchedKirtans.length
+            //   : kirtans.length
+            totalKirtans
+          }
           paginate={paginate}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
