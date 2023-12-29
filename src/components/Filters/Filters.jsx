@@ -20,7 +20,7 @@ function Filters({
       <Col xs={1}></Col>
       <Col>
         <Select
-          placeholder="Select Samagam/Album"
+          placeholder="Select Samagam"
           closeMenuOnSelect={true}
           components={animatedComponents}
           defaultValue={urlAlbum ? [{ label: urlAlbum, value: urlAlbum }] : []}

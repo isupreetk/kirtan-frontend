@@ -22,6 +22,7 @@
 
     &__container1 {
         width: 20%;
+        display: none;
 
         @include tablet {
             width: 15%;
@@ -50,7 +51,7 @@
     }
 
     &__container2 {
-        width: 69%;
+        width: 89%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

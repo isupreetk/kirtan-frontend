@@ -55,6 +55,9 @@ function KirtanList({
   return (
     <section className="kirtan-list__container">
       {displayKirtans.map((kirtan) => {
+        if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
+        if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
+        if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
         return (
           <Row key={kirtan.aid}>
             <div className="kirtan-list-item">
@@ -68,9 +71,24 @@ function KirtanList({
                   className="kirtan-list-item__container2"
                   onClick={() => handleKirtanSelection(kirtan)}
                 >
-                  <p className="kirtan-list-item__title">{kirtan.Title}</p>
+                  <p
+                    className="kirtan-list-item__title"
+                    dangerouslySetInnerHTML={{
+                      __html: kirtan.hTitle,
+                    }}
+                  />
                   <p className="kirtan-list-item__details">
-                    {kirtan.Sevadar}, {kirtan.Album}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: kirtan.hSevadar,
+                      }}
+                    />
+                    <span>, </span>
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: kirtan.hAlbum,
+                      }}
+                    />
                   </p>
                 </div>
               </div>
