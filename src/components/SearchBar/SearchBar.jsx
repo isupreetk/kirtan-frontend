@@ -13,7 +13,7 @@ function SearchBar({ inputRef, handleSearch, resetSearch }) {
           name="searchInput"
           ref={inputRef}
           className="searchbar__input"
-          placeholder="Search by Kirtan, Name, Album"
+          placeholder="Search by Shabad, Sevadar or Samagam"
           onChange={handleSearch}
         ></input>
         <img
