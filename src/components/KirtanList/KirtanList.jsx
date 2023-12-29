@@ -1,8 +1,12 @@
 import "./KirtanList.scss";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import { Row } from "react-bootstrap";
-import { Download } from "react-bootstrap-icons";
+// import { Download } from "react-bootstrap-icons";
+import PlayIcon from "../../assets/images/play-icon.png";
+// import PauseIcon from "../../assets/images/pause-icon.png";
+import DownloadIcon from "../../assets/images/download-icon.png";
 // FileEarmarkPlay
+// import { useState } from "react";
 
 function KirtanList({
   searchTerm,
@@ -25,12 +29,14 @@ function KirtanList({
   setSelectedKirtan,
   setPlay,
 }) {
+  //   let [pauseIconStatus, setPauseIconStatus] = useState(false);
   if (isLoading) {
     return <h2>...Loading</h2>;
   }
 
   const handleKirtanSelection = (kirtan) => {
     setPlay(true);
+    // setPauseIconStatus(true);
     setSelectedKirtan(kirtan);
   };
 
@@ -101,6 +107,14 @@ function KirtanList({
                     <Download className="button__download" />
                   </button>
                 </form> */}
+                <p onClick={() => handleKirtanSelection(kirtan)}>
+                  <img
+                    // src={!pauseIconStatus ? PlayIcon : PauseIcon}
+                    src={PlayIcon}
+                    alt="play button"
+                    className="button button__play"
+                  />
+                </p>
                 <a
                   href={kirtan.cdnpath}
                   //   title="Right click and save as"
@@ -113,7 +127,12 @@ function KirtanList({
                   //   className="download_mp3"
                   onClick={() => downloadFile(kirtan.cdnpath, kirtan.filename)}
                 >
-                  <Download className="button__download" />
+                  {/* <Download className="button__download" /> */}
+                  <img
+                    src={DownloadIcon}
+                    alt="download button"
+                    className="button button__download"
+                  />
                 </a>
               </div>
             </div>

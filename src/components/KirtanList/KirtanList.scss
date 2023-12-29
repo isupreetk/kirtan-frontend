@@ -51,7 +51,7 @@
     }
 
     &__container2 {
-        width: 89%;
+        width: 79%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -77,19 +77,23 @@
     }
 
     &__container3 {
-        width: 10%;
+        width: 20%;
+        display: flex;
+
     }
 }
 
 .button {
-//     &__play {
-//     height: 25px;
-//     width: 25px;
-// }
 
-&__download {
     height: 25px;
     width: 25px;
+
+    &__play {
+    
+}
+
+&__download {
+    margin-left: 0.5rem;
 }
 }
 
