@@ -328,6 +328,27 @@ function HomePage() {
     setCurrentPage(pageNumber);
   };
 
+  const togglePlay = (selectedKirtan) => {
+    let playImageEl = document.getElementById(`play${selectedKirtan.aid}`);
+    let pauseImageEl = document.getElementById(`pause${selectedKirtan.aid}`);
+    if (playImageEl.classList.value.includes("button__hidden")) {
+      playImageEl.classList.remove("button__hidden");
+      pauseImageEl.classList.add("button__hidden");
+    } else if (pauseImageEl.classList.value.includes("button__hidden")) {
+      pauseImageEl.classList.remove("button__hidden");
+      playImageEl.classList.add("button__hidden");
+    }
+    // if (imageEl.alt === "play button") {
+    //   imageEl.src = { PauseIcon };
+    //   imageEl.alt = "pause button";
+    //   console.log(imageEl.src, imageEl.alt);
+    // } else {
+    //   imageEl.src = { PlayIcon };
+    //   imageEl.alt = "play button";
+    //   console.log(imageEl.src, imageEl.alt);
+    // }
+  };
+
   return (
     <>
       <Container fluid>
@@ -374,11 +395,18 @@ function HomePage() {
               // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
               // kirtanTitle={kirtanTitle}
               // kirtanTitleRef={kirtanTitleRef}
+              selectedKirtan={selectedKirtan}
               setSelectedKirtan={setSelectedKirtan}
+              play={play}
               setPlay={setPlay}
+              togglePlay={togglePlay}
             />
           </Row>
-          <AudioPlayer selectedKirtan={selectedKirtan} play={play} />
+          <AudioPlayer
+            selectedKirtan={selectedKirtan}
+            play={play}
+            setPlay={setPlay}
+          />
         </Container>
       </Container>
       <PaginationComponent

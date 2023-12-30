@@ -45,9 +45,9 @@
         font-size: 2rem;
 
         @include tablet {
-        margin: 0;
-        margin-left: 1rem;
-    }
+            margin: 0;
+            margin-left: 1rem;
+        }
     }
 
     &__container2 {
@@ -79,21 +79,12 @@
     &__container3 {
         width: 20%;
         display: flex;
-
+        align-items: flex-start;
+        justify-content: space-between;
     }
 }
 
 .button {
-
     height: 25px;
     width: 25px;
-
-    &__play {
-    
 }
-
-&__download {
-    margin-left: 0.5rem;
-}
-}
-

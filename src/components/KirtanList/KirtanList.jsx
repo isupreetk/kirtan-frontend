@@ -3,10 +3,12 @@ import "./KirtanList.scss";
 import { Row } from "react-bootstrap";
 // import { Download } from "react-bootstrap-icons";
 import PlayIcon from "../../assets/images/play-icon.png";
-// import PauseIcon from "../../assets/images/pause-icon.png";
+import PauseIcon from "../../assets/images/pause-icon.png";
 import DownloadIcon from "../../assets/images/download-icon.png";
 // FileEarmarkPlay
 // import { useState } from "react";
+// import { useRef } from "react";
+// import ToastMessage from "../ToastMessage/ToastMessage";
 
 function KirtanList({
   searchTerm,
@@ -26,18 +28,29 @@ function KirtanList({
   handleArtistFilter,
   //   displayAlbumFilterKirtans,
   //   kirtanTitleRef,
+  selectedKirtan,
   setSelectedKirtan,
+  play,
   setPlay,
+  togglePlay,
 }) {
-  //   let [pauseIconStatus, setPauseIconStatus] = useState(false);
+  //   let [playPauseIconStatus, setPlayPauseIconStatus] = useState({ PlayIcon });
+  //   let [playPauseIcon, setPlayPauseIcon] = useState("play button");
+
+  //   let playPauseRef = useRef();
+
+  //   console.log(playPauseIconStatus);
   if (isLoading) {
     return <h2>...Loading</h2>;
   }
 
-  const handleKirtanSelection = (kirtan) => {
-    setPlay(true);
-    // setPauseIconStatus(true);
-    setSelectedKirtan(kirtan);
+  const handleKirtanClick = (kirtan) => {
+    if (selectedKirtan === kirtan) {
+      let player = document.getElementById("audio");
+      play === true ? player.pause() : player.play();
+    } else {
+      setSelectedKirtan(kirtan);
+    }
   };
 
   //   const handleDownload = (kirtan) => {
@@ -75,7 +88,7 @@ function KirtanList({
                 </div>
                 <div
                   className="kirtan-list-item__container2"
-                  onClick={() => handleKirtanSelection(kirtan)}
+                  onClick={() => handleKirtanClick(kirtan)}
                 >
                   <p
                     className="kirtan-list-item__title"
@@ -99,7 +112,7 @@ function KirtanList({
                 </div>
               </div>
               <div className="kirtan-list-item__container3">
-                {/* <p onClick={() => handleKirtanSelection(kirtan)}>
+                {/* <p onClick={() => handleKirtanPlay(kirtan)}>
                   <Download className="button__download" />
                 </p> */}
                 {/* <form method="get" action={kirtan.cdnpath}>
@@ -107,14 +120,34 @@ function KirtanList({
                     <Download className="button__download" />
                   </button>
                 </form> */}
-                <p onClick={() => handleKirtanSelection(kirtan)}>
-                  <img
-                    // src={!pauseIconStatus ? PlayIcon : PauseIcon}
-                    src={PlayIcon}
-                    alt="play button"
-                    className="button button__play"
-                  />
-                </p>
+
+                {play !== true || selectedKirtan !== kirtan ? (
+                  <p onClick={() => handleKirtanClick(kirtan)}>
+                    <img
+                      // src={!pauseIconStatus ? PlayIcon : PauseIcon}
+                      src={PlayIcon}
+                      //   id={`play${kirtan.aid}`}
+                      // ref={playPauseRef}
+                      alt="play button"
+                      className="button button__play"
+
+                      // onClick={() => togglePlay(kirtan)}
+                    />
+                  </p>
+                ) : (
+                  <p onClick={() => handleKirtanClick(kirtan)}>
+                    <img
+                      // src={!pauseIconStatus ? PlayIcon : PauseIcon}
+                      src={PauseIcon}
+                      //   id={`pause${kirtan.aid}`}
+                      // ref={playPauseRef}
+                      alt="pause button"
+                      className="button button__pause"
+                      // onClick={() => togglePlay(kirtan)}
+                    />
+                  </p>
+                )}
+                {/* <p className="button"></p> */}
                 <a
                   href={kirtan.cdnpath}
                   //   title="Right click and save as"
@@ -139,6 +172,7 @@ function KirtanList({
           </Row>
         );
       })}
+      {/* <ToastMessage /> */}
     </section>
   );
 }
