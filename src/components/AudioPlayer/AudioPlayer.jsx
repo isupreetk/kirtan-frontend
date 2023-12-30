@@ -35,11 +35,11 @@ function AudioPlayer({ selectedKirtan, play, setPlay }) {
   return (
     <div className="audioplayer">
       <figure className="figure">
-        {play ? (
-          <figcaption>Listening to: {selectedKirtan.Title}</figcaption>
-        ) : (
-          <></>
-        )}
+        {/* {play ? ( */}
+        <figcaption>Listening to: {selectedKirtan.Title}</figcaption>
+        {/* ) : ( */}
+        {/* <></> */}
+        {/* )} */}
         <audio
           id="audio"
           controls
