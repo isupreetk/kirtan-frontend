@@ -1,6 +1,6 @@
 import "./HomePage.scss";
 import { useRef, useEffect, useState } from "react";
-import kirtansData from "../../assets/data/randomisedKirtan.json";
+import kirtansData from "../../assets/data/kirtanDataSet.json";
 
 // import Header from "../../components/Header/Header";
 import SearchBar from "../../components/SearchBar/SearchBar";
