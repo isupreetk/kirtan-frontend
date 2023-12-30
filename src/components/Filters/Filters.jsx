@@ -1,6 +1,5 @@
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { Col } from "react-bootstrap";
 const animatedComponents = makeAnimated();
 
 function Filters({
@@ -17,30 +16,33 @@ function Filters({
   });
   return (
     <>
-      <Col xs={1}></Col>
-      <Col>
-        <Select
-          placeholder="Select Samagam"
-          closeMenuOnSelect={true}
-          components={animatedComponents}
-          defaultValue={urlAlbum ? [{ label: urlAlbum, value: urlAlbum }] : []}
-          isMulti
-          options={allAlbums}
-          onChange={(event) => handleAlbumFilter(event)}
-        />
-      </Col>
-      <Col>
-        <Select
-          closeMenuOnSelect={true}
-          placeholder="Select Sevadar"
-          components={animatedComponents}
-          defaultValue={[]}
-          isMulti
-          options={allArtists}
-          onChange={(event) => handleArtistFilter(event)}
-        />
-      </Col>
-      <Col xs={1}></Col>
+      <div>
+        <div className="filters__input">
+          <Select
+            placeholder="Select Samagam"
+            closeMenuOnSelect={true}
+            components={animatedComponents}
+            defaultValue={
+              urlAlbum ? [{ label: urlAlbum, value: urlAlbum }] : []
+            }
+            isMulti
+            options={allAlbums}
+            onChange={(event) => handleAlbumFilter(event)}
+          />
+        </div>
+        <div className="filters__input">
+          <Select
+            closeMenuOnSelect={true}
+            placeholder="Select Sevadar"
+            components={animatedComponents}
+            defaultValue={[]}
+            isMulti
+            options={allArtists}
+            onChange={(event) => handleArtistFilter(event)}
+            className="filters__input"
+          />
+        </div>
+      </div>
     </>
   );
 }
