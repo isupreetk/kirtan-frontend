@@ -54,6 +54,7 @@ function HomePage() {
   // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
   // let [searchHistory, setSearchHistory] = useState([]);
 
+  /* changed JSON file with sorted data*/
   const sortByLatestKirtans = () => {
     sortedKirtans = kirtansData.sort((a, b) => {
       return new Date(b.createdon) - new Date(a.createdon);
@@ -175,11 +176,15 @@ function HomePage() {
       array.forEach((element) => {
         if (
           !(
-            kirtan.Title.toLowerCase().includes(element.toLowerCase()) ||
+            kirtan.Title.toString()
+              .toLowerCase()
+              .includes(element.toLowerCase()) ||
             kirtan.Sevadar.toLowerCase().includes(element.toLowerCase()) ||
             kirtan.Album.toLowerCase().includes(element.toLowerCase()) ||
-            kirtan.audio_year?.includes(element) ||
-            kirtan.Titlefws.toLowerCase().includes(element.toLowerCase())
+            kirtan.audio_year?.toString().includes(element) ||
+            kirtan.Titlefws.toString()
+              .toLowerCase()
+              .includes(element.toLowerCase())
           )
         ) {
           searchExists = false;
@@ -194,6 +199,7 @@ function HomePage() {
         kirtan.Score = arrayLength;
         array.forEach((word) => {
           kirtan.hTitle = kirtan.hTitle
+            .toString()
             ?.toLowerCase()
             .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
           kirtan.hSevadar = kirtan.hSevadar
