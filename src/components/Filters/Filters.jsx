@@ -16,7 +16,7 @@ function Filters({
   });
   return (
     <>
-      <div>
+      <section className="filters">
         <div className="filters__input">
           <Select
             placeholder="Select Samagam"
@@ -42,7 +42,7 @@ function Filters({
             className="filters__input"
           />
         </div>
-      </div>
+      </section>
     </>
   );
 }

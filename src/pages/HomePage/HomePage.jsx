@@ -371,15 +371,15 @@ function HomePage() {
             {/* </Col>
           <Col xs={1} md={2}></Col> */}
           </Row>
-          <Row>
-            <Filters
-              allAlbums={allAlbums}
-              handleAlbumFilter={handleAlbumFilter}
-              allArtists={allArtists}
-              handleArtistFilter={handleArtistFilter}
-              urlAlbum={urlAlbum}
-            />
-          </Row>
+          {/* <Row> */}
+          <Filters
+            allAlbums={allAlbums}
+            handleAlbumFilter={handleAlbumFilter}
+            allArtists={allArtists}
+            handleArtistFilter={handleArtistFilter}
+            urlAlbum={urlAlbum}
+          />
+          {/* </Row> */}
           <Row>
             {/* className="align-items-center" */}
             <KirtanList
