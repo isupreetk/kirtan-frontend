@@ -8,6 +8,7 @@ function Filters({
   allArtists,
   handleArtistFilter,
   urlAlbum,
+  urlArtist,
 }) {
   allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
@@ -35,7 +36,9 @@ function Filters({
             closeMenuOnSelect={true}
             placeholder="Select Sevadar"
             components={animatedComponents}
-            defaultValue={[]}
+            defaultValue={
+              urlArtist ? [{ label: urlArtist, value: urlArtist }] : []
+            }
             isMulti
             options={allArtists}
             onChange={(event) => handleArtistFilter(event)}

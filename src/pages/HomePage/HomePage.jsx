@@ -13,7 +13,7 @@ import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import { Container, Row } from "react-bootstrap";
 import ReactGA from "react-ga";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import toPascalCase from "../../utils.js";
 
 function HomePage() {
@@ -21,9 +21,10 @@ function HomePage() {
   ReactGA.initialize(TRACKING_ID);
   ReactGA.pageview(window.location.pathname + window.location.search);
 
-  let { urlAlbum } = useParams();
+  let { urlAlbum, urlArtist } = useParams();
 
   let inputRef = useRef();
+  let navigate = useNavigate();
   // let kirtanTitleRef = useRef([]);
   // let [kirtanTitleRef, setKirtanTitleRef] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
@@ -79,12 +80,15 @@ function HomePage() {
   const handleAlbumFilter = (event) => {
     /* to accomodate multi select filter */
     albumFilter = [];
+    // console.log(event);
     event.length > 0
       ? event.forEach((e) => {
           albumFilter.push(e.value);
           setAlbumFilter(albumFilter);
+          navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
         })
       : setAlbumFilter(albumFilter);
+    // navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
   };
 
   const handleArtistFilter = (event) => {
@@ -94,8 +98,10 @@ function HomePage() {
       ? event.forEach((e) => {
           artistFilter.push(e.value);
           setArtistFilter(artistFilter);
+          navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
         })
       : setArtistFilter(artistFilter);
+    navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
   };
 
   const getAlbumFiltersData = (data) => {
@@ -281,6 +287,12 @@ function HomePage() {
     }
   }, [urlAlbum]);
 
+  useEffect(() => {
+    if (urlArtist) {
+      setArtistFilter(urlArtist);
+    }
+  }, [urlArtist]);
+
   useEffect(
     () => {
       sortByLatestKirtans();
@@ -378,6 +390,7 @@ function HomePage() {
             allArtists={allArtists}
             handleArtistFilter={handleArtistFilter}
             urlAlbum={urlAlbum}
+            urlArtist={urlArtist}
           />
           {/* </Row> */}
           <Row>
