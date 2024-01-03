@@ -13,7 +13,7 @@ import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import { Container, Row } from "react-bootstrap";
 import ReactGA from "react-ga";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import toPascalCase from "../../utils.js";
 
 function HomePage() {
@@ -21,7 +21,9 @@ function HomePage() {
   ReactGA.initialize(TRACKING_ID);
   ReactGA.pageview(window.location.pathname + window.location.search);
 
-  let { urlAlbum, urlArtist } = useParams();
+  let searchParams = useSearchParams();
+  let urlAlbum = searchParams.get("urlAlbum");
+  let urlArtist = searchParams.get("urlArtist");
 
   let inputRef = useRef();
   let navigate = useNavigate();

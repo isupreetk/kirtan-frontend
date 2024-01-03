@@ -10,9 +10,6 @@ function Filters({
   urlAlbum,
   urlArtist,
 }) {
-  // console.log("urlAlbum", urlAlbum);
-  // console.log("urlArtist", urlArtist);
-
   allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
   allArtists = allArtists.sort((a, b) => {
