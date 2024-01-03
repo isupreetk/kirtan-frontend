@@ -85,10 +85,10 @@ function HomePage() {
       ? event.forEach((e) => {
           albumFilter.push(e.value);
           setAlbumFilter(albumFilter);
-          navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
+          navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
         })
       : setAlbumFilter(albumFilter);
-    // navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
+    navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
   };
 
   const handleArtistFilter = (event) => {
@@ -98,10 +98,10 @@ function HomePage() {
       ? event.forEach((e) => {
           artistFilter.push(e.value);
           setArtistFilter(artistFilter);
-          navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
+          navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
         })
       : setArtistFilter(artistFilter);
-    navigate(`/${albumFilter}/${artistFilter}`); // to populate applied filters in url (make shareable url)
+    navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
   };
 
   const getAlbumFiltersData = (data) => {
