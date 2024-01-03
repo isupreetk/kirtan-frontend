@@ -21,7 +21,7 @@ function HomePage() {
   ReactGA.initialize(TRACKING_ID);
   ReactGA.pageview(window.location.pathname + window.location.search);
 
-  let searchParams = useSearchParams();
+  let [searchParams] = useSearchParams();
   let urlAlbum = searchParams.get("urlAlbum");
   let urlArtist = searchParams.get("urlArtist");
 
