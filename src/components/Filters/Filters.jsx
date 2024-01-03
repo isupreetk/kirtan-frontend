@@ -10,6 +10,15 @@ function Filters({
   urlAlbum,
   urlArtist,
 }) {
+  // console.log(urlAlbum);
+  // console.log(urlArtist);
+
+  let searchURLAlbum = urlAlbum?.split(",");
+  let searchURLArtist = urlArtist?.split(",");
+
+  // console.log(searchURLAlbum);
+  // console.log(searchURLArtist);
+
   allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
   allArtists = allArtists.sort((a, b) => {
@@ -24,7 +33,11 @@ function Filters({
             closeMenuOnSelect={true}
             components={animatedComponents}
             defaultValue={
-              urlAlbum ? [{ label: urlAlbum, value: urlAlbum }] : []
+              urlAlbum
+                ? searchURLAlbum.map((album) => {
+                    return { label: album, value: album };
+                  })
+                : []
             }
             isMulti
             options={allAlbums}
@@ -37,7 +50,11 @@ function Filters({
             placeholder="Select Sevadar"
             components={animatedComponents}
             defaultValue={
-              urlArtist ? [{ label: urlArtist, value: urlArtist }] : []
+              urlArtist
+                ? searchURLArtist.map((artist) => {
+                    return { label: artist, value: artist };
+                  })
+                : []
             }
             isMulti
             options={allArtists}

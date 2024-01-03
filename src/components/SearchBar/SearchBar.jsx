@@ -3,7 +3,7 @@ import "./SearchBar.scss";
 // import { Col } from "react-bootstrap";
 import CloseButton from "../../assets/images/close-line-icon.png";
 
-function SearchBar({ inputRef, handleSearch, resetSearch }) {
+function SearchBar({ inputRef, handleSearch, resetSearch, urlSearchString }) {
   // searchHistory
   //   console.log("searchHistory", searchHistory);
   return (
@@ -14,6 +14,8 @@ function SearchBar({ inputRef, handleSearch, resetSearch }) {
           ref={inputRef}
           className="searchbar__input"
           placeholder="Search by Shabad, Sevadar or Samagam"
+          // value={urlSearchString}
+          defaultValue={urlSearchString ? `${urlSearchString}` : ""}
           onChange={handleSearch}
         ></input>
         <img

@@ -13,7 +13,8 @@ import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import { Container, Row } from "react-bootstrap";
 import ReactGA from "react-ga";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+// , useNavigate
 import toPascalCase from "../../utils.js";
 
 function HomePage() {
@@ -24,9 +25,12 @@ function HomePage() {
   let [searchParams] = useSearchParams();
   let urlAlbum = searchParams.get("urlAlbum");
   let urlArtist = searchParams.get("urlArtist");
+  let urlSearchString = searchParams.get("urlSearchString");
+  // let urlAlbum = searchParams.get("urlAlbum")?.split(",");
+  // let urlArtist = searchParams.get("urlArtist")?.split(",");
 
   let inputRef = useRef();
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   // let kirtanTitleRef = useRef([]);
   // let [kirtanTitleRef, setKirtanTitleRef] = useState([]);
   let [searchTerm, setSearchTerm] = useState("");
@@ -87,10 +91,10 @@ function HomePage() {
       ? event.forEach((e) => {
           albumFilter.push(e.value);
           setAlbumFilter(albumFilter);
-          navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
+          // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
         })
       : setAlbumFilter(albumFilter);
-    navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
+    // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
   };
 
   const handleArtistFilter = (event) => {
@@ -100,10 +104,10 @@ function HomePage() {
       ? event.forEach((e) => {
           artistFilter.push(e.value);
           setArtistFilter(artistFilter);
-          navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
+          // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
         })
       : setArtistFilter(artistFilter);
-    navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
+    // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
   };
 
   const getAlbumFiltersData = (data) => {
@@ -284,6 +288,12 @@ function HomePage() {
   }, [kirtans]);
 
   useEffect(() => {
+    if (urlSearchString) {
+      handleSearch();
+    }
+  }, [urlSearchString]);
+
+  useEffect(() => {
     if (urlAlbum) {
       setAlbumFilter(urlAlbum);
     }
@@ -319,6 +329,7 @@ function HomePage() {
   };
 
   const handleSearch = () => {
+    // console.log(inputRef);
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
     setCurrentPage(1); //this is to bring back to page 1 for every new search
@@ -380,6 +391,7 @@ function HomePage() {
               inputRef={inputRef}
               handleSearch={handleSearch}
               resetSearch={resetSearch}
+              urlSearchString={urlSearchString}
               // searchHistory={searchHistory}
             />
             {/* </Col>
