@@ -9,11 +9,12 @@ import KirtanList from "../../components/KirtanList/KirtanList";
 import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import "./HomePage1.scss";
 
 function HomePage1() {
   let inputRef = useRef();
+  let navigate = useNavigate();
 
   let [searchParams] = useSearchParams();
   let urlAlbum = searchParams.get("urlAlbum");
@@ -61,7 +62,9 @@ function HomePage1() {
     setSearchTerm(inputRef.current.value);
     setSearchArray(inputRef.current.value.split(" "));
     setCurrentPage(1); //this is to bring back to page 1 for every new search
-
+    navigate(
+      `/?urlSearchString=${searchTerm}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+    ); // to populate applied filters in url (make shareable url)
     // searchHistory.push(inputRef.current.value);
   };
 
@@ -188,9 +191,15 @@ function HomePage1() {
       event.forEach((e) => {
         albumFilter.push(e.value);
         setAlbumFilter(albumFilter);
+        navigate(
+          `/?urlSearchString=${searchTerm}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+        ); // to populate applied filters in url (make shareable url)
       });
     } else {
       setAlbumFilter(albumFilter);
+      navigate(
+        `/?urlSearchString=${searchTerm}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+      ); // to populate applied filters in url (make shareable url)
     }
   };
 
@@ -217,9 +226,15 @@ function HomePage1() {
       event.forEach((e) => {
         artistFilter.push(e.value);
         setArtistFilter(artistFilter);
+        navigate(
+          `/?urlSearchString=${searchTerm}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+        ); // to populate applied filters in url (make shareable url)
       });
     } else {
       setArtistFilter(artistFilter);
+      navigate(
+        `/?urlSearchString=${searchTerm}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+      ); // to populate applied filters in url (make shareable url)
     }
   };
 

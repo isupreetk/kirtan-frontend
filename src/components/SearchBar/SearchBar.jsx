@@ -15,7 +15,7 @@ function SearchBar({ inputRef, handleSearch, resetSearch, urlSearchString }) {
           className="searchbar__input"
           placeholder="Search by Shabad, Sevadar or Samagam"
           // value={urlSearchString}
-          defaultValue={urlSearchString ? `${urlSearchString}` : ""}
+          defaultValue={urlSearchString !== null ? `${urlSearchString}` : ""}
           onChange={handleSearch}
         ></input>
         <img
