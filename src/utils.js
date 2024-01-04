@@ -11,5 +11,4 @@ const toPascalCase = (str) =>
       }
     })
     .join(" ");
-
 export default toPascalCase;

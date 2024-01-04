@@ -171,6 +171,7 @@ function HomePage() {
       return b.Score - a.Score;
     });
     if (sortedData.length > 0) {
+      // setSearchedKirtans(sortedData); // BUG
       setSortedSearchedKirtans(sortedData);
       setDisplayKirtans(sortedData);
       setTotalKirtans(sortedData.length);
@@ -310,6 +311,7 @@ function HomePage() {
       sortByLatestKirtans();
       setKirtans(sortedKirtans);
       setDisplayKirtans(sortedKirtans);
+      // setSearchedKirtans(sortedKirtans); // BUG
       setSortedSearchedKirtans(sortedKirtans);
       setTotalKirtans(sortedKirtans.length);
     },
@@ -324,6 +326,7 @@ function HomePage() {
     setCurrentPage(1);
     setKirtans(kirtansData);
     setDisplayKirtans(kirtansData);
+    setSearchedKirtans(kirtansData); // BUG
     setSortedSearchedKirtans(kirtansData);
     setTotalKirtans(kirtansData.length);
   };
