@@ -1,77 +1,85 @@
-import "./HomePage.scss";
-import { useRef, useEffect, useState } from "react";
+// Pure function
+import { useState, useEffect, useRef } from "react";
+import { Container, Row } from "react-bootstrap";
 import kirtansData from "../../assets/data/kirtanDataSet.json";
-
-// import Header from "../../components/Header/Header";
+import toPascalCase from "../../utils.js";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
-import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import KirtanList from "../../components/KirtanList/KirtanList";
 import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
-// import searchHistoryData from "./assets/data/searchHistory.json";
-// import InfiniteScroll from "react-infinite-scroll-component";
 import PaginationComponent from "../../components/Pagination/Pagination";
-import { Container, Row } from "react-bootstrap";
-import ReactGA from "react-ga";
-import { useSearchParams } from "react-router-dom";
-// , useNavigate
-import toPascalCase from "../../utils.js";
+import GoogleForm from "../../components/GoogleForm/GoogleForm";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import "./HomePage.scss";
 
 function HomePage() {
-  const TRACKING_ID = "G-4R29HH74RE";
-  ReactGA.initialize(TRACKING_ID);
-  ReactGA.pageview(window.location.pathname + window.location.search);
+  let inputRef = useRef();
+  let navigate = useNavigate();
 
   let [searchParams] = useSearchParams();
   let urlAlbum = searchParams.get("urlAlbum");
   let urlArtist = searchParams.get("urlArtist");
   let urlSearchString = searchParams.get("urlSearchString");
-  // let urlAlbum = searchParams.get("urlAlbum")?.split(",");
-  // let urlArtist = searchParams.get("urlArtist")?.split(",");
 
-  let inputRef = useRef();
-  // let navigate = useNavigate();
-  // let kirtanTitleRef = useRef([]);
-  // let [kirtanTitleRef, setKirtanTitleRef] = useState([]);
-  let [searchTerm, setSearchTerm] = useState("");
-  let [searchArray, setSearchArray] = useState([]);
-  let [possibleCombinations, setPossibleCombinations] = useState([]);
-
-  let [kirtans, setKirtans] = useState([]);
-  let [sortedKirtans] = useState([]);
-  let [searchedKirtans, setSearchedKirtans] = useState([]);
-  let [sortedSearchedKirtans, setSortedSearchedKirtans] = useState([]);
-
+  let [searchTerm, setSearchTerm] = useState(
+    urlSearchString ? urlSearchString : ""
+  );
+  let [kirtans] = useState(kirtansData);
   let [displayKirtans, setDisplayKirtans] = useState([]);
+  let [totalKirtans, setTotalKirtans] = useState(kirtansData.length);
   let [allAlbums, setAllAlbums] = useState([]);
   let [allArtists, setAllArtists] = useState([]);
-  let [albumFilter, setAlbumFilter] = useState([]);
-  let [artistFilter, setArtistFilter] = useState([]);
-  let [albumFilteredKirtans, setAlbumFilteredKirtans] = useState([]);
-  let [artistFilteredKirtans, setArtistFilteredKirtans] = useState([]);
-  let [currentKirtans, setCurrentKirtans] = useState([]);
-  let [selectedKirtan, setSelectedKirtan] = useState([]); // for play and download functionality
-  let [play, setPlay] = useState(false);
-  let [isLoading, setIsLoading] = useState(false);
-  let [error, setError] = useState(null);
+  let [albumFilter, setAlbumFilter] = useState(urlAlbum ? urlAlbum : []);
+  let [artistFilter, setArtistFilter] = useState(urlArtist ? urlArtist : []);
   let [currentPage, setCurrentPage] = useState(1);
-  let [entriesPerPage] = useState(100);
-  let [totalKirtans, setTotalKirtans] = useState(0);
+  let [currentKirtans, setCurrentKirtans] = useState([]);
+  let [selectedKirtan, setSelectedKirtan] = useState([]);
+  let [play, setPlay] = useState(false);
+  let [isLoading] = useState(false);
+  let [error] = useState(null);
+  let entriesPerPage = 100;
 
-  // let [searchHistory, setSearchHistory] = useState(searchHistoryData);
-  // let [searchHistory, setSearchHistory] = useState([]);
-
-  /* changed JSON file with sorted data*/
-  const sortByLatestKirtans = () => {
-    sortedKirtans = kirtansData.sort((a, b) => {
-      return new Date(b.createdon) - new Date(a.createdon);
-    });
-    return sortedKirtans;
+  const resetSearch = () => {
+    inputRef.current.value = "";
+    setSearchTerm(inputRef.current.value);
+    setCurrentPage(1);
+    setTotalKirtans(kirtansData.length);
+    navigate(
+      `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+    );
   };
 
-  const getAllSubsets = (searchArray) => {
+  const handleSearch = () => {
+    setSearchTerm(inputRef.current.value);
+    setCurrentPage(1); //this is to bring back to page 1 for every new search
+    navigate(
+      `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+    ); // to populate applied filters in url (make shareable url)
+    // searchHistory.push(inputRef.current.value);
+  };
+
+  // Get Page
+  const paginate = (event, pageNumber) => {
+    event.preventDefault();
+    setCurrentPage(pageNumber);
+  };
+
+  const togglePlay = (selectedKirtan) => {
+    let playImageEl = document.getElementById(`play${selectedKirtan.aid}`);
+    let pauseImageEl = document.getElementById(`pause${selectedKirtan.aid}`);
+    if (playImageEl.classList.value.includes("button__hidden")) {
+      playImageEl.classList.remove("button__hidden");
+      pauseImageEl.classList.add("button__hidden");
+    } else if (pauseImageEl.classList.value.includes("button__hidden")) {
+      pauseImageEl.classList.remove("button__hidden");
+      playImageEl.classList.add("button__hidden");
+    }
+  };
+
+  const getPossibleCombinations = (searchTerm) => {
+    let searchArray = searchTerm.split(" ");
     searchArray = searchArray.filter((s) => s !== "");
-    let sortedCombinations = searchArray
+    return searchArray
       .reduce(
         (subsets, value) =>
           subsets.concat(subsets.map((set) => [value, ...set])),
@@ -80,105 +88,9 @@ function HomePage() {
       .sort((a, b) => {
         return b.length - a.length;
       });
-    return sortedCombinations;
   };
 
-  const handleAlbumFilter = (event) => {
-    /* to accomodate multi select filter */
-    albumFilter = [];
-    // console.log(event);
-    event.length > 0
-      ? event.forEach((e) => {
-          albumFilter.push(e.value);
-          setAlbumFilter(albumFilter);
-          // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
-        })
-      : setAlbumFilter(albumFilter);
-    // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
-  };
-
-  const handleArtistFilter = (event) => {
-    /* to accomodate multi select filter */
-    artistFilter = [];
-    event.length > 0
-      ? event.forEach((e) => {
-          artistFilter.push(e.value);
-          setArtistFilter(artistFilter);
-          // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
-        })
-      : setArtistFilter(artistFilter);
-    // navigate(`/?urlAlbum=${albumFilter}&urlArtist=${artistFilter}`); // to populate applied filters in url (make shareable url)
-  };
-
-  const getAlbumFiltersData = (data) => {
-    if (albumFilter.length === 0) {
-      setAlbumFilteredKirtans(sortedSearchedKirtans);
-      setDisplayKirtans(sortedSearchedKirtans);
-      setTotalKirtans(sortedSearchedKirtans.length);
-    } else {
-      albumFilteredKirtans = data.filter((item) => {
-        return albumFilter.includes(item.Album);
-      });
-      setAlbumFilteredKirtans(albumFilteredKirtans);
-      setDisplayKirtans(albumFilteredKirtans);
-      setTotalKirtans(albumFilteredKirtans.length);
-    }
-  };
-
-  const getArtistFiltersData = (data) => {
-    if (artistFilter.length === 0) {
-      setArtistFilteredKirtans(sortedSearchedKirtans);
-      setTotalKirtans(sortedSearchedKirtans.length);
-    } else {
-      artistFilteredKirtans = data.filter((item) => {
-        return artistFilter.includes(item.Sevadar);
-      });
-      setArtistFilteredKirtans(artistFilteredKirtans);
-      setDisplayKirtans(artistFilteredKirtans);
-      setTotalKirtans(artistFilteredKirtans.length);
-    }
-  };
-
-  const getAlbumAndArtistFiltersData = (data) => {
-    let albumAndArtistFilteredKirtans = data.filter((item) => {
-      return (
-        albumFilter.includes(item.Album) && artistFilter.includes(item.Sevadar)
-      );
-    });
-    setDisplayKirtans(albumAndArtistFilteredKirtans);
-    setTotalKirtans(albumAndArtistFilteredKirtans.length);
-  };
-
-  useEffect(
-    () => {
-      if (albumFilter.length > 0 && artistFilter.length > 0) {
-        getAlbumAndArtistFiltersData(sortedSearchedKirtans);
-      } else if (artistFilter.length > 0 && !(albumFilter.length > 0)) {
-        getArtistFiltersData(sortedSearchedKirtans);
-      } else if (albumFilter.length > 0 && !(artistFilter.length > 0)) {
-        getAlbumFiltersData(sortedSearchedKirtans);
-      } else if (albumFilter.length === 0 && artistFilter.length === 0) {
-        setDisplayKirtans(sortedSearchedKirtans);
-        setTotalKirtans(sortedSearchedKirtans.length);
-      }
-    },
-    // eslint-disable-next-line
-    [albumFilter, artistFilter]
-  );
-
-  const getSortedSearchedKirtans = (data) => {
-    let sortedData = data.sort((a, b) => {
-      return b.Score - a.Score;
-    });
-    if (sortedData.length > 0) {
-      // setSearchedKirtans(sortedData); // BUG
-      setSortedSearchedKirtans(sortedData);
-      setDisplayKirtans(sortedData);
-      setTotalKirtans(sortedData.length);
-    }
-  };
-
-  const calculateScore = (kirtan) => {
+  const calculateKirtanScore = (kirtan, possibleCombinations) => {
     kirtan.Score = 0;
 
     for (let i = 0; i <= possibleCombinations?.length - 1; i++) {
@@ -235,43 +147,118 @@ function HomePage() {
     }
   };
 
+  const getSearchedKirtans = (kirtans, possibleCombinations) => {
+    return kirtans.filter((kirtan) => {
+      return calculateKirtanScore(kirtan, possibleCombinations);
+    });
+  };
+
+  const getSortedSearchedKirtans = (searchedKirtans) => {
+    let sortedData = searchedKirtans.sort((a, b) => {
+      return b.Score - a.Score;
+    });
+    if (sortedData.length > 0) {
+      return sortedData;
+    } else {
+      return kirtans;
+    }
+  };
+
+  const handleAlbumFilter = (event) => {
+    /* to accomodate multi select filter */
+    albumFilter = [];
+    if (event.length > 0) {
+      event.forEach((e) => {
+        albumFilter.push(e.value);
+        setAlbumFilter(albumFilter);
+        navigate(
+          `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+        ); // to populate applied filters in url (make shareable url)
+      });
+    } else {
+      setAlbumFilter(albumFilter);
+      navigate(
+        `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+      ); // to populate applied filters in url (make shareable url)
+    }
+  };
+
+  const getAlbumFilteredKirtans = (sortedSearchedKirtans, albumFilter) => {
+    if (albumFilter.length === 0) {
+      return sortedSearchedKirtans;
+    } else {
+      return sortedSearchedKirtans.filter((item) => {
+        return albumFilter.includes(item.Album);
+      });
+    }
+  };
+
+  const handleArtistFilter = (event) => {
+    /* to accomodate multi select filter */
+    artistFilter = [];
+    if (event.length > 0) {
+      event.forEach((e) => {
+        artistFilter.push(e.value);
+        setArtistFilter(artistFilter);
+        navigate(
+          `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+        ); // to populate applied filters in url (make shareable url)
+      });
+    } else {
+      setArtistFilter(artistFilter);
+      navigate(
+        `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
+      ); // to populate applied filters in url (make shareable url)
+    }
+  };
+
+  const getArtistFilteredKirtans = (albumFilteredKirtans, artistFilter) => {
+    if (artistFilter.length === 0) {
+      return albumFilteredKirtans;
+    } else {
+      return albumFilteredKirtans.filter((item) => {
+        return artistFilter.includes(item.Sevadar);
+      });
+    }
+  };
+
+  function getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter) {
+    let possibleCombinations = getPossibleCombinations(searchTerm);
+    let searchedKirtans = getSearchedKirtans(kirtans, possibleCombinations);
+    let sortedSearchedKirtans = getSortedSearchedKirtans(searchedKirtans);
+    let albumFilteredKirtans = getAlbumFilteredKirtans(
+      sortedSearchedKirtans,
+      albumFilter
+    );
+    let artistFilteredKirtans = getArtistFilteredKirtans(
+      albumFilteredKirtans,
+      artistFilter
+    );
+    return artistFilteredKirtans;
+  }
+
   useEffect(() => {
-    setPossibleCombinations(getAllSubsets(searchArray));
-  }, [searchArray]);
+    setDisplayKirtans(
+      getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
+    );
+    // eslint-disable-next-line
+  }, [searchTerm, albumFilter, artistFilter]);
 
   useEffect(
     () => {
-      setIsLoading(true);
-      setError(false);
-      setSearchedKirtans(
-        kirtans.filter((kirtan) => {
-          return calculateScore(kirtan);
-        })
+      // Get Current Kirtans
+      let indexOfLastKirtan = currentPage * entriesPerPage;
+      let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
+      setCurrentKirtans(
+        displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
       );
-      setIsLoading(false);
+      setTotalKirtans(displayKirtans.length);
     },
     // eslint-disable-next-line
-    [possibleCombinations]
+    [displayKirtans, currentPage]
   );
 
   useEffect(() => {
-    getSortedSearchedKirtans(searchedKirtans);
-  }, [searchedKirtans]);
-
-  useEffect(() => {
-    // eslint-disable-next-line
-    // allAlbums = [];
-    // eslint-disable-next-line
-    // allArtists = [];
-    // let filterDataSet = kirtans;
-    // let filterDataSet = [];
-    // if (searchTerm) {
-    // filterDataSet = kirtans;
-    // } else {
-    // filterDataSet = displayKirtans;
-    // }
-
-    // filterDataSet.forEach((kirtan) => {
     kirtans.forEach((kirtan) => {
       if (allAlbums.includes(kirtan.Album)) {
       } else if (allArtists.includes(kirtan.Sevadar)) {
@@ -281,115 +268,15 @@ function HomePage() {
       }
     });
     setAllAlbums(allAlbums);
-    // console.log("allAlbums", allAlbums);
     setAllArtists(allArtists);
-    // console.log("allArtists", allArtists);
-    // }, [sortedSearchedKirtans]);
     // eslint-disable-next-line
   }, [kirtans]);
-
-  useEffect(() => {
-    if (urlSearchString) {
-      handleSearch();
-    }
-  }, [urlSearchString]);
-
-  useEffect(() => {
-    if (urlAlbum) {
-      setAlbumFilter(urlAlbum);
-    }
-  }, [urlAlbum]);
-
-  useEffect(() => {
-    if (urlArtist) {
-      setArtistFilter(urlArtist);
-    }
-  }, [urlArtist]);
-
-  useEffect(
-    () => {
-      sortByLatestKirtans();
-      setKirtans(sortedKirtans);
-      setDisplayKirtans(sortedKirtans);
-      // setSearchedKirtans(sortedKirtans); // BUG
-      setSortedSearchedKirtans(sortedKirtans);
-      setTotalKirtans(sortedKirtans.length);
-    },
-    // eslint-disable-next-line
-    []
-  );
-
-  const resetSearch = () => {
-    inputRef.current.value = "";
-    setSearchTerm("");
-    setSearchArray([]);
-    setCurrentPage(1);
-    setKirtans(kirtansData);
-    setDisplayKirtans(kirtansData);
-    setSearchedKirtans(kirtansData); // BUG
-    setSortedSearchedKirtans(kirtansData);
-    setTotalKirtans(kirtansData.length);
-  };
-
-  const handleSearch = () => {
-    // console.log(inputRef);
-    setSearchTerm(inputRef.current.value);
-    setSearchArray(inputRef.current.value.split(" "));
-    setCurrentPage(1); //this is to bring back to page 1 for every new search
-
-    // searchHistory.push(inputRef.current.value);
-  };
-
-  useEffect(
-    () => {
-      // Get Current Kirtans
-      let indexOfLastKirtan = currentPage * entriesPerPage;
-      let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
-      setCurrentKirtans(
-        // searchTerm
-        //   ? sortedKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
-        //   : kirtans.slice(indexOfFirstKirtan, indexOfLastKirtan);
-        displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
-      );
-    },
-    // eslint-disable-next-line
-    [displayKirtans, currentPage]
-  );
-
-  // Get Page
-  const paginate = (event, pageNumber) => {
-    event.preventDefault();
-    setCurrentPage(pageNumber);
-  };
-
-  const togglePlay = (selectedKirtan) => {
-    let playImageEl = document.getElementById(`play${selectedKirtan.aid}`);
-    let pauseImageEl = document.getElementById(`pause${selectedKirtan.aid}`);
-    if (playImageEl.classList.value.includes("button__hidden")) {
-      playImageEl.classList.remove("button__hidden");
-      pauseImageEl.classList.add("button__hidden");
-    } else if (pauseImageEl.classList.value.includes("button__hidden")) {
-      pauseImageEl.classList.remove("button__hidden");
-      playImageEl.classList.add("button__hidden");
-    }
-    // if (imageEl.alt === "play button") {
-    //   imageEl.src = { PauseIcon };
-    //   imageEl.alt = "pause button";
-    //   console.log(imageEl.src, imageEl.alt);
-    // } else {
-    //   imageEl.src = { PlayIcon };
-    //   imageEl.alt = "play button";
-    //   console.log(imageEl.src, imageEl.alt);
-    // }
-  };
 
   return (
     <>
       <Container fluid>
         <Container>
           <Row className="p-4">
-            {/* <Col xs={1} md={2}></Col>
-          <Col md={8} xs={10} className="p-0"> */}
             <SearchBar
               inputRef={inputRef}
               handleSearch={handleSearch}
@@ -397,10 +284,7 @@ function HomePage() {
               urlSearchString={urlSearchString}
               // searchHistory={searchHistory}
             />
-            {/* </Col>
-          <Col xs={1} md={2}></Col> */}
           </Row>
-          {/* <Row> */}
           <Filters
             allAlbums={allAlbums}
             handleAlbumFilter={handleAlbumFilter}
@@ -409,14 +293,10 @@ function HomePage() {
             urlAlbum={urlAlbum}
             urlArtist={urlArtist}
           />
-          {/* </Row> */}
           <Row>
-            {/* className="align-items-center" */}
             <KirtanList
               searchTerm={searchTerm}
-              // kirtans={currentKirtans}
               displayKirtans={currentKirtans}
-              // sortedKirtans={currentKirtans}
               isLoading={isLoading}
               error={error}
               albumFilter={albumFilter}
@@ -425,10 +305,8 @@ function HomePage() {
               setArtistFilter={setArtistFilter}
               allAlbums={allAlbums}
               allArtists={allArtists}
-              // getAlbumFiltersData={getAlbumArtistFiltersData}
               handleAlbumFilter={handleAlbumFilter}
               handleArtistFilter={handleArtistFilter}
-              // displayAlbumFilterKirtans={displayAlbumFilterKirtans}
               // kirtanTitle={kirtanTitle}
               // kirtanTitleRef={kirtanTitleRef}
               selectedKirtan={selectedKirtan}
@@ -447,13 +325,7 @@ function HomePage() {
       </Container>
       <PaginationComponent
         entriesPerPage={entriesPerPage}
-        totalKirtans={
-          // searchTerm || albumFilter || artistFilter
-          //   ? // sortedSearchedKirtans.length > 0
-          //     sortedSearchedKirtans.length
-          //   : kirtans.length
-          totalKirtans
-        }
+        totalKirtans={totalKirtans}
         paginate={paginate}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
