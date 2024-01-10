@@ -10,14 +10,8 @@ function Filters({
   urlAlbum,
   urlArtist,
 }) {
-  // console.log(urlAlbum);
-  // console.log(urlArtist);
-
   let searchURLAlbum = urlAlbum?.split(",");
   let searchURLArtist = urlArtist?.split(",");
-
-  // console.log(searchURLAlbum);
-  // console.log(searchURLArtist);
 
   allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
   allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));

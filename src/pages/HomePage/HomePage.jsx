@@ -282,7 +282,6 @@ function HomePage() {
               handleSearch={handleSearch}
               resetSearch={resetSearch}
               urlSearchString={urlSearchString}
-              // searchHistory={searchHistory}
             />
           </Row>
           <Filters
@@ -307,8 +306,6 @@ function HomePage() {
               allArtists={allArtists}
               handleAlbumFilter={handleAlbumFilter}
               handleArtistFilter={handleArtistFilter}
-              // kirtanTitle={kirtanTitle}
-              // kirtanTitleRef={kirtanTitleRef}
               selectedKirtan={selectedKirtan}
               setSelectedKirtan={setSelectedKirtan}
               play={play}
