@@ -10,7 +10,8 @@ HTML, SASS, JavaScript, React, JSON, GIT
 
 The website is a collection of spiritual recitation including hymns, motivational talks, meditation chants etc.
 
-![home](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true)
+<!-- ![home](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true) -->
+<img src="https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true" alt="home screen" >
 
 ### Features
 
