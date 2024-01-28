@@ -10,26 +10,27 @@ HTML, SASS, JavaScript, React, JSON, GIT
 
 The website is a collection of spiritual recitation including hymns, motivational talks, meditation chants etc.
 
-<!-- ![home](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true) -->
-<img src="https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true" alt="home screen" >
+![home](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/home.png?raw=true)
+
+<!-- <img src="https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true" alt="home screen" > -->
 
 ### Features
 
 - Users can search based on Track, Artist or Album and most the specific matches will be shown as results.
 
-![search output](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/search-result.png?raw=true)
+![search output](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/search-result.png?raw=true)
 
 - Also, filters on Album and Artist can be applied to get the related tracks.
 
-![album filter](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/album-filter.png?raw=true)
+![album filter](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/album-filter.png?raw=true)
 
-![artist filter](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/artist-filter.png?raw=true)
+![artist filter](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/artist-filter.png?raw=true)
 
-![filtered result](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/filtered-result.png?raw=true)
+![filtered result](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/filtered-result.png?raw=true)
 
 - Users are able to share favorite tracks between family and friends using the shareable link.
 
-![shareable url link](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/shareable-url.png?raw=true)
+![shareable url link](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/shareable-url.png?raw=true)
 
 ### Installation and Setup Instructions
 
