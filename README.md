@@ -1,11 +1,5 @@
 ### Music Player App
 
-This project offers a quick and accurate way to check global weather conditions, helping you stay prepared for unexpected changes. Imagine the convenience of making your mornings hassle-free by effortlessly checking the weather forecast, giving you the time to plan your outfit and activities with confidence. You'll never be caught off guard by unpredictable weather patterns again; this app provides reliable information, making you feel like you have your own personal meteorologist guiding your choices.
-
-### Languages and Tools Used:
-
-HTML, SASS, JavaScript, React, JSON, GIT
-
 ### Home Screen
 
 The website is a collection of spiritual recitation including hymns, motivational talks, meditation chants etc.
@@ -31,6 +25,10 @@ The website is a collection of spiritual recitation including hymns, motivationa
 - Users are able to share favorite tracks between family and friends using the shareable link.
 
 ![shareable url link](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/shareable-url.png?raw=true)
+
+### Languages and Tools Used:
+
+HTML, SASS, JavaScript, React, JSON, GIT
 
 ### Installation and Setup Instructions
 
