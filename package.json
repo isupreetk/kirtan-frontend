@@ -53,6 +53,9 @@
     ]
   },
   "devDependencies": {
+    "@adobe/css-tools": "^4.3.3",
+    "follow-redirects": "^1.15.5",
+    "postcss": "^8.4.35",
     "react-scripts": "^5.0.1"
   }
 }
