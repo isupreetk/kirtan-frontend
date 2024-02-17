@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+### Music Player App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Home Screen
 
-## Available Scripts
+The website is a collection of spiritual recitation including hymns, motivational talks, meditation chants etc.
 
-In the project directory, you can run:
+![home](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/home.png?raw=true)
 
-### `npm start`
+<!-- <img src="https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/main/src/assets/screenshots/home.png?raw=true" alt="home screen" > -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Users can search based on Track, Artist or Album and most the specific matches will be shown as results.
 
-### `npm test`
+![search output](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/search-result.png?raw=true)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Also, filters on Album and Artist can be applied to get the related tracks.
 
-### `npm run build`
+![album filter](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/album-filter.png?raw=true)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![artist filter](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/artist-filter.png?raw=true)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![filtered result](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/filtered-result.png?raw=true)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Users are able to share favorite tracks between family and friends using the shareable link.
 
-### `npm run eject`
+![shareable url link](https://github.com/isupreetk/brahm-bunga-dodra-kirtan/blob/develop/src/assets/screenshots/shareable-url.png?raw=true)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Languages and Tools Used:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+HTML, SASS, JavaScript, React, JSON, GIT
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Installation and Setup Instructions
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To run this application locally, clone this repository.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- You will need node and npm installed globally on your machine.
+- Installation: npm install
+- To Start: npm start
+- To Visit App: localhost:3000
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The application is deployed using Netlify and can be accessed [here](https://preprod13kirtan.netlify.app/).
 
-### `npm run build` fails to minify
+### Next Steps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Add login so that users can create playlists of their favorite tracks and share among others.
+- Make this into a Progressive Web App since majority users consume this on mobile device.

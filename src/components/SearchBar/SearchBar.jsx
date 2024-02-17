@@ -1,32 +1,26 @@
 import "./SearchBar.scss";
-import Form from "react-bootstrap/Form";
+import CloseButton from "../../assets/images/close-line-icon.png";
 
-function SearchBar({ inputRef, handleSearch }) {
-  // searchHistory
-  //   console.log("searchHistory", searchHistory);
+function SearchBar({ inputRef, handleSearch, resetSearch, urlSearchString }) {
   return (
-    <>
-      <Form.Control
-        size="sm"
-        type="text"
-        name="searchInput"
-        ref={inputRef}
-        placeholder="Search by Kirtan, Name, Album"
-        onChange={handleSearch}
-        // className="md-6"
-      />
-      {/* <form> */}
-      {/* onSubmit={(event) => handleSearch(event)} */}
-      {/* <input
+    <div className="searchbar">
+      <form className="searchbar__form">
+        <input
           name="searchInput"
           ref={inputRef}
-          className="searchbar"
-          placeholder="Search by Kirtan, Name, Album"
+          className="searchbar__input"
+          placeholder="Search by Shabad, Sevadar or Samagam"
+          defaultValue={urlSearchString !== null ? `${urlSearchString}` : ""}
           onChange={handleSearch}
-        ></input> */}
-      {/* <button>Search</button> */}
-      {/* </form> */}
-    </>
+        ></input>
+        <img
+          src={CloseButton}
+          alt="clear search"
+          className="searchbar__close-button"
+          onClick={resetSearch}
+        ></img>
+      </form>
+    </div>
   );
 }
 
