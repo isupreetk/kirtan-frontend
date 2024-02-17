@@ -24,7 +24,6 @@
     "react-multi-select-component": "^4.3.4",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.0",
-    "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "sass": "^1.69.5",
     "web-vitals": "^2.1.4"
@@ -52,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
