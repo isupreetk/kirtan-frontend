@@ -45,5 +45,8 @@ The application is deployed using Netlify and can be accessed [here](https://pre
 
 ### Next Steps
 
+- Upgrade the project from JavaScript to TypeScript.
+- Incorporate Server-Side Rendering (SSR) for SEO Optimization.
+- Explore testing using Jest framework.
 - Add login so that users can create playlists of their favorite tracks and share among others.
 - Make this into a Progressive Web App since majority users consume this on mobile device.
