@@ -2,6 +2,7 @@
   "name": "dodra-kirtan",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://brahmbungadodra.org/kirtanrecords/kirtansearchsourcefiles/kirtansearch04042024.csv",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -12,6 +13,7 @@
     "@types/react-dom": "^18.2.18",
     "axios": "^1.6.1",
     "bootstrap-icons": "^1.11.2",
+    "fs": "^0.0.1-security",
     "multiselect-react-dropdown": "^2.0.25",
     "primereact": "^10.2.1",
     "react": "^18.2.0",
@@ -22,6 +24,7 @@
     "react-ga": "^3.3.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-multi-select-component": "^4.3.4",
+    "react-papaparse": "^4.4.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.0",
     "react-select": "^5.8.0",

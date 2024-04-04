@@ -10,6 +10,7 @@ import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { usePapaParse } from "react-papaparse";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -24,7 +25,7 @@ function HomePage() {
   let [searchTerm, setSearchTerm] = useState(
     urlSearchString ? urlSearchString : ""
   );
-  let [kirtans] = useState(kirtansData);
+  // let [kirtans] = useState(kirtansData);
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(kirtansData.length);
   let [allAlbums, setAllAlbums] = useState([]);
@@ -39,6 +40,26 @@ function HomePage() {
   let [error] = useState(null);
   let entriesPerPage = 100;
   let [timeoutHistory, setTimeoutHistory] = useState([]);
+
+  const { readRemoteFile } = usePapaParse();
+  const config = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    },
+    header: true,
+  };
+  let kirtansURLData = readRemoteFile(
+    "https://brahmbungadodra.org/kirtanrecords/kirtansearchsourcefiles/kirtansearch04042024.csv",
+    //,
+    //{ mode: "cors" }
+    // {
+    //   header: true,
+    // }
+    config
+  );
+
+  let [kirtans] = useState(kirtansURLData);
 
   const resetSearch = () => {
     inputRef.current.value = "";
