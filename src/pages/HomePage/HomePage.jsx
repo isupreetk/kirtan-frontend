@@ -61,6 +61,7 @@ function HomePage() {
 
   useEffect(() => {
     loadKirtans();
+    // eslint-disable-next-line
   }, []);
 
   const resetSearch = () => {
