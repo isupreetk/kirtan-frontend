@@ -256,7 +256,7 @@ function HomePage() {
       setDisplayKirtans(
         getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
       );
-    }, 500);
+    }, 250);
 
     timeoutHistory.push(searchTimeoutId);
     setTimeoutHistory(timeoutHistory);
