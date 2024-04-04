@@ -52,12 +52,12 @@ function KirtanList({
 
   return (
     <section className="kirtan-list__container">
-      {displayKirtans.map((kirtan) => {
+      {displayKirtans.map((kirtan, index) => {
         if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
         if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
         if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
         return (
-          <Row key={kirtan.aid}>
+          <Row key={index}>
             <div className="kirtan-list-item">
               <div className="kirtan-list-item__wrapper">
                 <div className="kirtan-list-item__container1">

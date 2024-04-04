@@ -38,6 +38,7 @@ function HomePage() {
   let [isLoading] = useState(false);
   let [error] = useState(null);
   let entriesPerPage = 100;
+  let [timeoutHistory, setTimeoutHistory] = useState([]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
@@ -224,8 +225,11 @@ function HomePage() {
 
   function getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter) {
     let possibleCombinations = getPossibleCombinations(searchTerm);
+
     let searchedKirtans = getSearchedKirtans(kirtans, possibleCombinations);
+
     let sortedSearchedKirtans = getSortedSearchedKirtans(searchedKirtans);
+
     let albumFilteredKirtans = getAlbumFilteredKirtans(
       sortedSearchedKirtans,
       albumFilter
@@ -238,9 +242,25 @@ function HomePage() {
   }
 
   useEffect(() => {
-    setDisplayKirtans(
-      getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
-    );
+    if (timeoutHistory.length > 0) {
+      timeoutHistory.forEach((history) => {
+        let index = timeoutHistory.indexOf(history);
+        if (index > -1) {
+          timeoutHistory.splice(index, 1);
+        }
+        clearTimeout(history);
+      });
+    }
+
+    let searchTimeoutId = setTimeout(() => {
+      setDisplayKirtans(
+        getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
+      );
+    }, 500);
+
+    timeoutHistory.push(searchTimeoutId);
+    setTimeoutHistory(timeoutHistory);
+
     // eslint-disable-next-line
   }, [searchTerm, albumFilter, artistFilter]);
 
