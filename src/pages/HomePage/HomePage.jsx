@@ -1,7 +1,6 @@
 // Pure function
 import { useState, useEffect, useRef } from "react";
 import { Container, Row } from "react-bootstrap";
-import kirtansData from "../../assets/data/kirtanDataSet.json";
 import toPascalCase from "../../utils.js";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
@@ -25,9 +24,10 @@ function HomePage() {
   let [searchTerm, setSearchTerm] = useState(
     urlSearchString ? urlSearchString : ""
   );
-  // let [kirtans] = useState(kirtansData);
+
+  let [kirtans, setKirtans] = useState([]);
   let [displayKirtans, setDisplayKirtans] = useState([]);
-  let [totalKirtans, setTotalKirtans] = useState(kirtansData.length);
+  let [totalKirtans, setTotalKirtans] = useState(0);
   let [allAlbums, setAllAlbums] = useState([]);
   let [allArtists, setAllArtists] = useState([]);
   let [albumFilter, setAlbumFilter] = useState(urlAlbum ? urlAlbum : []);
@@ -42,30 +42,32 @@ function HomePage() {
   let [timeoutHistory, setTimeoutHistory] = useState([]);
 
   const { readRemoteFile } = usePapaParse();
-  const config = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    },
-    header: true,
-  };
-  let kirtansURLData = readRemoteFile(
-    "https://brahmbungadodra.org/kirtanrecords/kirtansearchsourcefiles/kirtansearch04042024.csv",
-    //,
-    //{ mode: "cors" }
-    // {
-    //   header: true,
-    // }
-    config
-  );
 
-  let [kirtans] = useState(kirtansURLData);
+  const loadKirtans = () => {
+    readRemoteFile(
+      "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
+      {
+        header: true,
+        complete: (data) => {
+          // console.log("---------------------------");
+          // console.log("Data:", data);
+          // console.log("---------------------------");
+          setKirtans(data.data);
+        },
+        worker: true,
+      }
+    );
+  };
+
+  useEffect(() => {
+    loadKirtans();
+  }, []);
 
   const resetSearch = () => {
     inputRef.current.value = "";
     setSearchTerm(inputRef.current.value);
     setCurrentPage(1);
-    setTotalKirtans(kirtansData.length);
+    setTotalKirtans(kirtans.length);
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
     );
@@ -170,16 +172,16 @@ function HomePage() {
   };
 
   const getSearchedKirtans = (kirtans, possibleCombinations) => {
-    return kirtans.filter((kirtan) => {
+    return kirtans?.filter((kirtan) => {
       return calculateKirtanScore(kirtan, possibleCombinations);
     });
   };
 
   const getSortedSearchedKirtans = (searchedKirtans) => {
-    let sortedData = searchedKirtans.sort((a, b) => {
+    let sortedData = searchedKirtans?.sort((a, b) => {
       return b.Score - a.Score;
     });
-    if (sortedData.length > 0) {
+    if (sortedData?.length > 0) {
       return sortedData;
     } else {
       return kirtans;
@@ -283,7 +285,7 @@ function HomePage() {
     setTimeoutHistory(timeoutHistory);
 
     // eslint-disable-next-line
-  }, [searchTerm, albumFilter, artistFilter]);
+  }, [kirtans, searchTerm, albumFilter, artistFilter]);
 
   useEffect(
     () => {
@@ -291,16 +293,16 @@ function HomePage() {
       let indexOfLastKirtan = currentPage * entriesPerPage;
       let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
       setCurrentKirtans(
-        displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+        displayKirtans?.slice(indexOfFirstKirtan, indexOfLastKirtan)
       );
-      setTotalKirtans(displayKirtans.length);
+      setTotalKirtans(displayKirtans?.length);
     },
     // eslint-disable-next-line
     [displayKirtans, currentPage]
   );
 
   useEffect(() => {
-    kirtans.forEach((kirtan) => {
+    kirtans?.forEach((kirtan) => {
       if (!allAlbums.includes(kirtan.Album)) {
         allAlbums.push(kirtan.Album);
       }

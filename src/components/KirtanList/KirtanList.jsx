@@ -52,7 +52,7 @@ function KirtanList({
 
   return (
     <section className="kirtan-list__container">
-      {displayKirtans.map((kirtan, index) => {
+      {displayKirtans?.map((kirtan, index) => {
         if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
         if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
         if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
