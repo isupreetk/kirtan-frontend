@@ -260,10 +260,10 @@ function HomePage() {
 
   useEffect(() => {
     kirtans.forEach((kirtan) => {
-      if (allAlbums.includes(kirtan.Album)) {
-      } else if (allArtists.includes(kirtan.Sevadar)) {
-      } else {
+      if (!allAlbums.includes(kirtan.Album)) {
         allAlbums.push(kirtan.Album);
+      }
+      if (!allArtists.includes(kirtan.Sevadar)) {
         allArtists.push(kirtan.Sevadar);
       }
     });
