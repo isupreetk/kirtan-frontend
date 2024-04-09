@@ -10,6 +10,7 @@ import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
+// import { useLocalStorage } from "@uidotdev/usehooks";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -26,6 +27,9 @@ function HomePage() {
   );
 
   let [kirtans, setKirtans] = useState([]);
+  let [kirtansCache, setKirtansCache] = useState(
+    localStorage.getItem("kirtansCache")
+  );
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
   let [allAlbums, setAllAlbums] = useState([]);
@@ -43,6 +47,13 @@ function HomePage() {
 
   const { readRemoteFile } = usePapaParse();
 
+  let cachingTime = localStorage.getItem("cachingTime");
+  // console.log("cachingTime", cachingTime);
+  let currentTime = new Date().getTime();
+  // console.log("currentTime", currentTime);
+  let expiryCheck = currentTime - cachingTime;
+  // console.log("expiryCheck", expiryCheck);
+
   const loadKirtans = () => {
     readRemoteFile(
       "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
@@ -52,7 +63,13 @@ function HomePage() {
           // console.log("---------------------------");
           // console.log("Data:", data);
           // console.log("---------------------------");
-          setKirtans(data.data);
+          // setKirtans(data.data);
+          setKirtansCache(JSON.stringify(data.data));
+          localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+          localStorage.setItem(
+            "cachingTime",
+            JSON.stringify(new Date().getTime())
+          );
         },
         worker: true,
       }
@@ -60,9 +77,33 @@ function HomePage() {
   };
 
   useEffect(() => {
-    loadKirtans();
+    if (localStorage.getItem("cachingTime") === null || expiryCheck > 60000) {
+      // 172800000
+      loadKirtans();
+    }
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("cachingTime") !== null &&
+      expiryCheck < 60000 &&
+      localStorage.getItem("kirtansCache") === null
+    ) {
+      // 172800000
+      // console.log("expiry check");
+      // console.log("kirtansCache", kirtansCache);
+      loadKirtans();
+    } else {
+      // console.log("localstorage not null");
+      // console.log(
+      //   "localStorage.getItem(kirtansCache)",
+      //   JSON.parse(localStorage.getItem("kirtansCache"))
+      // );
+      setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
+    }
+    // eslint-disable-next-line
+  }, [kirtansCache]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
