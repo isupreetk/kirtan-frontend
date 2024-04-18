@@ -11,6 +11,7 @@ import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
 // import { useLocalStorage } from "@uidotdev/usehooks";
+import axios from "axios";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -54,9 +55,24 @@ function HomePage() {
   let expiryCheck = currentTime - cachingTime;
   // console.log("expiryCheck", expiryCheck);
 
-  const loadKirtans = () => {
+  const loadKirtans = async () => {
+    console.log("process.env.REACT_APP_API_URL", process.env.REACT_APP_API_URL);
+    let fileURL = await axios
+      .get(`${process.env.REACT_APP_API_URL}settings?key=FileURL`)
+      .then((data) => {
+        // console.log("data", data.data[0].value);
+        return data.data[0].value;
+      })
+      .catch((error) => {
+        // console.log("error", error);
+        return error;
+      });
+
+    // console.log("fileURL", fileURL);
+
     readRemoteFile(
-      "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
+      // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
+      fileURL,
       {
         header: true,
         complete: (data) => {
