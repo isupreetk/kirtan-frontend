@@ -48,74 +48,65 @@ function HomePage() {
 
   const { readRemoteFile } = usePapaParse();
 
-  let cachingTime = localStorage.getItem("cachingTime");
-  // console.log("cachingTime", cachingTime);
-  let currentTime = new Date().getTime();
-  // console.log("currentTime", currentTime);
-  let expiryCheck = currentTime - cachingTime;
-  // console.log("expiryCheck", expiryCheck);
+  let cachingVersion;
+  let fileURL;
+  let newDBInfo = {};
 
-  const loadKirtans = async () => {
-    console.log("process.env.REACT_APP_API_URL", process.env.REACT_APP_API_URL);
-    let fileURL = await axios
-      .get(`${process.env.REACT_APP_API_URL}settings?key=FileURL`)
+  const loadKirtans = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
       .then((data) => {
-        // console.log("data", data.data[0].value);
-        return data.data[0].value;
+        data.data.forEach((d) => {
+          newDBInfo[d.key] = d.value;
+        });
+        cachingVersion = newDBInfo.Version;
+        fileURL = newDBInfo.FileURL;
+        if (
+          localStorage.getItem("cachingVersion") === null ||
+          localStorage.getItem("cachingVersion") !== cachingVersion
+        ) {
+          readRemoteFile(
+            // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
+            `${process.env.REACT_APP_API_URL}/data/${fileURL}`,
+            {
+              header: true,
+              complete: (data) => {
+                setKirtansCache(JSON.stringify(data.data));
+                localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+                localStorage.setItem(
+                  "cachingVersion",
+                  parseInt(cachingVersion)
+                );
+
+                localStorage.setItem(
+                  "cachingTime",
+                  JSON.stringify(new Date().getTime())
+                );
+              },
+              worker: true,
+            }
+          );
+        }
+        return newDBInfo;
       })
       .catch((error) => {
-        // console.log("error", error);
         return error;
       });
-
-    // console.log("fileURL", fileURL);
-
-    readRemoteFile(
-      // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
-      fileURL,
-      {
-        header: true,
-        complete: (data) => {
-          // console.log("---------------------------");
-          // console.log("Data:", data);
-          // console.log("---------------------------");
-          // setKirtans(data.data);
-          setKirtansCache(JSON.stringify(data.data));
-          localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-          localStorage.setItem(
-            "cachingTime",
-            JSON.stringify(new Date().getTime())
-          );
-        },
-        worker: true,
-      }
-    );
   };
 
   useEffect(() => {
-    if (localStorage.getItem("cachingTime") === null || expiryCheck > 60000) {
-      // 172800000
-      loadKirtans();
-    }
+    loadKirtans();
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (
-      localStorage.getItem("cachingTime") !== null &&
-      expiryCheck < 60000 &&
+      localStorage.getItem("cachingVersion") === null &&
+      localStorage.getItem("cachingVersion") !== cachingVersion &&
       localStorage.getItem("kirtansCache") === null
     ) {
-      // 172800000
-      // console.log("expiry check");
-      // console.log("kirtansCache", kirtansCache);
       loadKirtans();
     } else {
-      // console.log("localstorage not null");
-      // console.log(
-      //   "localStorage.getItem(kirtansCache)",
-      //   JSON.parse(localStorage.getItem("kirtansCache"))
-      // );
       setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
     }
     // eslint-disable-next-line
