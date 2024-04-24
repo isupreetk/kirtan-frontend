@@ -1,7 +1,6 @@
 // Pure function
 import { useState, useEffect, useRef } from "react";
 import { Container, Row } from "react-bootstrap";
-import kirtansData from "../../assets/data/kirtanDataSet.json";
 import toPascalCase from "../../utils.js";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
@@ -10,6 +9,9 @@ import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { usePapaParse } from "react-papaparse";
+// import { useLocalStorage } from "@uidotdev/usehooks";
+import axios from "axios";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -24,9 +26,13 @@ function HomePage() {
   let [searchTerm, setSearchTerm] = useState(
     urlSearchString ? urlSearchString : ""
   );
-  let [kirtans] = useState(kirtansData);
+
+  let [kirtans, setKirtans] = useState([]);
+  let [kirtansCache, setKirtansCache] = useState(
+    localStorage.getItem("kirtansCache")
+  );
   let [displayKirtans, setDisplayKirtans] = useState([]);
-  let [totalKirtans, setTotalKirtans] = useState(kirtansData.length);
+  let [totalKirtans, setTotalKirtans] = useState(0);
   let [allAlbums, setAllAlbums] = useState([]);
   let [allArtists, setAllArtists] = useState([]);
   let [albumFilter, setAlbumFilter] = useState(urlAlbum ? urlAlbum : []);
@@ -38,12 +44,79 @@ function HomePage() {
   let [isLoading] = useState(false);
   let [error] = useState(null);
   let entriesPerPage = 100;
+  let [timeoutHistory, setTimeoutHistory] = useState([]);
+
+  const { readRemoteFile } = usePapaParse();
+
+  let cachingVersion;
+  let fileURL;
+  let newDBInfo = {};
+
+  const loadKirtans = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
+      .then((data) => {
+        data.data.forEach((d) => {
+          newDBInfo[d.key] = d.value;
+        });
+        cachingVersion = newDBInfo.Version;
+        fileURL = newDBInfo.FileURL;
+        if (
+          localStorage.getItem("cachingVersion") === null ||
+          localStorage.getItem("cachingVersion") !== cachingVersion
+        ) {
+          readRemoteFile(
+            // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
+            `${process.env.REACT_APP_API_URL}/data/${fileURL}`,
+            {
+              header: true,
+              complete: (data) => {
+                setKirtansCache(JSON.stringify(data.data));
+                localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+                localStorage.setItem(
+                  "cachingVersion",
+                  parseInt(cachingVersion)
+                );
+
+                localStorage.setItem(
+                  "cachingTime",
+                  JSON.stringify(new Date().getTime())
+                );
+              },
+              worker: true,
+            }
+          );
+        }
+        return newDBInfo;
+      })
+      .catch((error) => {
+        return error;
+      });
+  };
+
+  useEffect(() => {
+    loadKirtans();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("cachingVersion") === null &&
+      localStorage.getItem("cachingVersion") !== cachingVersion &&
+      localStorage.getItem("kirtansCache") === null
+    ) {
+      loadKirtans();
+    } else {
+      setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
+    }
+    // eslint-disable-next-line
+  }, [kirtansCache]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
     setSearchTerm(inputRef.current.value);
     setCurrentPage(1);
-    setTotalKirtans(kirtansData.length);
+    setTotalKirtans(kirtans.length);
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
     );
@@ -148,16 +221,16 @@ function HomePage() {
   };
 
   const getSearchedKirtans = (kirtans, possibleCombinations) => {
-    return kirtans.filter((kirtan) => {
+    return kirtans?.filter((kirtan) => {
       return calculateKirtanScore(kirtan, possibleCombinations);
     });
   };
 
   const getSortedSearchedKirtans = (searchedKirtans) => {
-    let sortedData = searchedKirtans.sort((a, b) => {
+    let sortedData = searchedKirtans?.sort((a, b) => {
       return b.Score - a.Score;
     });
-    if (sortedData.length > 0) {
+    if (sortedData?.length > 0) {
       return sortedData;
     } else {
       return kirtans;
@@ -224,8 +297,11 @@ function HomePage() {
 
   function getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter) {
     let possibleCombinations = getPossibleCombinations(searchTerm);
+
     let searchedKirtans = getSearchedKirtans(kirtans, possibleCombinations);
+
     let sortedSearchedKirtans = getSortedSearchedKirtans(searchedKirtans);
+
     let albumFilteredKirtans = getAlbumFilteredKirtans(
       sortedSearchedKirtans,
       albumFilter
@@ -238,11 +314,27 @@ function HomePage() {
   }
 
   useEffect(() => {
-    setDisplayKirtans(
-      getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
-    );
+    if (timeoutHistory.length > 0) {
+      timeoutHistory.forEach((history) => {
+        let index = timeoutHistory.indexOf(history);
+        if (index > -1) {
+          timeoutHistory.splice(index, 1);
+        }
+        clearTimeout(history);
+      });
+    }
+
+    let searchTimeoutId = setTimeout(() => {
+      setDisplayKirtans(
+        getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
+      );
+    }, 250);
+
+    timeoutHistory.push(searchTimeoutId);
+    setTimeoutHistory(timeoutHistory);
+
     // eslint-disable-next-line
-  }, [searchTerm, albumFilter, artistFilter]);
+  }, [kirtans, searchTerm, albumFilter, artistFilter]);
 
   useEffect(
     () => {
@@ -250,16 +342,16 @@ function HomePage() {
       let indexOfLastKirtan = currentPage * entriesPerPage;
       let indexOfFirstKirtan = indexOfLastKirtan - entriesPerPage;
       setCurrentKirtans(
-        displayKirtans.slice(indexOfFirstKirtan, indexOfLastKirtan)
+        displayKirtans?.slice(indexOfFirstKirtan, indexOfLastKirtan)
       );
-      setTotalKirtans(displayKirtans.length);
+      setTotalKirtans(displayKirtans?.length);
     },
     // eslint-disable-next-line
     [displayKirtans, currentPage]
   );
 
   useEffect(() => {
-    kirtans.forEach((kirtan) => {
+    kirtans?.forEach((kirtan) => {
       if (!allAlbums.includes(kirtan.Album)) {
         allAlbums.push(kirtan.Album);
       }
