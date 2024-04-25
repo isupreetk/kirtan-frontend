@@ -30,7 +30,7 @@
     "react-select": "^5.8.0",
     "sass": "^1.69.5",
     "web-vitals": "^2.1.4",
-    "webpack-dev-middleware": ">=5.3.4"
+    "webpack-dev-middleware": "5.3.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -58,8 +58,8 @@
   },
   "devDependencies": {
     "@adobe/css-tools": "^4.3.3",
-    "follow-redirects": "^1.15.5",
-    "postcss": ">=8.4.31",
+    "follow-redirects": "^1.15.6",
+    "postcss": "8.4.31",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "react-scripts": "^5.0.1"
   }
