@@ -53,64 +53,25 @@ function HomePage() {
   let newDBInfo = {};
 
   const loadKirtans = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
-      .then((data) => {
-        data.data.forEach((d) => {
-          newDBInfo[d.key] = d.value;
-        });
-        cachingVersion = newDBInfo.Version;
-        fileURL = newDBInfo.FileURL;
-        if (
-          localStorage.getItem("cachingVersion") === null ||
-          localStorage.getItem("cachingVersion") !== cachingVersion
-        ) {
-          readRemoteFile(
-            // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
-            `${process.env.REACT_APP_API_URL}/data/${fileURL}`,
-            {
-              header: true,
-              complete: (data) => {
-                setKirtansCache(JSON.stringify(data.data));
-                localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-                localStorage.setItem(
-                  "cachingVersion",
-                  parseInt(cachingVersion)
-                );
-
-                localStorage.setItem(
-                  "cachingTime",
-                  JSON.stringify(new Date().getTime())
-                );
-              },
-              worker: true,
-            }
-          );
-        }
-        return newDBInfo;
-      })
-      .catch((error) => {
-        return error;
-      });
+    readRemoteFile(
+      "https://b1bd7a3563a979dc2bde-eedbc4687b94bc02c3ca822976a06a6b.ssl.cf1.rackcdn.com/export-tbl_audio-kirtansearch-28-03-2024%20-%20tbl_artistmaster4june2024.csv",
+      {
+        header: true,
+        complete: (data) => {
+          // console.log("---------------------------");
+          // console.log("Data:", data);
+          // console.log("---------------------------");
+          setKirtans(data.data);
+        },
+        worker: true,
+      }
+    );
   };
 
   useEffect(() => {
     loadKirtans();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (
-      localStorage.getItem("cachingVersion") === null &&
-      localStorage.getItem("cachingVersion") !== cachingVersion &&
-      localStorage.getItem("kirtansCache") === null
-    ) {
-      loadKirtans();
-    } else {
-      setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
-    }
-    // eslint-disable-next-line
-  }, [kirtansCache]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
