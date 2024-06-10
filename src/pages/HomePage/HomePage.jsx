@@ -10,6 +10,8 @@ import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
+// import { useLocalStorage } from "@uidotdev/usehooks";
+import axios from "axios";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -26,6 +28,9 @@ function HomePage() {
   );
 
   let [kirtans, setKirtans] = useState([]);
+  let [kirtansCache, setKirtansCache] = useState(
+    localStorage.getItem("kirtansCache")
+  );
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
   let [allAlbums, setAllAlbums] = useState([]);
@@ -42,6 +47,10 @@ function HomePage() {
   let [timeoutHistory, setTimeoutHistory] = useState([]);
 
   const { readRemoteFile } = usePapaParse();
+
+  let cachingVersion;
+  let fileURL;
+  let newDBInfo = {};
 
   const loadKirtans = () => {
     readRemoteFile(
