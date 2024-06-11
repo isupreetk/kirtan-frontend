@@ -67,7 +67,7 @@ function HomePage() {
         ) {
           readRemoteFile(
             // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
-            `${process.env.REACT_APP_API_URL}/data/${fileURL}`,
+            `${fileURL}`,
             {
               header: true,
               complete: (data) => {
