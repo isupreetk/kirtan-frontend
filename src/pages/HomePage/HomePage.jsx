@@ -65,27 +65,15 @@ function HomePage() {
           localStorage.getItem("cachingVersion") === null ||
           localStorage.getItem("cachingVersion") !== cachingVersion
         ) {
-          readRemoteFile(
-            // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
-            `${process.env.REACT_APP_API_URL}/data/${fileURL}`,
-            {
-              header: true,
-              complete: (data) => {
-                setKirtansCache(JSON.stringify(data.data));
-                localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-                localStorage.setItem(
-                  "cachingVersion",
-                  parseInt(cachingVersion)
-                );
-
-                localStorage.setItem(
-                  "cachingTime",
-                  JSON.stringify(new Date().getTime())
-                );
-              },
-              worker: true,
-            }
-          );
+          readRemoteFile(`${fileURL}`, {
+            header: true,
+            complete: (data) => {
+              setKirtansCache(JSON.stringify(data.data));
+              localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+              localStorage.setItem("cachingVersion", parseInt(cachingVersion));
+            },
+            worker: true,
+          });
         }
         return newDBInfo;
       })
