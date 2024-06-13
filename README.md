@@ -39,13 +39,18 @@ To run this application locally, clone this repository.
 - To Start: npm start
 - To Visit App: localhost:3000
 
+### Upgrades
+
+- Upgraded the code from using JavaScript to TypeScript. The code can be found [here](https://github.com/isupreetk/kirtan-app).
+- Implemented caching for storing dataset and version to reduce initial looading times.
+- Server-side containing APIs and new data file upload functionality can be found [here](https://github.com/isupreetk/brahm-bunga-dodra-kirtan-api).
+
 ### Deployment
 
 The application is deployed using Netlify and can be accessed [here](https://preprod13kirtan.netlify.app/).
 
 ### Next Steps
 
-- Upgrade the project from JavaScript to TypeScript.
 - Incorporate Server-Side Rendering (SSR) for SEO Optimization.
 - Explore testing using Jest framework.
 - Add login so that users can create playlists of their favorite tracks and share among others.
