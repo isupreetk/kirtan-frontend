@@ -91,19 +91,6 @@ function HomePage() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (
-      localStorage.getItem("cachingVersion") === null &&
-      localStorage.getItem("cachingVersion") !== cachingVersion &&
-      localStorage.getItem("kirtansCache") === null
-    ) {
-      loadKirtans();
-    } else {
-      setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
-    }
-    // eslint-disable-next-line
-  }, [kirtansCache]);
-
   const resetSearch = () => {
     inputRef.current.value = "";
     setSearchTerm(inputRef.current.value);
