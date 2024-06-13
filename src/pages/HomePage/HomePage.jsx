@@ -1,4 +1,3 @@
-// Pure function
 import { useState, useEffect, useRef } from "react";
 import { Container, Row } from "react-bootstrap";
 import toPascalCase from "../../utils.js";
@@ -10,7 +9,6 @@ import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
-// import { useLocalStorage } from "@uidotdev/usehooks";
 import axios from "axios";
 import "./HomePage.scss";
 
@@ -66,7 +64,6 @@ function HomePage() {
           localStorage.getItem("cachingVersion") !== cachingVersion
         ) {
           readRemoteFile(
-            // "https://easyservices-cb714e81a4fb.herokuapp.com/images/kirtanData/kirtanData.csv",
             `${fileURL}`,
             {
               header: true,
@@ -76,11 +73,6 @@ function HomePage() {
                 localStorage.setItem(
                   "cachingVersion",
                   parseInt(cachingVersion)
-                );
-
-                localStorage.setItem(
-                  "cachingTime",
-                  JSON.stringify(new Date().getTime())
                 );
               },
               worker: true,
