@@ -63,21 +63,15 @@ function HomePage() {
           localStorage.getItem("cachingVersion") === null ||
           localStorage.getItem("cachingVersion") !== cachingVersion
         ) {
-          readRemoteFile(
-            `${fileURL}`,
-            {
-              header: true,
-              complete: (data) => {
-                setKirtansCache(JSON.stringify(data.data));
-                localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-                localStorage.setItem(
-                  "cachingVersion",
-                  parseInt(cachingVersion)
-                );
-              },
-              worker: true,
-            }
-          );
+          readRemoteFile(`${fileURL}`, {
+            header: true,
+            complete: (data) => {
+              setKirtansCache(JSON.stringify(data.data));
+              localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+              localStorage.setItem("cachingVersion", parseInt(cachingVersion));
+            },
+            worker: true,
+          });
         }
         return newDBInfo;
       })
@@ -403,12 +397,12 @@ function HomePage() {
           <Row>
             <GoogleForm />
           </Row>
+          {/* <br />
           <br />
           <br />
           <br />
           <br />
-          <br />
-          <br />
+          <br /> */}
         </Container>
       </Container>
     </>
