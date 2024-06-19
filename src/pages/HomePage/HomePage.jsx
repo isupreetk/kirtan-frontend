@@ -412,12 +412,12 @@ function HomePage() {
           <Row>
             <GoogleForm />
           </Row>
+          {/* <br />
           <br />
           <br />
           <br />
           <br />
-          <br />
-          <br />
+          <br /> */}
         </Container>
       </Container>
     </>
