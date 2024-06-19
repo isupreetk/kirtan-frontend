@@ -31,7 +31,7 @@ function Footer() {
                 <h2>ABOUT US</h2>
                 <p>
                   <strong>
-                    Waheguru Ji Ka Khalsa || Waheguru Ji Ki Fateh||
+                    Waheguru Ji Ka Khalsa || Waheguru Ji Ki Fateh ||
                   </strong>
                 </p>
 
