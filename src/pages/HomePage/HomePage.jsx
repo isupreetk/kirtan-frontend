@@ -53,19 +53,33 @@ function HomePage() {
   let newDBInfo = {};
 
   const loadKirtans = () => {
-    readRemoteFile(
-      "https://b1bd7a3563a979dc2bde-eedbc4687b94bc02c3ca822976a06a6b.ssl.cf1.rackcdn.com/export-tbl_audio-kirtansearch-28-03-2024%20-%20tbl_artistmaster4june2024.csv",
-      {
-        header: true,
-        complete: (data) => {
-          // console.log("---------------------------");
-          // console.log("Data:", data);
-          // console.log("---------------------------");
-          setKirtans(data.data);
-        },
-        worker: true,
-      }
-    );
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
+      .then((data) => {
+        data.data.forEach((d) => {
+          newDBInfo[d.key] = d.value;
+        });
+        cachingVersion = newDBInfo.Version;
+        fileURL = newDBInfo.FileURL;
+        if (
+          localStorage.getItem("cachingVersion") === null ||
+          localStorage.getItem("cachingVersion") !== cachingVersion
+        ) {
+          readRemoteFile(`${fileURL}`, {
+            header: true,
+            complete: (data) => {
+              setKirtansCache(JSON.stringify(data.data));
+              localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+              localStorage.setItem("cachingVersion", parseInt(cachingVersion));
+            },
+            worker: true,
+          });
+        }
+        return newDBInfo;
+      })
+      .catch((error) => {
+        return error;
+      });
   };
 
   useEffect(() => {
@@ -385,12 +399,12 @@ function HomePage() {
           <Row>
             <GoogleForm />
           </Row>
+          {/* <br />
           <br />
           <br />
           <br />
           <br />
-          <br />
-          <br />
+          <br /> */}
         </Container>
       </Container>
     </>
