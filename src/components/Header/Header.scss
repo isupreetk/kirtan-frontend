@@ -2364,16 +2364,6 @@ box-shadow: -1px 13px 5px -10px rgba(194,194,194,1);
 	cursor:pointer;
 	z-index:9998;
 			}
-			.close_icon{
-	 position: absolute;
-    left: 250px;
-    background: #2A4A50;
-    padding: 4px 8px;
-    z-index: 9998;
-    color: #fff;
-	display:none;
-	cursor:pointer;
-				}
 			
 .sm_icon span{
 	position:absolute;
@@ -2757,6 +2747,12 @@ body .top_head .top_r ul {
 	.add {font-size:15px; font-weight:normal;}
 	.en_box {padding: 0 100px; }
 	}
+
+    @media only screen and (min-width: 769px) {
+        .sm_icon {
+            display: none;
+        }
+    }
 
 
 @media only screen and (max-width: 480px) {

@@ -1,4 +1,6 @@
 import "./Header.scss";
+import HomeIcon from "../../assets/images/home-icon.jpeg";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -6,12 +8,13 @@ function Header() {
       <div className="wrapper top_head">
         <div className="container-fluid">
           <div className="container">
-            <div className="sm_icon">
-              <span></span>
-            </div>
-            <div className="close_icon" style={{ display: "none" }}>
-              <i className="fa fa-remove"></i>
-            </div>
+            <Link to="https://brahmbungadodra.org/home">
+              <img
+                className="sm_icon"
+                src={HomeIcon}
+                alt="redirect to homepage"
+              />
+            </Link>
 
             <div className="col-lg-11 col-md-11 col-sm-11 col-xs-12">
               <div className="social_link">
