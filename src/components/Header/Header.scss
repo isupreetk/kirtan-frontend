@@ -2750,7 +2750,15 @@ body .top_head .top_r ul {
 
     @media only screen and (min-width: 769px) {
         .sm_icon {
-            display: none;
+            position:absolute;
+			left:10px;
+	top:0px;
+	width:35px;
+	height:28px;
+	background:#186f6f;
+	margin-top:10px;
+	cursor:pointer;
+	z-index:9998;
         }
     }
 
