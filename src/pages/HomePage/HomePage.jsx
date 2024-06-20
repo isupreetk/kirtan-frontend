@@ -25,8 +25,7 @@ function HomePage() {
     urlSearchString ? urlSearchString : ""
   );
 
-  let [kirtans] = useState([]);
-  // eslint-disable-next-line
+  let [kirtans, setKirtans] = useState([]);
   let [kirtansCache, setKirtansCache] = useState(
     localStorage.getItem("kirtansCache")
   );
