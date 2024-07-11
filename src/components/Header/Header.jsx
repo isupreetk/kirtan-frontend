@@ -1,5 +1,5 @@
 import "./Header.scss";
-import HomeIcon from "../../assets/images/home-icon.jpeg";
+import HomeIcon from "../../assets/images/home-icon.png";
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -16,16 +16,7 @@ function Header() {
               />
             </Link>
 
-            <div className="col-lg-11 col-md-11 col-sm-11 col-xs-12">
-              <div className="social_link">
-                <a
-                  href="//www.facebook.com/brahmbungadodra.org/"
-                  style={{ color: "white" }}
-                >
-                  <i className="fa fa-facebook-official"></i>
-                </a>
-              </div>
-              {/* <!--<marquee behavior="scroll" scrollamount="2">--> */}
+            <div className="col-lg-11 col-md-11 col-sm-11 col-xs-12 main_quote">
               <div className="top_l">
                 <b>ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ</b>
                 <br />

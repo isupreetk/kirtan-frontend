@@ -110,6 +110,9 @@ body {
                         body .top_head .top_r ul li a i {
                             font-size: 25px;
                         }
+.main_quote {
+    margin-left: 10px;
+}
 
 .main_nav {
     float: left;
@@ -2354,15 +2357,17 @@ box-shadow: -1px 13px 5px -10px rgba(194,194,194,1);
 
 	@media only screen and (max-width: 768px) {
 		.sm_icon{
-			position:absolute;
-			left:10px;
-	top:0px;
-	width:35px;
-	height:28px;
-	background:#186f6f;
-	margin-top:40px;
-	cursor:pointer;
-	z-index:9998;
+            position: absolute;
+            left: 10px;
+            top: 0px;
+            width: 40px;
+            height: 40px;
+            /* background: #186f6f; */
+            margin-top: 10px;
+            cursor: pointer;
+            z-index: 9998;
+            border: white 1.5px solid;
+            border-radius: 50%;
 			}
 			
 .sm_icon span{
@@ -2750,15 +2755,17 @@ body .top_head .top_r ul {
 
     @media only screen and (min-width: 769px) {
         .sm_icon {
-            position:absolute;
-			left:10px;
-	top:0px;
-	width:35px;
-	height:28px;
-	background:#186f6f;
-	margin-top:10px;
-	cursor:pointer;
-	z-index:9998;
+            position: absolute;
+            left: 10px;
+            top: 0px;
+            width: 40px;
+            height: 40px;
+            /* background: #186f6f; */
+            margin-top: 10px;
+            cursor: pointer;
+            z-index: 9998;
+            border: white 1.5px solid;
+            border-radius: 50%;
         }
     }
 
@@ -3237,7 +3244,7 @@ body .top_head .top_l{font-weight:400;}
     .heading-top {padding: 0 10px 0 10px;font-weight: 400;}
     .pull-right {display: inline;}
     .pull-left {width: initial;}
-    .sm_icon {left: 5px;top: -35px;}
+    .sm_icon {left: 5px;top: 4px;}
 }
 @media only screen and (max-width: 1024px){
     /*.heading-top {padding-right: 0;}*/
