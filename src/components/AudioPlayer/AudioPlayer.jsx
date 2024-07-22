@@ -12,7 +12,17 @@ function AudioPlayer({ selectedKirtan, play, setPlay }) {
   return (
     <div className="audioplayer">
       <figure className="figure">
-        <figcaption>Listening to: {selectedKirtan.Title}</figcaption>
+        <figcaption className="figure__caption">
+          Listening to: {selectedKirtan.Title}
+        </figcaption>
+        {selectedKirtan.Title !== undefined ? (
+          <figcaption className="figure__caption-details">
+            {selectedKirtan.Sevadar}, {selectedKirtan.Album}
+          </figcaption>
+        ) : (
+          <></>
+        )}
+
         <audio
           id="audio"
           controls
