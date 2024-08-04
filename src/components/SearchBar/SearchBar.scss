@@ -1,3 +1,6 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+
 .searchbar {
     display: flex;
     align-items: center;
@@ -10,12 +13,55 @@
     justify-content: space-evenly;
     width: 100%;
     flex-direction: row;
-}
-    &__input {
-        height: 4vh;
+    }
+
+    &__link {
         width: 90%;
+
+        @include mobile {
+            height: 5vh;
+        }
+
+        @include desktop {
+            height: 3vh;
+        }
+    }
+
+    &__input {
+        height: 100%;
+        width: 100%;
         border-radius: 5px;
-        border: 1px solid grey;
+        border: 1px solid rgb(181, 179, 179);
+        scroll-behavior: smooth;
+
+        @include mobile {
+            padding-left: 2vw;
+            padding-bottom: 2vw;
+            padding-top: 2vw;
+        }
+
+        @include tablet {
+            padding-left: 1vw;
+            padding-bottom: 1vw;
+            padding-top: 1vw;
+        }
+
+        @include desktop {
+            padding-bottom: 1vw;
+            padding-top: 1vw;
+            padding-left: 0.5vw;
+        }
+
+        &::placeholder {
+
+            @include mobile {
+                font-size: 1.5rem;
+            }
+            
+            @include tablet {
+                font-size: 1.6rem;
+            }
+        }
     }
 
     &__close-button {
