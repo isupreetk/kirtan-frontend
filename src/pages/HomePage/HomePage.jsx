@@ -24,8 +24,9 @@ function HomePage() {
   let [searchTerm, setSearchTerm] = useState(
     urlSearchString ? urlSearchString : ""
   );
-
+  // eslint-disable-next-line
   let [kirtans, setKirtans] = useState([]);
+  // eslint-disable-next-line
   let [kirtansCache, setKirtansCache] = useState(
     localStorage.getItem("kirtansCache")
   );
@@ -63,21 +64,15 @@ function HomePage() {
           localStorage.getItem("cachingVersion") === null ||
           localStorage.getItem("cachingVersion") !== cachingVersion
         ) {
-          readRemoteFile(
-            `${fileURL}`,
-            {
-              header: true,
-              complete: (data) => {
-                setKirtansCache(JSON.stringify(data.data));
-                localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-                localStorage.setItem(
-                  "cachingVersion",
-                  parseInt(cachingVersion)
-                );
-              },
-              worker: true,
-            }
-          );
+          readRemoteFile(`${fileURL}`, {
+            header: true,
+            complete: (data) => {
+              setKirtansCache(JSON.stringify(data.data));
+              localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+              localStorage.setItem("cachingVersion", parseInt(cachingVersion));
+            },
+            worker: true,
+          });
         }
         return newDBInfo;
       })
@@ -90,6 +85,19 @@ function HomePage() {
     loadKirtans();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("cachingVersion") === null &&
+      localStorage.getItem("cachingVersion") !== cachingVersion &&
+      localStorage.getItem("kirtansCache") === null
+    ) {
+      loadKirtans();
+    } else {
+      setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
+    }
+    // eslint-disable-next-line
+  }, [kirtansCache]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
