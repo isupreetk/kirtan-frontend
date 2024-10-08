@@ -71,10 +71,12 @@ function HomePage() {
               setKirtansCache(JSON.stringify(data.data));
               localStorage.setItem("kirtansCache", JSON.stringify(data.data));
               localStorage.setItem("cachingVersion", parseInt(cachingVersion));
+              setIsLoading(false);
             },
             worker: true,
           });
         }
+
         return newDBInfo;
       })
       .catch((error) => {
@@ -84,7 +86,6 @@ function HomePage() {
 
   useEffect(() => {
     loadKirtans();
-    setIsLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -95,7 +96,6 @@ function HomePage() {
       localStorage.getItem("kirtansCache") === null
     ) {
       loadKirtans();
-      setIsLoading(false);
     } else {
       setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
     }
@@ -318,7 +318,6 @@ function HomePage() {
       setDisplayKirtans(
         getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
       );
-      setIsLoading(false);
     }, 250);
 
     timeoutHistory.push(searchTimeoutId);
