@@ -97,6 +97,7 @@ function HomePage() {
     ) {
       loadKirtans();
     } else {
+      setIsLoading(false);
       setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
     }
     // eslint-disable-next-line
@@ -322,7 +323,6 @@ function HomePage() {
 
     timeoutHistory.push(searchTimeoutId);
     setTimeoutHistory(timeoutHistory);
-
     // eslint-disable-next-line
   }, [kirtans, searchTerm, albumFilter, artistFilter]);
 
@@ -381,7 +381,6 @@ function HomePage() {
               <KirtanList
                 searchTerm={searchTerm}
                 displayKirtans={currentKirtans}
-                // isLoading={isLoading}
                 error={error}
                 albumFilter={albumFilter}
                 setAlbumFilter={setAlbumFilter}
