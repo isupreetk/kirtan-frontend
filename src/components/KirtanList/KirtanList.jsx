@@ -7,7 +7,6 @@ import DownloadIcon from "../../assets/images/download-icon.png";
 function KirtanList({
   searchTerm,
   displayKirtans,
-  isLoading,
   error,
   albumFilter,
   setAlbumFilter,
@@ -23,10 +22,6 @@ function KirtanList({
   setPlay,
   togglePlay,
 }) {
-  if (isLoading) {
-    return <h2>...Loading</h2>;
-  }
-
   const handleKirtanClick = (kirtan) => {
     if (selectedKirtan === kirtan) {
       let player = document.getElementById("audio");
