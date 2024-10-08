@@ -3,6 +3,7 @@ import { Container, Row } from "react-bootstrap";
 import toPascalCase from "../../utils.js";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import KirtanList from "../../components/KirtanList/KirtanList";
 import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
@@ -40,7 +41,7 @@ function HomePage() {
   let [currentKirtans, setCurrentKirtans] = useState([]);
   let [selectedKirtan, setSelectedKirtan] = useState([]);
   let [play, setPlay] = useState(false);
-  let [isLoading] = useState(false);
+  let [isLoading, setIsLoading] = useState(true);
   let [error] = useState(null);
   let entriesPerPage = 100;
   let [timeoutHistory, setTimeoutHistory] = useState([]);
@@ -83,6 +84,7 @@ function HomePage() {
 
   useEffect(() => {
     loadKirtans();
+    setIsLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -93,6 +95,7 @@ function HomePage() {
       localStorage.getItem("kirtansCache") === null
     ) {
       loadKirtans();
+      setIsLoading(false);
     } else {
       setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
     }
@@ -315,6 +318,7 @@ function HomePage() {
       setDisplayKirtans(
         getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
       );
+      setIsLoading(false);
     }, 250);
 
     timeoutHistory.push(searchTimeoutId);
@@ -372,25 +376,29 @@ function HomePage() {
             urlArtist={urlArtist}
           />
           <Row>
-            <KirtanList
-              searchTerm={searchTerm}
-              displayKirtans={currentKirtans}
-              isLoading={isLoading}
-              error={error}
-              albumFilter={albumFilter}
-              setAlbumFilter={setAlbumFilter}
-              artistFilter={artistFilter}
-              setArtistFilter={setArtistFilter}
-              allAlbums={allAlbums}
-              allArtists={allArtists}
-              handleAlbumFilter={handleAlbumFilter}
-              handleArtistFilter={handleArtistFilter}
-              selectedKirtan={selectedKirtan}
-              setSelectedKirtan={setSelectedKirtan}
-              play={play}
-              setPlay={setPlay}
-              togglePlay={togglePlay}
-            />
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <KirtanList
+                searchTerm={searchTerm}
+                displayKirtans={currentKirtans}
+                // isLoading={isLoading}
+                error={error}
+                albumFilter={albumFilter}
+                setAlbumFilter={setAlbumFilter}
+                artistFilter={artistFilter}
+                setArtistFilter={setArtistFilter}
+                allAlbums={allAlbums}
+                allArtists={allArtists}
+                handleAlbumFilter={handleAlbumFilter}
+                handleArtistFilter={handleArtistFilter}
+                selectedKirtan={selectedKirtan}
+                setSelectedKirtan={setSelectedKirtan}
+                play={play}
+                setPlay={setPlay}
+                togglePlay={togglePlay}
+              />
+            )}
           </Row>
           <AudioPlayer
             selectedKirtan={selectedKirtan}
