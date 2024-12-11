@@ -27,9 +27,9 @@ function HomePage() {
   // eslint-disable-next-line
   let [kirtans, setKirtans] = useState([]);
   // eslint-disable-next-line
-  let [kirtansCache, setKirtansCache] = useState(
-    localStorage.getItem("kirtansCache")
-  );
+  let [kirtansCache, setKirtansCache] = useState([]);
+    // localStorage.getItem("kirtansCache")
+  
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
   let [allAlbums, setAllAlbums] = useState([]);
@@ -60,20 +60,20 @@ function HomePage() {
         });
         cachingVersion = newDBInfo.Version;
         fileURL = newDBInfo.FileURL;
-        if (
-          localStorage.getItem("cachingVersion") === null ||
-          localStorage.getItem("cachingVersion") !== cachingVersion
-        ) {
+        // if (
+        //   localStorage.getItem("cachingVersion") === null ||
+        //   localStorage.getItem("cachingVersion") !== cachingVersion
+        // ) {
           readRemoteFile(`${fileURL}`, {
             header: true,
             complete: (data) => {
-              setKirtansCache(JSON.stringify(data.data));
-              localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-              localStorage.setItem("cachingVersion", parseInt(cachingVersion));
+              // setKirtansCache(JSON.stringify(data.data));
+  //             localStorage.setItem("kirtansCache", JSON.stringify(data.data));
+  //             localStorage.setItem("cachingVersion", parseInt(cachingVersion));
             },
             worker: true,
           });
-        }
+        // }
         return newDBInfo;
       })
       .catch((error) => {
@@ -86,18 +86,18 @@ function HomePage() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (
-      localStorage.getItem("cachingVersion") === null &&
-      localStorage.getItem("cachingVersion") !== cachingVersion &&
-      localStorage.getItem("kirtansCache") === null
-    ) {
-      loadKirtans();
-    } else {
-      setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
-    }
-    // eslint-disable-next-line
-  }, [kirtansCache]);
+  // useEffect(() => {
+  //   if (
+  //     localStorage.getItem("cachingVersion") === null &&
+  //     localStorage.getItem("cachingVersion") !== cachingVersion &&
+  //     localStorage.getItem("kirtansCache") === null
+  //   ) {
+  //     loadKirtans();
+  //   } else {
+  //     setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
+  //   }
+  //   // eslint-disable-next-line
+  // }, [kirtansCache]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
