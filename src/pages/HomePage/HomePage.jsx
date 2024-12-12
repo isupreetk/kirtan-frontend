@@ -27,8 +27,8 @@ function HomePage() {
   // eslint-disable-next-line
   let [kirtans, setKirtans] = useState([]);
   // eslint-disable-next-line
-  let [kirtansCache, setKirtansCache] = useState([]);
-    // localStorage.getItem("kirtansCache")
+  // let [kirtansCache, setKirtansCache] = useState(
+    // localStorage.getItem("kirtansCache"));
   
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
@@ -67,7 +67,8 @@ function HomePage() {
           readRemoteFile(`${fileURL}`, {
             header: true,
             complete: (data) => {
-              // setKirtansCache(JSON.stringify(data.data));
+              console.log("data", data);
+              setKirtans(data.data);
   //             localStorage.setItem("kirtansCache", JSON.stringify(data.data));
   //             localStorage.setItem("cachingVersion", parseInt(cachingVersion));
             },
@@ -98,6 +99,11 @@ function HomePage() {
   //   }
   //   // eslint-disable-next-line
   // }, [kirtansCache]);
+
+  // useEffect(() => {
+  //   loadKirtans();
+  //     // eslint-disable-next-line
+  // }, [kirtans]);
 
   const resetSearch = () => {
     inputRef.current.value = "";
