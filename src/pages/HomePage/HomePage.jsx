@@ -43,7 +43,7 @@ function HomePage() {
 
   const { readRemoteFile } = usePapaParse();
 
-  let cachingVersion;
+  // let cachingVersion;
   let fileURL;
   let newDBInfo = {};
 
@@ -54,7 +54,7 @@ function HomePage() {
         data.data.forEach((d) => {
           newDBInfo[d.key] = d.value;
         });
-        cachingVersion = newDBInfo.Version;
+        // cachingVersion = newDBInfo.Version;
         fileURL = newDBInfo.FileURL;
           readRemoteFile(`${fileURL}`, {
             header: true,
