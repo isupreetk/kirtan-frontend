@@ -25,12 +25,7 @@ function HomePage() {
   let [searchTerm, setSearchTerm] = useState(
     urlSearchString ? urlSearchString : ""
   );
-  // eslint-disable-next-line
   let [kirtans, setKirtans] = useState([]);
-  // eslint-disable-next-line
-  // let [kirtansCache, setKirtansCache] = useState(
-    // localStorage.getItem("kirtansCache"));
-  
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
   let [allAlbums, setAllAlbums] = useState([]);
@@ -61,17 +56,10 @@ function HomePage() {
         });
         cachingVersion = newDBInfo.Version;
         fileURL = newDBInfo.FileURL;
-        // if (
-        //   localStorage.getItem("cachingVersion") === null ||
-        //   localStorage.getItem("cachingVersion") !== cachingVersion
-        // ) {
           readRemoteFile(`${fileURL}`, {
             header: true,
             complete: (data) => {
-              console.log("data", data);
               setKirtans(data.data);
-  //             localStorage.setItem("kirtansCache", JSON.stringify(data.data));
-  //             localStorage.setItem("cachingVersion", parseInt(cachingVersion));
               setIsLoading(false);
             },
             worker: true,
@@ -89,25 +77,6 @@ function HomePage() {
     // eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //   if (
-  //     localStorage.getItem("cachingVersion") === null &&
-  //     localStorage.getItem("cachingVersion") !== cachingVersion &&
-  //     localStorage.getItem("kirtansCache") === null
-  //   ) {
-  //     loadKirtans();
-  //   } else {
-    // setIsLoading(false);
-  //     setKirtans(JSON.parse(localStorage.getItem("kirtansCache")));
-  //   }
-  //   // eslint-disable-next-line
-  // }, [kirtansCache]);
-
-  // useEffect(() => {
-  //   loadKirtans();
-  //     // eslint-disable-next-line
-  // }, [kirtans]);
-
   const resetSearch = () => {
     inputRef.current.value = "";
     setSearchTerm(inputRef.current.value);
@@ -124,7 +93,6 @@ function HomePage() {
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
     ); // to populate applied filters in url (make shareable url)
-    // searchHistory.push(inputRef.current.value);
   };
 
   // Get Page

@@ -21,38 +21,8 @@ function Header() {
                 <b>ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ</b>
                 <br />
                 ਕਲਜੁਗ ਮਹਿ ਕੀਰਤਨੁ ਪਰਧਾਨਾ॥ ਗੁਰਮੁਖਿ ਜਪੀਐ ਲਾਇ ਧਿਆਨਾ॥
-                {/* <!-- ਧੰਨ ਗੁਰੂ ਨਾਨਕ | ਵਾਹਿਗੁਰੂ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ਧੰਨ ਗੁਰੂ ਨਾਨਕ | ਵਾਹਿਗੁਰੂ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ਧੰਨ ਗੁਰੂ ਨਾਨਕ | ਵਾਹਿਗੁਰੂ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ਧੰਨ ਗੁਰੂ ਨਾਨਕ | ਵਾਹਿਗੁਰੂ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ਧੰਨ ਗੁਰੂ ਨਾਨਕ | ਵਾਹਿਗੁਰੂ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ਧੰਨ ਗੁਰੂ ਨਾਨਕ | ਵਾਹਿਗੁਰੂ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --> */}
-              </div>
-              {/* <!--</marquee>--> */}
+                </div>
             </div>
-            {/* <!--div className="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-                    <div className="top_r">
-					<ul>
-                        <li><a href="//brahmbungadodra.org/dodraWeb/">Old Website</a></li>
-					</ul>
-
-                        <ul>
-                            <li><a href="#"><i className="fa fa-facebook-official"></i></a></li>
-                            <li><a href="#"><i className="fa fa-twitter-square"></i></a></li>
-                            <li><a href="#"><i className="fa fa-google-plus-square"></i></a></li>
-                        </ul>
-                        <div className="sms_box">
-                        <div className="dropdown1">
-                        <a href="#" className="message_s"><div id="animate-point"></div> For SMS Service Click Here</a>
-
-                        <div className="dropdown-content1 dropdown_space">
-    				<P>For Samagams Update</P>
-<P>Register your Mobile No</P>
-
-
-</div>
-    </div>
-  </div>
-
-
-
-                    </div>
-                </div--> */}
           </div>
         </div>
       </div>
@@ -224,8 +194,6 @@ function Header() {
                 <div className="logo">
                   <div className="img-container"></div>
                 </div>
-                {/* <!--div className="wav_l" style="background:none;"></div>
-                       <div className="wav_r" style="background:none;"></div--> */}
               </div>
             </div>
           </div>
