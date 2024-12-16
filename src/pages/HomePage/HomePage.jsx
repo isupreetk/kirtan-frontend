@@ -12,8 +12,16 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
 import axios from "axios";
 import "./HomePage.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllKirtans } from "../../utils/kirtansSlice.js";
+import {getSearchInput} from "../../utils/searchSlice.js";
 
 function HomePage() {
+  const dispatch = useDispatch();
+  const searchInput = useSelector((store) => {
+    return store.search
+});
+
   let inputRef = useRef();
   let navigate = useNavigate();
 
@@ -22,9 +30,9 @@ function HomePage() {
   let urlArtist = searchParams.get("urlArtist");
   let urlSearchString = searchParams.get("urlSearchString");
 
-  let [searchTerm, setSearchTerm] = useState(
-    urlSearchString ? urlSearchString : ""
-  );
+  // let [searchTerm, setSearchTerm] = useState(
+  //   urlSearchString ? urlSearchString : ""
+  // );
   let [kirtans, setKirtans] = useState([]);
   let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
@@ -47,6 +55,7 @@ function HomePage() {
   let fileURL;
   let newDBInfo = {};
 
+
   const loadKirtans = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
@@ -59,7 +68,7 @@ function HomePage() {
           readRemoteFile(`${fileURL}`, {
             header: true,
             complete: (data) => {
-              setKirtans(data.data);
+              dispatch(getAllKirtans(data.data));
               setIsLoading(false);
             },
             worker: true,
@@ -79,7 +88,7 @@ function HomePage() {
 
   const resetSearch = () => {
     inputRef.current.value = "";
-    setSearchTerm(inputRef.current.value);
+    dispatch(getSearchInput(inputRef.current.value));
     setCurrentPage(1);
     setTotalKirtans(kirtans.length);
     navigate(
@@ -88,7 +97,7 @@ function HomePage() {
   };
 
   const handleSearch = () => {
-    setSearchTerm(inputRef.current.value);
+    dispatch(getSearchInput(inputRef.current.value));
     setCurrentPage(1); //this is to bring back to page 1 for every new search
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
@@ -114,7 +123,7 @@ function HomePage() {
   };
 
   const getPossibleCombinations = (searchTerm) => {
-    let searchArray = searchTerm.split(" ");
+    let searchArray = searchTerm?.split(" ");
     searchArray = searchArray.filter((s) => s !== "");
     return searchArray
       .reduce(
@@ -259,8 +268,8 @@ function HomePage() {
     }
   };
 
-  function getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter) {
-    let possibleCombinations = getPossibleCombinations(searchTerm);
+  function getResultKirtans(kirtans, searchInput, albumFilter, artistFilter) {
+    let possibleCombinations = getPossibleCombinations(searchInput);
 
     let searchedKirtans = getSearchedKirtans(kirtans, possibleCombinations);
 
@@ -290,14 +299,14 @@ function HomePage() {
 
     let searchTimeoutId = setTimeout(() => {
       setDisplayKirtans(
-        getResultKirtans(kirtans, searchTerm, albumFilter, artistFilter)
+        getResultKirtans(kirtans, searchInput, albumFilter, artistFilter)
       );
     }, 250);
 
     timeoutHistory.push(searchTimeoutId);
     setTimeoutHistory(timeoutHistory);
     // eslint-disable-next-line
-  }, [kirtans, searchTerm, albumFilter, artistFilter]);
+  }, [kirtans, searchInput, albumFilter, artistFilter]);
 
   useEffect(
     () => {
@@ -352,7 +361,7 @@ function HomePage() {
               <LoadingSpinner />
             ) : (
               <KirtanList
-                searchTerm={searchTerm}
+                searchTerm={searchInput}
                 displayKirtans={currentKirtans}
                 error={error}
                 albumFilter={albumFilter}

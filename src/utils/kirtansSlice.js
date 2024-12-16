@@ -2,10 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const kirtansSlice = createSlice({
     name: "kirtans",
-    initialState: [],
+    initialState: {
+        allKirtans: null,
+        displayKirtans: null,
+    },
     reducers: {
         getAllKirtans : (state, action) => {
-            return action.payload
+            state.allKirtans = action.payload;
         }
     }})
 
