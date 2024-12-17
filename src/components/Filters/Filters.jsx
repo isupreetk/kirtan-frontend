@@ -13,11 +13,12 @@ function Filters({
   let searchURLAlbum = urlAlbum?.split(",");
   let searchURLArtist = urlArtist?.split(",");
 
-  allAlbums = allAlbums.map((album) => ({ label: album, value: album }));
-  allArtists = allArtists.map((artist) => ({ value: artist, label: artist }));
-  allArtists = allArtists.sort((a, b) => {
-    return a.label.localeCompare(b.label);
-  });
+  let allAlbumsObj = allAlbums?.map((album) => ({ label: album, value: album }));
+  // let allArtistsMid = allArtists?.sort((a, b) => {
+  //   return a?.label?.localeCompare(b.label);
+  // });
+  let allArtistsObj = allArtists?.map((artist) => ({ value: artist, label: artist }));
+
   return (
     <>
       <section className="filters">
@@ -34,7 +35,7 @@ function Filters({
                 : []
             }
             isMulti
-            options={allAlbums}
+            options={allAlbumsObj}
             onChange={(event) => handleAlbumFilter(event)}
           />
         </div>
@@ -51,7 +52,7 @@ function Filters({
                 : []
             }
             isMulti
-            options={allArtists}
+            options={allArtistsObj}
             onChange={(event) => handleArtistFilter(event)}
             className="filters__input"
           />

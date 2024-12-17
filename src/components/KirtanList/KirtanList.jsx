@@ -9,9 +9,9 @@ function KirtanList({
   displayKirtans,
   error,
   albumFilter,
-  setAlbumFilter,
+  // setAlbumFilter,
   artistFilter,
-  setArtistFilter,
+  // setArtistFilter,
   allAlbums,
   allArtists,
   handleAlbumFilter,
@@ -22,6 +22,7 @@ function KirtanList({
   setPlay,
   togglePlay,
 }) {
+
   const handleKirtanClick = (kirtan) => {
     if (selectedKirtan === kirtan) {
       let player = document.getElementById("audio");
