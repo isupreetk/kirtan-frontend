@@ -5,8 +5,8 @@ const filterSlice = createSlice({
   initialState: {
     allAlbums: [],
     allArtists: [],
-    albumFilter: [],
-    artistFilter: [],
+    selectedAlbumFilter: [],
+    selectedArtistFilter: [],
   },
   reducers: {
     setAllAlbums: (state, action) => {
@@ -15,14 +15,14 @@ const filterSlice = createSlice({
     setAllArtists: (state, action) => {
        state.allArtists = action.payload;
     },
-    getAppliedAlbumFilters: (state, action) => {
-     state.albumFilter = [ ...state.albumFilter, ...action.payload ];
+    setSelectedAlbumFilters: (state, action) => {
+     state.selectedAlbumFilter = [ ...state.selectedAlbumFilter, ...action.payload ];
     },
-    getAppliedArtistFilters: (state, action) => {
-     state.artistFilter = [ ...state.artistFilter, ...action.payload ];
+    setSelectedArtistFilters: (state, action) => {
+     state.selectedArtistFilter = [ ...state.selectedArtistFilter, ...action.payload ];
     },
   },
 });
 
-export const { setAllAlbums, setAllArtists, getAppliedAlbumFilters, getAppliedArtistFilters } = filterSlice.actions;
+export const { setAllAlbums, setAllArtists, setSelectedAlbumFilters, setSelectedArtistFilters } = filterSlice.actions;
 export default filterSlice.reducer;

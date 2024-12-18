@@ -13,9 +13,10 @@ import { usePapaParse } from "react-papaparse";
 import axios from "axios";
 import "./HomePage.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllKirtans, editScore } from "../../utils/kirtansSlice.js";
-import {getSearchInput} from "../../utils/searchSlice.js";
-import { setAllAlbums, setAllArtists, getAppliedAlbumFilters, getAppliedArtistFilters } from "../../utils/filterSlice.js";
+import { editScore, editScoreSingle, populateHTitle, populateHSevadar, populateHAlbum } from "../../utils/kirtansSlice.js";
+import { setSelectedAlbumFilters, setSelectedArtistFilters } from "../../utils/filterSlice.js";
+import { addAllAlbums, addAllArtists, addAllKirtans } from "../../utils/globalDataSlice.js";
+import { setSearchString, handleInputSearch } from "../../utils/displaySlice.js";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -24,24 +25,34 @@ function HomePage() {
 });
 
 const allKirtans = useSelector((store) => {
-  return store.kirtans.allKirtans;
+  return store.globalData.allKirtans;
 })
 
 const allAlbums = useSelector((store) => {
-  return store.filters.allAlbums;
+  return store.globalData.allAlbums;
 })
 
 const allArtists = useSelector((store) => {
-  return store.filters.allArtists;
+  return store.globalData.allArtists;
 })
 
+const inputSearchString = useSelector((store) => store.display.inputSearchString);
+
+const displayKirtans = useSelector((store) => store.display.displayKirtans);
+
 const albumFilter = useSelector((store) => {
-  return store.filters.albumFilter;
+  return store.filters.selectedAlbumFilter;
 })
 
 const artistFilter = useSelector((store) => {
-  return store.filters.artistFilter;
+  return store.filters.selectedArtistFilter;
 })
+
+// console.log("allKirtans", allKirtans);
+// console.log("allAlbums", allAlbums);
+// console.log("allArtists", allArtists);
+// console.log("albumFilter", albumFilter);
+// console.log("artistFilter", artistFilter);
 
   let inputRef = useRef();
   let navigate = useNavigate();
@@ -55,7 +66,7 @@ const artistFilter = useSelector((store) => {
   //   urlSearchString ? urlSearchString : ""
   // );
   // let [kirtans, setKirtans] = useState([]);
-  let [displayKirtans, setDisplayKirtans] = useState([]);
+  // let [displayKirtans, setDisplayKirtans] = useState([]);
   let [totalKirtans, setTotalKirtans] = useState(0);
   // let [allAlbums, setAllAlbums] = useState([]);
   // let [allArtists, setAllArtists] = useState([]);
@@ -89,7 +100,15 @@ const artistFilter = useSelector((store) => {
           readRemoteFile(`${fileURL}`, {
             header: true,
             complete: (data) => {
-              dispatch(getAllKirtans(data.data));
+              let final_data = [...data.data];
+              final_data.forEach((data) => {
+                return data.Score = 0, data.hTitle = data.Title, data.hSevadar = data.Sevadar, data.hAlbum = data.Album;
+              })
+              console.log("final_data", final_data);
+
+              dispatch(addAllKirtans(final_data));
+              dispatch(addAllAlbums(final_data));
+              dispatch(addAllArtists(final_data));
               setIsLoading(false);
             },
             worker: true,
@@ -109,7 +128,7 @@ const artistFilter = useSelector((store) => {
 
   const resetSearch = () => {
     inputRef.current.value = "";
-    dispatch(getSearchInput(inputRef.current.value));
+    dispatch(setSearchString(inputRef.current.value));
     setCurrentPage(1);
     setTotalKirtans(allKirtans.length);
     navigate(
@@ -118,7 +137,7 @@ const artistFilter = useSelector((store) => {
   };
 
   const handleSearch = () => {
-    dispatch(getSearchInput(inputRef.current.value));
+    dispatch(setSearchString(inputRef.current.value));
     setCurrentPage(1); //this is to bring back to page 1 for every new search
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
@@ -143,8 +162,8 @@ const artistFilter = useSelector((store) => {
     }
   };
 
-  const getPossibleCombinations = (searchTerm) => {
-    let searchArray = searchTerm?.split(" ");
+  const getPossibleCombinations = (inputSearchString) => {
+    let searchArray = inputSearchString?.split(" ");
     searchArray = searchArray.filter((s) => s !== "");
     return searchArray
       .reduce(
@@ -161,7 +180,9 @@ const artistFilter = useSelector((store) => {
     // let kirtanObj = {...kirtan};
     // kirtanObj.Score = 0;
     // kirtan.Score = 0
-    dispatch(editScore(7));
+    // dispatch(editScore(index));
+    // console.log("allKirtans with Score", allKirtans);
+    dispatch(editScore(0));
 
     for (let i = 0; i <= possibleCombinations?.length - 1; i++) {
       let array = possibleCombinations[i];
@@ -186,27 +207,57 @@ const artistFilter = useSelector((store) => {
         }
       });
 
-      kirtan.hTitle = kirtan.Title;
-      kirtan.hSevadar = kirtan.Sevadar;
-      kirtan.hAlbum = kirtan.Album;
+      dispatch(populateHTitle({index: i, newHTitle: kirtan.Title}));
+      // kirtan.hTitle = kirtan.Title;
+      
+      dispatch(populateHSevadar({index: i, newHSevadar: kirtan.Sevadar}));
+      // kirtan.hSevadar = kirtan.Sevadar;
+
+      dispatch(populateHAlbum({index: i, newHAlbum: kirtan.Album}));
+      // kirtan.hAlbum = kirtan.Album;
 
       if (searchExists) {
-        kirtan.Score = arrayLength;
+      dispatch(editScoreSingle({index: i, scoreValue: arrayLength }));
+        // kirtan.Score = arrayLength;
         array.forEach((word) => {
-          kirtan.hTitle = kirtan.hTitle
+
+          dispatch(populateHTitle({index: i, newHTitle: kirtan.hTitle
             .toString()
             ?.toLowerCase()
-            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
-          kirtan.hSevadar = kirtan.hSevadar
+            .replace(word?.toLowerCase(), `<strong>${word}</strong>`)}));
+
+          // kirtan.hTitle = kirtan.hTitle
+          //   .toString()
+          //   ?.toLowerCase()
+          //   .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
+          
+          dispatch(populateHSevadar({index: i, newHSevadar: kirtan.hSevadar
             ?.toLowerCase()
-            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
-          kirtan.hAlbum = kirtan.hAlbum
+            .replace(word?.toLowerCase(), `<strong>${word}</strong>`)}))
+          
+          // kirtan.hSevadar = kirtan.hSevadar
+          //   ?.toLowerCase()
+          //   .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
+
+
+          dispatch(populateHAlbum({index: i, newHAlbum: kirtan.hAlbum
             ?.toLowerCase()
-            .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
+            .replace(word?.toLowerCase(), `<strong>${word}</strong>`)}))
+
+          // kirtan.hAlbum = kirtan.hAlbum
+          //   ?.toLowerCase()
+          //   .replace(word?.toLowerCase(), `<strong>${word}</strong>`);
         });
-        kirtan.hTitle = toPascalCase(kirtan.hTitle);
-        kirtan.hSevadar = toPascalCase(kirtan.hSevadar);
-        kirtan.hAlbum = toPascalCase(kirtan.hAlbum);
+        
+        dispatch(populateHTitle({index: i, newHTitle: toPascalCase(kirtan.hTitle)}));
+        // kirtan.hTitle = toPascalCase(kirtan.hTitle);
+
+        dispatch(populateHSevadar({index: i, newHSevadar: toPascalCase(kirtan.hSevadar)}));
+        // kirtan.hSevadar = toPascalCase(kirtan.hSevadar);
+
+        dispatch(populateHAlbum({index: i, newHAlbum: toPascalCase(kirtan.hAlbum)}));
+        // kirtan.hAlbum = toPascalCase(kirtan.hAlbum);
+        
         break;
       }
     }
@@ -218,10 +269,14 @@ const artistFilter = useSelector((store) => {
   };
 
   const getSearchedKirtans = (kirtans, possibleCombinations) => {
-    return kirtans?.filter((kirtan) => {
+    
+    return kirtans?.filter((kirtan, index) => {
+    //   dispatch(editScore({"index": index, scoreValue: 0}));
       return calculateKirtanScore(kirtan, possibleCombinations);
     });
   };
+
+
 
   const getSortedSearchedKirtans = (searchedKirtans) => {
     let sortedData = searchedKirtans?.sort((a, b) => {
@@ -241,14 +296,14 @@ const artistFilter = useSelector((store) => {
       event.forEach((e) => {
         // albumFilter.push(e.value);
         // setAlbumFilter(albumFilter);
-        dispatch(getAppliedAlbumFilters(e.value));
+        dispatch(setSelectedAlbumFilters(e.value));
         navigate(
           `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
         ); // to populate applied filters in url (make shareable url)
       });
     } else {
       // setAlbumFilter(albumFilter);
-      dispatch(getAppliedAlbumFilters([]));
+      dispatch(setSelectedAlbumFilters([]));
       navigate(
         `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
       ); // to populate applied filters in url (make shareable url)
@@ -272,14 +327,14 @@ const artistFilter = useSelector((store) => {
       event.forEach((e) => {
         // artistFilter.push(e.value);
         // setArtistFilter(artistFilter);
-        dispatch(getAppliedArtistFilters(e.value));
+        dispatch(setSelectedArtistFilters(e.value));
         navigate(
           `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
         ); // to populate applied filters in url (make shareable url)
       });
     } else {
       // setArtistFilter(artistFilter);
-      dispatch(getAppliedArtistFilters([]));
+      dispatch(setSelectedArtistFilters([]));
       navigate(
         `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${artistFilter}`
       ); // to populate applied filters in url (make shareable url)
@@ -296,8 +351,8 @@ const artistFilter = useSelector((store) => {
     }
   };
 
-  function getResultKirtans(kirtans, searchInput, albumFilter, artistFilter) {
-    let possibleCombinations = getPossibleCombinations(searchInput);
+  function getResultKirtans(kirtans, inputSearchString, albumFilter, artistFilter) {
+    let possibleCombinations = getPossibleCombinations(inputSearchString);
 
     let searchedKirtans = getSearchedKirtans(allKirtans, possibleCombinations);
 
@@ -326,15 +381,17 @@ const artistFilter = useSelector((store) => {
     }
 
     let searchTimeoutId = setTimeout(() => {
-      setDisplayKirtans(
-        getResultKirtans(allKirtans, searchInput, albumFilter, artistFilter)
-      );
+      // setDisplayKirtans(
+      //   getResultKirtans(allKirtans, inputSearchString, albumFilter, artistFilter)
+      // );
+      dispatch(handleInputSearch({allKirtans: allKirtans, inputSearchString: inputSearchString}))
     }, 250);
 
     timeoutHistory.push(searchTimeoutId);
     setTimeoutHistory(timeoutHistory);
     // eslint-disable-next-line
-  }, [allKirtans, searchInput, albumFilter, artistFilter]);
+  }, [allKirtans, inputSearchString]);
+  // [allKirtans, inputSearchString, albumFilter, artistFilter]);
 
   useEffect(
     () => {
@@ -349,31 +406,6 @@ const artistFilter = useSelector((store) => {
     // eslint-disable-next-line
     [displayKirtans, currentPage]
   );
-
-  useEffect(() => {
-
-    let allAlbumSet = new Set();
-    let allArtistSet = new Set();
-
-    
-    allKirtans?.forEach((kirtan) => {
-      // if (!allAlbums.includes(kirtan.Album)) {
-      //   // allAlbums.push(kirtan.Album);
-      //   dispatch(getAllAlbums(kirtan.Album));
-      // }
-      // if (!allArtists.includes(kirtan.Sevadar)) {
-      //   // allArtists.push(kirtan.Sevadar);
-      //   dispatch(getAllArtists(kirtan.Sevadar));
-      // }
-      allAlbumSet.add(kirtan.Album);
-      allArtistSet.add(kirtan.Sevadar);
-    });
-    dispatch(setAllAlbums([...allAlbumSet]));
-    dispatch(setAllArtists([...allArtistSet]));
-    // setAllAlbums(allAlbums);
-    // setAllArtists(allArtists);  
-    // eslint-disable-next-line
-  }, [allKirtans]);
 
   return (
     <>

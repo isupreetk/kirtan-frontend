@@ -4,11 +4,11 @@ const searchSlice = createSlice({
     name: "search",
     initialState: "",
     reducers: {
-        getSearchInput : (state, action) => {
+        setSearchInput : (state, action) => {
             return action.payload;
         }
     }
 });
 
-export const {getSearchInput} = searchSlice.actions;
+export const {setSearchInput} = searchSlice.actions;
 export default searchSlice.reducer;
