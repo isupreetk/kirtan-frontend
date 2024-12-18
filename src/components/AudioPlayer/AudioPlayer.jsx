@@ -1,6 +1,6 @@
 import "./AudioPlayer.scss";
 
-function AudioPlayer({ selectedKirtan, play, setPlay }) {
+function AudioPlayer({ selectedKirtan, setPlay }) {
   const handleAudioPlay = () => {
     setPlay(true);
   };

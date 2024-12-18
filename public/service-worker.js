@@ -25,9 +25,8 @@ self.addEventListener("fetch", (e) => {
 
 // input is e.request, returns string of strategry CACHE_PREFERRED/CACHE_EXCLUDED/DEFAULT
 function getStrategyForRequest(request) {
-
   // if url is ending with csv return CACHE_PREFERRED
-  if (request.url.includes(".csv")) {
+  if (request.url.includes(".csv") || request.url.includes(".mp3")) {
     STRATEGY = "CACHE_PREFERRED";
   }
   // IF url is ending with .mp3 return CACHE_EXCLUDED
@@ -38,7 +37,6 @@ function getStrategyForRequest(request) {
   else {
     STRATEGY = "DEFAULT";
   }
-
   return STRATEGY;
 }
 
