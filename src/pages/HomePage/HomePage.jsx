@@ -70,6 +70,7 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
             complete: (data) => {
               let final_data = [...data.data];
               final_data.forEach((data) => {
+                // eslint-disable-next-line 
                 return data.Score = 0, data.hTitle = data.Title, data.hSevadar = data.Sevadar, data.hAlbum = data.Album;
               })
               dispatch(addAllKirtans(final_data));
