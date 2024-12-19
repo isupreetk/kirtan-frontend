@@ -14,9 +14,7 @@ function Filters({
   let searchURLArtist = urlArtist?.split(",");
 
   let allAlbumsObj = allAlbums?.map((album) => ({ label: album, value: album }));
-  // let allArtistsMid = allArtists?.sort((a, b) => {
-  //   return a?.label?.localeCompare(b.label);
-  // });
+
   let allArtistsObj = allArtists?.map((artist) => ({ value: artist, label: artist }));
 
   return (

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Container, Row } from "react-bootstrap";
-import {toPascalCase} from "../../utils.js";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
@@ -13,15 +12,11 @@ import { usePapaParse } from "react-papaparse";
 import axios from "axios";
 import "./HomePage.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { editScore, editScoreSingle, populateHTitle, populateHSevadar, populateHAlbum } from "../../utils/kirtansSlice.js";
 import { addAllAlbums, addAllArtists, addAllKirtans } from "../../utils/globalDataSlice.js";
 import { setSearchString, setSelectedAlbumFilter, setSelectedArtistFilter, handleInputSearch } from "../../utils/displaySlice.js";
 
 function HomePage() {
   const dispatch = useDispatch();
-  const searchInput = useSelector((store) => {
-    return store.search
-});
 
 const allKirtans = useSelector((store) => {
   return store.globalData.allKirtans;
@@ -56,9 +51,7 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
   let [selectedKirtan, setSelectedKirtan] = useState([]);
   let [play, setPlay] = useState(false);
   let [isLoading, setIsLoading] = useState(true);
-  let [error] = useState(null);
   let entriesPerPage = 100;
-  let [timeoutHistory, setTimeoutHistory] = useState([]);
 
   const { readRemoteFile } = usePapaParse();
   let fileURL;
@@ -79,8 +72,6 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
               final_data.forEach((data) => {
                 return data.Score = 0, data.hTitle = data.Title, data.hSevadar = data.Sevadar, data.hAlbum = data.Album;
               })
-              console.log("final_data", final_data);
-
               dispatch(addAllKirtans(final_data));
               dispatch(addAllAlbums(final_data));
               dispatch(addAllArtists(final_data));
@@ -127,24 +118,6 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
     ); // to populate applied filters in url (make shareable url)
   };
 
-  // Get Page
-  const paginate = (event, pageNumber) => {
-    event.preventDefault();
-    setCurrentPage(pageNumber);
-  };
-
-  const togglePlay = (selectedKirtan) => {
-    let playImageEl = document.getElementById(`play${selectedKirtan.aid}`);
-    let pauseImageEl = document.getElementById(`pause${selectedKirtan.aid}`);
-    if (playImageEl.classList.value.includes("button__hidden")) {
-      playImageEl.classList.remove("button__hidden");
-      pauseImageEl.classList.add("button__hidden");
-    } else if (pauseImageEl.classList.value.includes("button__hidden")) {
-      pauseImageEl.classList.remove("button__hidden");
-      playImageEl.classList.add("button__hidden");
-    }
-  };
-
   const handleAlbumFilter = (event) => {
     /* to accomodate multi select filter */
     let albumFilter = [];
@@ -185,6 +158,7 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
     return () => {
       clearTimeout(searchTimeoutId);
     }
+    // eslint-disable-next-line
   }, [allKirtans, inputSearchString, selectedAlbumFilters, selectedArtistFilters]);
 
   useEffect(
@@ -226,26 +200,15 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
               <LoadingSpinner />
             ) : (
               <KirtanList
-                searchTerm={searchInput}
                 displayKirtans={currentPageKirtans}
-                error={error}
-                albumFilter={selectedAlbumFilters}
-                artistFilter={selectedArtistFilters}
-                allAlbums={allAlbums}
-                allArtists={allArtists}
-                handleAlbumFilter={handleAlbumFilter}
-                handleArtistFilter={handleArtistFilter}
                 selectedKirtan={selectedKirtan}
                 setSelectedKirtan={setSelectedKirtan}
                 play={play}
-                setPlay={setPlay}
-                togglePlay={togglePlay}
               />
             )}
           </Row>
           <AudioPlayer
             selectedKirtan={selectedKirtan}
-            play={play}
             setPlay={setPlay}
           />
         </Container>
@@ -253,7 +216,6 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
       <PaginationComponent
         entriesPerPage={entriesPerPage}
         totalKirtans={totalKirtans}
-        paginate={paginate}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />

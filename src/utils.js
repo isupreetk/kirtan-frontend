@@ -95,13 +95,11 @@ const getPossibleCombinations = (inputSearchString) => {
 const getSearchedKirtans = (kirtans, possibleCombinations) => {
   let searchedMutatedKirtans = [];
   kirtans?.forEach((kirtan, index) => {
-    //   dispatch(editScore({"index": index, scoreValue: 0}));
     let result = calculateKirtanScore(kirtan, possibleCombinations);
     if (result) {
       searchedMutatedKirtans.push(result);
     }
   });
-  // console.log("searchedMutatedKirtans", searchedMutatedKirtans);
   return searchedMutatedKirtans;
 };
 
@@ -151,27 +149,23 @@ export const getResultKirtans = (
   let searchedKirtans;
   if (inputSearchString !== "") {
     let possibleCombinations = getPossibleCombinations(inputSearchString);
-    console.log("possibleCombinations", possibleCombinations);
 
     searchedKirtans = getSearchedKirtans(kirtans, possibleCombinations);
   } else {
     searchedKirtans = kirtans;
   }
-  console.log("searchedKirtans", searchedKirtans);
 
   let sortedSearchedKirtans = getSortedSearchedKirtans(searchedKirtans);
-  console.log("sortedSearchedKirtans", sortedSearchedKirtans);
-
+  
   let albumFilteredKirtans = getAlbumFilteredKirtans(
     sortedSearchedKirtans,
     selectedAlbumFilters
   );
-  console.log("albumFilteredKirtans", albumFilteredKirtans);
+  
   let artistFilteredKirtans = getArtistFilteredKirtans(
     albumFilteredKirtans,
     selectedArtistFilters
   );
 
-  console.log("artistFilteredKirtans", artistFilteredKirtans);
   return artistFilteredKirtans;
 };

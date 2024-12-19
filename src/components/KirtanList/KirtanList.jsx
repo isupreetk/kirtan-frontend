@@ -3,29 +3,13 @@ import { Row } from "react-bootstrap";
 import PlayIcon from "../../assets/images/play-icon.png";
 import PauseIcon from "../../assets/images/pause-icon.png";
 import DownloadIcon from "../../assets/images/download-icon.png";
-import { populateHAlbum, populateHSevadar, populateHTitle } from "../../utils/kirtansSlice";
-import { useDispatch } from "react-redux";
 
 function KirtanList({
-  searchTerm,
   displayKirtans,
-  error,
-  albumFilter,
-  // setAlbumFilter,
-  artistFilter,
-  // setArtistFilter,
-  allAlbums,
-  allArtists,
-  handleAlbumFilter,
-  handleArtistFilter,
   selectedKirtan,
   setSelectedKirtan,
   play,
-  setPlay,
-  togglePlay,
 }) {
-
-  const dispatch = useDispatch();
 
   const handleKirtanClick = (kirtan) => {
     if (selectedKirtan === kirtan) {
@@ -53,24 +37,11 @@ function KirtanList({
   return (
     <section className="kirtan-list__container">
       {displayKirtans?.map((kirtan, index) => {
-        // if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
+        if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
 
-        if (!kirtan.hTitle) {
-          dispatch( populateHTitle({ index: index, newHTitle: kirtan.Title }) );
-        }
+        if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
 
-        // if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
-
-        if (!kirtan.hSevadar) {
-          dispatch( populateHSevadar({ index: index, newHSevadar: kirtan.Sevadar }) );
-        }
-
-        // if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
-
-        if (!kirtan.hAlbum) {
-          dispatch( populateHAlbum({ index: index, newHAlbum: kirtan.Album }) );
-        }
-
+        if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
 
         return (
           <Row key={index}>

@@ -20,7 +20,6 @@ const displaySlice = createSlice({
       state.selectedArtistFilters = action.payload;
     },
     handleInputSearch: (state, action) => {
-    console.log("handleInputSearch called", action.payload);
 
     let kirtans = [...action.payload.allKirtans];
     if (action.payload.inputSearchString !== "" || action.payload.selectedAlbumFilters.length !== 0 || action.payload.selectedArtistFilters.length !== 0 ) {
