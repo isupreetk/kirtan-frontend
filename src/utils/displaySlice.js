@@ -20,14 +20,13 @@ const displaySlice = createSlice({
       state.selectedArtistFilters = action.payload;
     },
     handleInputSearch: (state, action) => {
-
-    let kirtans = [...action.payload.allKirtans];
-    if (action.payload.inputSearchString !== "" || action.payload.selectedAlbumFilters.length !== 0 || action.payload.selectedArtistFilters.length !== 0 ) {
-        state.displayKirtans = getResultKirtans(kirtans, action.payload.inputSearchString, action.payload.selectedAlbumFilters, action.payload.selectedArtistFilters)
-    }
-    else {
-        state.displayKirtans = action.payload.allKirtans;
-    }
+      let kirtans = [...action.payload.allKirtans];
+      state.displayKirtans = getResultKirtans(
+        kirtans,
+        action.payload.inputSearchString,
+        action.payload.selectedAlbumFilters,
+        action.payload.selectedArtistFilters
+      );
     },
   },
 });

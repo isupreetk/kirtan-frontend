@@ -151,17 +151,16 @@ export const getResultKirtans = (
     let possibleCombinations = getPossibleCombinations(inputSearchString);
 
     searchedKirtans = getSearchedKirtans(kirtans, possibleCombinations);
+    searchedKirtans = getSortedSearchedKirtans(searchedKirtans);
   } else {
     searchedKirtans = kirtans;
   }
 
-  let sortedSearchedKirtans = getSortedSearchedKirtans(searchedKirtans);
-  
   let albumFilteredKirtans = getAlbumFilteredKirtans(
-    sortedSearchedKirtans,
+    searchedKirtans,
     selectedAlbumFilters
   );
-  
+
   let artistFilteredKirtans = getArtistFilteredKirtans(
     albumFilteredKirtans,
     selectedArtistFilters

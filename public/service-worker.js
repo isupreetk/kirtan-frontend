@@ -18,27 +18,25 @@ self.addEventListener("fetch", (e) => {
   if (strategy === "CACHE_PREFERRED") {
     actionForCachePreferredStrategy(e);
   }
-  // if (strategy === "CACHE_EXCLUDED") {
-  //   actionForCacheExcludedStrategy(e);
-  // }
+  if (strategy === "CACHE_EXCLUDED") {
+    actionForCacheExcludedStrategy(e);
+  }
 });
 
 // input is e.request, returns string of strategry CACHE_PREFERRED/CACHE_EXCLUDED/DEFAULT
 function getStrategyForRequest(request) {
-console.log("request", request);
   // if url is ending with csv return CACHE_PREFERRED
   if (request.url.includes(".csv") || request.url.includes(".mp3")) {
     STRATEGY = "CACHE_PREFERRED";
   }
   // IF url is ending with .mp3 return CACHE_EXCLUDED
-  // else if (request.url.includes(".mp3")) {
-  //   STRATEGY = "CACHE_EXCLUDED";
-  // }
+  else if (request.url.includes(".mp3")) {
+    STRATEGY = "CACHE_EXCLUDED";
+  }
   // ELSE DEFAULT
   else {
     STRATEGY = "DEFAULT";
   }
-console.log("STRATEGY", STRATEGY);
   return STRATEGY;
 }
 
