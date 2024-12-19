@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getResultKirtans } from "../utils";
 
 const displaySlice = createSlice({
   name: "display",
@@ -19,14 +20,15 @@ const displaySlice = createSlice({
       state.selectedArtistFilters = action.payload;
     },
     handleInputSearch: (state, action) => {
-      if (action.payload.inputSearchString !== "") {
-        let searchMatchKirtans = action.payload.allKirtans.filter((kirtan) =>
-          kirtan.Title.includes(action.payload.inputSearchString)
-        );
-        state.displayKirtans = searchMatchKirtans;
-      } else {
-        state.displayKirtans = action.payload.allKirtans.slice(0, 500);
-      }
+    console.log("handleInputSearch called", action.payload);
+
+    let kirtans = [...action.payload.allKirtans];
+    if (action.payload.inputSearchString !== "" || action.payload.selectedAlbumFilters.length !== 0 || action.payload.selectedArtistFilters.length !== 0 ) {
+        state.displayKirtans = getResultKirtans(kirtans, action.payload.inputSearchString, action.payload.selectedAlbumFilters, action.payload.selectedArtistFilters)
+    }
+    else {
+        state.displayKirtans = action.payload.allKirtans;
+    }
     },
   },
 });
