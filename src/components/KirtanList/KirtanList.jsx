@@ -5,23 +5,12 @@ import PauseIcon from "../../assets/images/pause-icon.png";
 import DownloadIcon from "../../assets/images/download-icon.png";
 
 function KirtanList({
-  searchTerm,
   displayKirtans,
-  error,
-  albumFilter,
-  setAlbumFilter,
-  artistFilter,
-  setArtistFilter,
-  allAlbums,
-  allArtists,
-  handleAlbumFilter,
-  handleArtistFilter,
   selectedKirtan,
   setSelectedKirtan,
   play,
-  setPlay,
-  togglePlay,
 }) {
+
   const handleKirtanClick = (kirtan) => {
     if (selectedKirtan === kirtan) {
       let player = document.getElementById("audio");
@@ -48,9 +37,6 @@ function KirtanList({
   return (
     <section className="kirtan-list__container">
       {displayKirtans?.map((kirtan, index) => {
-        if (!kirtan.hTitle) kirtan.hTitle = kirtan.Title;
-        if (!kirtan.hSevadar) kirtan.hSevadar = kirtan.Sevadar;
-        if (!kirtan.hAlbum) kirtan.hAlbum = kirtan.Album;
         return (
           <Row key={index}>
             <div className="kirtan-list-item">

@@ -4,7 +4,6 @@ import "./Pagination.scss";
 function PaginationComponent({
   entriesPerPage,
   totalKirtans,
-  paginate,
   currentPage,
   setCurrentPage,
 }) {
