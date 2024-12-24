@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Container, Row } from "react-bootstrap";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
-// import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Shimmer from "../../components/Shimmer/Shimmer.jsx";
 import KirtanList from "../../components/KirtanList/KirtanList";
 import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
@@ -10,7 +9,7 @@ import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
-import axios from "axios";
+import axios from "axios";  
 import "./HomePage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -231,7 +230,6 @@ function HomePage() {
           />
           <Row>
             {isLoading ? (
-              // <LoadingSpinner />
               <>
                 <Shimmer />
                 <Shimmer />
