@@ -2,41 +2,56 @@ import { useState, useEffect, useRef } from "react";
 import { Container, Row } from "react-bootstrap";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Filters from "../../components/Filters/Filters";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import Shimmer from "../../components/Shimmer/Shimmer.jsx";
 import KirtanList from "../../components/KirtanList/KirtanList";
 import AudioPlayer from "../../components/AudioPlayer/AudioPlayer";
 import PaginationComponent from "../../components/Pagination/Pagination";
 import GoogleForm from "../../components/GoogleForm/GoogleForm";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { usePapaParse } from "react-papaparse";
-import axios from "axios";
+import axios from "axios";  
 import "./HomePage.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllAlbums, addAllArtists, addAllKirtans } from "../../utils/globalDataSlice.js";
-import { setSearchString, setSelectedAlbumFilter, setSelectedArtistFilter, handleInputSearch } from "../../utils/displaySlice.js";
+import {
+  addAllAlbums,
+  addAllArtists,
+  addAllKirtans,
+} from "../../utils/globalDataSlice.js";
+import {
+  setSearchString,
+  setSelectedAlbumFilter,
+  setSelectedArtistFilter,
+  handleInputSearch,
+} from "../../utils/displaySlice.js";
 
 function HomePage() {
   const dispatch = useDispatch();
 
-const allKirtans = useSelector((store) => {
-  return store.globalData.allKirtans;
-})
+  const allKirtans = useSelector((store) => {
+    return store.globalData.allKirtans;
+  });
 
-const allAlbums = useSelector((store) => {
-  return store.globalData.allAlbums;
-})
+  const allAlbums = useSelector((store) => {
+    return store.globalData.allAlbums;
+  });
 
-const allArtists = useSelector((store) => {
-  return store.globalData.allArtists;
-})
+  const allArtists = useSelector((store) => {
+    return store.globalData.allArtists;
+  });
 
-const inputSearchString = useSelector((store) => store.display.inputSearchString);
+  const inputSearchString = useSelector(
+    (store) => store.display.inputSearchString
+  );
 
-const selectedAlbumFilters = useSelector((store) => store.display.selectedAlbumFilters);
+  const selectedAlbumFilters = useSelector(
+    (store) => store.display.selectedAlbumFilters
+  );
 
-const selectedArtistFilters = useSelector((store) => store.display.selectedArtistFilters);
+  const selectedArtistFilters = useSelector(
+    (store) => store.display.selectedArtistFilters
+  );
 
-const displayKirtans = useSelector((store) => store.display.displayKirtans);
+  const displayKirtans = useSelector((store) => store.display.displayKirtans);
 
   let inputRef = useRef();
   let navigate = useNavigate();
@@ -65,21 +80,26 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
           newDBInfo[d.key] = d.value;
         });
         fileURL = newDBInfo.FileURL;
-          readRemoteFile(`${fileURL}`, {
-            header: true,
-            complete: (data) => {
-              let final_data = [...data.data];
-              final_data.forEach((data) => {
-                // eslint-disable-next-line 
-                return data.Score = 0, data.hTitle = data.Title, data.hSevadar = data.Sevadar, data.hAlbum = data.Album;
-              })
-              dispatch(addAllKirtans(final_data));
-              dispatch(addAllAlbums(final_data));
-              dispatch(addAllArtists(final_data));
-              setIsLoading(false);
-            },
-            worker: true,
-          });
+        readRemoteFile(`${fileURL}`, {
+          header: true,
+          complete: (data) => {
+            let final_data = [...data.data];
+            final_data.forEach((data) => {
+              // eslint-disable-next-line
+              return (
+                (data.Score = 0),
+                (data.hTitle = data.Title),
+                (data.hSevadar = data.Sevadar),
+                (data.hAlbum = data.Album)
+              );
+            });
+            dispatch(addAllKirtans(final_data));
+            dispatch(addAllAlbums(final_data));
+            dispatch(addAllArtists(final_data));
+            setIsLoading(false);
+          },
+          worker: true,
+        });
         return newDBInfo;
       })
       .catch((error) => {
@@ -125,10 +145,10 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
     if (event.length > 0) {
       event.forEach((e) => {
         if (e.value !== "") {
-         albumFilter.push(e.value);
+          albumFilter.push(e.value);
         }
       });
-    } 
+    }
     dispatch(setSelectedAlbumFilter(albumFilter));
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${albumFilter}&urlArtist=${selectedArtistFilters}`
@@ -141,10 +161,10 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
     if (event.length > 0) {
       event.forEach((e) => {
         if (e.value !== "") {
-        artistFilter.push(e.value);
+          artistFilter.push(e.value);
         }
       });
-    } 
+    }
     dispatch(setSelectedArtistFilter(artistFilter));
     navigate(
       `/?urlSearchString=${inputRef.current.value}&urlAlbum=${selectedAlbumFilters}&urlArtist=${artistFilter}`
@@ -153,14 +173,26 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
 
   useEffect(() => {
     let searchTimeoutId = setTimeout(() => {
-      dispatch(handleInputSearch({allKirtans: allKirtans, inputSearchString: inputSearchString, selectedAlbumFilters: selectedAlbumFilters, selectedArtistFilters: selectedArtistFilters}))
+      dispatch(
+        handleInputSearch({
+          allKirtans: allKirtans,
+          inputSearchString: inputSearchString,
+          selectedAlbumFilters: selectedAlbumFilters,
+          selectedArtistFilters: selectedArtistFilters,
+        })
+      );
     }, 250);
 
     return () => {
       clearTimeout(searchTimeoutId);
-    }
+    };
     // eslint-disable-next-line
-  }, [allKirtans, inputSearchString, selectedAlbumFilters, selectedArtistFilters]);
+  }, [
+    allKirtans,
+    inputSearchString,
+    selectedAlbumFilters,
+    selectedArtistFilters,
+  ]);
 
   useEffect(
     () => {
@@ -198,7 +230,28 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
           />
           <Row>
             {isLoading ? (
-              <LoadingSpinner />
+              <>
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+                <Shimmer />
+              </>
             ) : (
               <KirtanList
                 displayKirtans={currentPageKirtans}
@@ -208,10 +261,7 @@ const displayKirtans = useSelector((store) => store.display.displayKirtans);
               />
             )}
           </Row>
-          <AudioPlayer
-            selectedKirtan={selectedKirtan}
-            setPlay={setPlay}
-          />
+          <AudioPlayer selectedKirtan={selectedKirtan} setPlay={setPlay} />
         </Container>
       </Container>
       <PaginationComponent
