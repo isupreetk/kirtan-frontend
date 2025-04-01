@@ -43,7 +43,7 @@ function HomePage() {
   let [play, setPlay] = useState(false);
   let [isLoading, setIsLoading] = useState(true);
   let [error] = useState(null);
-  let entriesPerPage = 100;
+  let entriesPerPage = 150;
   let [timeoutHistory, setTimeoutHistory] = useState([]);
 
   const { readRemoteFile } = usePapaParse();
