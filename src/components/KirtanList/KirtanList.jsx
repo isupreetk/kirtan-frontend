@@ -35,7 +35,10 @@ function KirtanList({
         console.log("sending play event");
         window.gtag("event", "audio_play", {
           event_category: "audio",
-          event_label: `aid:${selectedKirtan?.aid} ${selectedKirtan?.Title} ${selectedKirtan?.Sevadar}`
+          title: kirtan?.Title,
+          artist: kirtan?.Sevadar,
+          album: kirtan?.Album,
+          event_label: `aid:${kirtan?.aid} ${kirtan?.Title} ${kirtan?.Sevadar}`
         });
       } 
     } catch (e) {
@@ -43,13 +46,16 @@ function KirtanList({
     }
   };
 
-  function downloadFile(url, filename) {
+  function downloadFile(url, filename, kirtan) {
     try {
       if (typeof window !== "undefined" && typeof window.gtag === "function") {
         console.log("sending download event");
         window.gtag("event", "audio_download", {
           event_category: "audio",
-          event_label: `aid:${selectedKirtan?.aid} ${selectedKirtan?.Title} ${selectedKirtan?.Sevadar}`
+          title: kirtan?.Title,
+          artist: kirtan?.Sevadar,
+          album: kirtan?.Album,
+          event_label: `aid:${kirtan?.aid} ${kirtan?.Title} ${kirtan?.Sevadar}`
         });
       } 
     } catch (e) {
@@ -135,7 +141,7 @@ function KirtanList({
                   target="_blank"
                   rel="noreferrer noopener"
                   data-downloadurl={`application/octet-stream:${kirtan.filename}:blob:${kirtan.cdnpath}`}
-                  onClick={() => downloadFile(kirtan.cdnpath, kirtan.filename)}
+                  onClick={() => downloadFile(kirtan.cdnpath, kirtan.filename, kirtan)}
                 >
                   <img
                     src={DownloadIcon}
