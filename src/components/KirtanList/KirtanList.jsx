@@ -29,9 +29,33 @@ function KirtanList({
     } else {
       setSelectedKirtan(kirtan);
     }
+    // Send analytics event when a play button is clicked.
+    try {
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        console.log("sending play event");
+        window.gtag("event", "audio_play", {
+          event_category: "audio",
+          event_label: `aid:${selectedKirtan?.aid} ${selectedKirtan?.Title} ${selectedKirtan?.Sevadar}`
+        });
+      } 
+    } catch (e) {
+      console.error("error while sending play event", e)
+    }
   };
 
   function downloadFile(url, filename) {
+    try {
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        console.log("sending download event");
+        window.gtag("event", "audio_download", {
+          event_category: "audio",
+          event_label: `aid:${selectedKirtan?.aid} ${selectedKirtan?.Title} ${selectedKirtan?.Sevadar}`
+        });
+      } 
+    } catch (e) {
+      
+      console.error("error while sending download event", e)
+    }
     fetch(url)
       .then((response) => response.blob())
       .then((blob) => {
