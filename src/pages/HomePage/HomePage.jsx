@@ -54,7 +54,8 @@ function HomePage() {
 
   const loadKirtans = () => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
+      // .get(`${process.env.REACT_APP_API_URL}/settings?key=Version&key=FileURL`)
+      .get('https://brahmbungadodra.org/kirtanrecords/kirtancsv/version.json')
       .then((data) => {
         data.data.forEach((d) => {
           newDBInfo[d.key] = d.value;
